@@ -4,12 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>RR.FACTORY · Casquette</title>
-<meta name="description" content="Casquette RR.FACTORY brodée, taille unique, fermeture snap. 50 €. Paiement sécurisé PayPal, livraison depuis Marseille.">
+<meta name="description" content="Casquette RR.FACTORY brodée, taille unique, fermeture snap. 50 €. Paiement sécurisé par carte bancaire ou PayPal, livraison depuis Marseille.">
 <meta name="theme-color" content="#0b0b0b">
 <!-- aperçu quand le lien est partagé (WhatsApp, Snap, Messenger…) -->
 <meta property="og:type" content="website">
 <meta property="og:title" content="RR.FACTORY · Casquette noire brodée">
-<meta property="og:description" content="Casquette noire brodée en relief, taille unique, 50 €. Paiement PayPal, expédiée depuis Marseille.">
+<meta property="og:description" content="Casquette noire brodée en relief, taille unique, 50 €. Carte bancaire ou PayPal, expédiée depuis Marseille.">
 <meta name="twitter:card" content="summary">
 <!-- icône d'onglet : RR + point rouge -->
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230b0b0b'/%3E%3Ctext x='8' y='43' font-family='Arial Black,Arial' font-weight='900' font-size='28' fill='%23f2f2f0' font-style='italic'%3ERR%3C/text%3E%3Crect x='50' y='36' width='7' height='7' fill='%23e1251b'/%3E%3C/svg%3E">
@@ -642,8 +642,20 @@
   .relais-find { justify-self: start; font-size: 13px; font-weight: 600; color: #7fb0ff; text-decoration: none; }
   .relais-find:hover { text-decoration: underline; }
   .ship-note { margin: 0; padding: 12px 14px; border-radius: 12px; background: #171717; color: var(--muted); font-size: 13px; }
-  .order [data-for][hidden] { display: none; }
+  .order [data-for][hidden], .order [data-pays][hidden] { display: none; }
   @media (max-width: 520px) { .order-grid { grid-template-columns: 1fr; } }
+
+  /* Mentions légales / CGV / Confidentialité (fenêtre ouverte depuis le pied de page) */
+  .legal .order-box { width: min(760px, 100%); padding-top: 26px; }
+  .legal-tabs { display: flex; gap: 6px; flex-wrap: wrap; margin: 0 44px 20px 0; }
+  .legal-tabs button { height: 36px; padding: 0 14px; border-radius: 999px; border: 1px solid var(--line); background: #171717; color: var(--muted); font: 600 13px Inter, sans-serif; cursor: pointer; }
+  .legal-tabs button.on { color: var(--text); border-color: var(--blue); background: rgba(28,105,212,.12); }
+  .legal-body { color: #cfcfcb; font-size: 14px; line-height: 1.65; }
+  .legal-body h2 { font-size: 24px; margin: 0 0 14px; color: var(--text); }
+  .legal-body h3 { font-size: 15px; margin: 20px 0 6px; color: var(--text); }
+  .legal-body p, .legal-body ul { margin: 0 0 10px; }
+  .legal-body ul { padding-left: 20px; }
+  .legal-body a { color: #7fb0ff; }
 
   /* Notification "ajouté au panier" */
   .toast {
@@ -1194,6 +1206,10 @@
       <ul>
         <li><a href="#etapes">Comment commander</a></li>
         <li><a href="#commander">Paiement carte / PayPal</a></li>
+        <li><a href="#cgv" data-legal="cgv">Livraison, retours, CGV</a></li>
+        <li><a href="#mentions" data-legal="mentions">Mentions légales</a></li>
+        <li><a href="#confidentialite" data-legal="confidentialite">Confidentialité</a></li>
+        <li><a href="#contact" data-legal="contact">Contact</a></li>
       </ul>
     </nav>
     <nav class="hwf-col" aria-label="Basé à">
@@ -1288,6 +1304,7 @@
             <option>France</option><option>Belgique</option><option>Suisse</option><option>Luxembourg</option><option>Monaco</option><option>Autre</option>
           </select>
         </label>
+        <label class="f-full" data-pays="autre" hidden>Quel pays ? *<input name="pays_autre" required maxlength="60" disabled></label>
         <!-- modes et prix : MODES_LIVRAISON dans le script ; data-for = bloc affiché selon le mode -->
         <fieldset class="f-full ship-modes">
           <legend>Mode de livraison *</legend>
@@ -1313,11 +1330,23 @@
     </form>
     <div class="order-done" id="order-done" hidden>
       <div class="order-check">✓</div>
-      <h2>Commande enregistrée !</h2>
+      <h2 id="order-done-title">Dernière étape : le paiement</h2>
       <p id="order-done-text"></p>
       <div id="paypal-buttons" class="paypal-box"></div>
       <p class="order-note" id="order-demo"></p>
     </div>
+  </div>
+</div>
+<!-- Mentions légales / CGV / Confidentialité / Contact : textes dans le script « Infos légales » (VENDEUR) -->
+<div class="order legal" id="legal" role="dialog" aria-modal="true" aria-label="Informations légales" hidden>
+  <div class="order-box">
+    <button type="button" class="cart-close order-close" id="legal-close" aria-label="Fermer">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+    </button>
+    <div class="legal-tabs" id="legal-tabs">
+      <button type="button" data-legal="cgv">CGV</button><button type="button" data-legal="mentions">Mentions légales</button><button type="button" data-legal="confidentialite">Confidentialité</button><button type="button" data-legal="contact">Contact</button>
+    </div>
+    <div class="legal-body" id="legal-body"></div>
   </div>
 </div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
@@ -1342,6 +1371,19 @@ const sheetData = sheetLive
   : Promise.resolve(null);
 // envoi au Google Sheet (text/plain + no-cors : seul format accepté par Google depuis un autre site)
 const sheetSend = (data) => fetch(GOOGLE_SCRIPT_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(data) });
+// Ventes payées : gardées dans le navigateur jusqu'à ce que le Google Sheet réponde (connexion coupée, onglet
+// fermé trop tôt… : renvoyées à la visite suivante ; le script ignore une commande déjà enregistrée)
+const VENTES_KEY = 'rrf-ventes-attente';
+function envoyerVentes(nouvelle) {
+  const lire = () => { try { return JSON.parse(localStorage.getItem(VENTES_KEY) || '[]'); } catch (e) { return []; } };
+  const garder = (f) => { try { f.length ? localStorage.setItem(VENTES_KEY, JSON.stringify(f)) : localStorage.removeItem(VENTES_KEY); } catch (e) { /* navigation privée */ } };
+  const file = lire().concat(nouvelle ? [nouvelle] : []);
+  garder(file);
+  return Promise.all(file.map((v) => fetch(GOOGLE_SCRIPT_URL, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(v) })
+    .then((r) => r.json()).then(() => v.commande, () => null))) // réponse reçue (acceptée ou refusée) : on n'y revient plus
+    .then((faits) => garder(lire().filter((v) => faits.indexOf(v.commande) < 0)));
+}
+if (sheetLive) envoyerVentes();
 
 // --- Stock affiché au-dessus de la casquette ---
 // En ligne : le chiffre vient du Google Sheet (onglet « Stock ») et baisse tout seul à chaque
@@ -1552,6 +1594,8 @@ const euroFmt = (n) => { n = Math.round(n * 100) / 100; return n.toLocaleString(
 
   if (MAX === 0) document.querySelectorAll('.qty button').forEach((b) => { b.disabled = true; });
   render();
+  // paiement réussi : panier vidé
+  document.addEventListener('rrf:paid', () => setQty(0));
   // stock mis à jour (lu dans le Google Sheet, ou après une vente) : le panier suit
   document.addEventListener('rrf:stock', (e) => {
     MAX = e.detail;
@@ -2230,10 +2274,6 @@ const euroFmt = (n) => { n = Math.round(n * 100) / 100; return n.toLocaleString(
 })();
 </script>
 <script>
-// À CONFIGURER (un seul endroit) : identifiant du formulaire Formspree, utilisé pour les
-// commandes ET les avis (ex. "xyzabcde" pour https://formspree.io/f/xyzabcde).
-const FORMSPREE_ID = 'TON_ID_FORMSPREE';
-
 // --- Avis : publiés tout seuls, sans validation, enregistrés dans le Google Sheet ---
 // (adresse à configurer en haut des scripts : GOOGLE_SCRIPT_URL)
 // Tant que ce n'est pas configuré : mode démo (exemples + avis gardés dans ce navigateur seulement).
@@ -2349,10 +2389,8 @@ const DEMO_REVIEWS = [
   load();
 })();
 
-// --- Commande : formulaire → e-mail (Formspree, facultatif) → confirmation → paiement PayPal ---
-// (l'identifiant Formspree est défini plus haut : FORMSPREE_ID)
+// --- Commande : formulaire → stock revérifié → paiement PayPal → vente enregistrée (Google Sheet + e-mails) ---
 (function () {
-  const configured = !/^TON_/.test(FORMSPREE_ID);
   const $ = (id) => document.getElementById(id);
   const modal = $('order'), form = $('order-form'), done = $('order-done'), err = $('order-err');
 
@@ -2372,6 +2410,10 @@ const DEMO_REVIEWS = [
   // sont désactivés pour ne pas être obligatoires
   function applyMode() {
     const pays = form.elements.pays.value, france = pays === 'France';
+    // « Autre » : le client écrit son pays
+    const autre = form.querySelector('[data-pays]');
+    autre.hidden = pays !== 'Autre';
+    autre.querySelector('input').disabled = pays !== 'Autre';
     const mp = form.querySelector('[data-mode="main-propre"]');
     mp.hidden = !france;
     if (!france && form.elements.livraison.value === 'main-propre') form.elements.livraison.value = 'relais-mr';
@@ -2436,17 +2478,26 @@ const DEMO_REVIEWS = [
     if (firstBad) { err.textContent = 'Remplis correctement les champs en rouge.'; firstBad.focus(); return; }
 
     const btn = $('order-submit');
-    btn.disabled = true; btn.textContent = 'Envoi…'; err.textContent = '';
+    btn.disabled = true; btn.textContent = 'Vérification…'; err.textContent = '';
     const data = Object.fromEntries(new FormData(form));
+    if (data.pays === 'Autre') data.pays = 'Autre : ' + (data.pays_autre || '').trim();
     data.livraison_detail = livraisonTexte(data);
     try {
-      if (configured) {
-        const res = await fetch('https://formspree.io/f/' + FORMSPREE_ID, {
-          method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' }, body: JSON.stringify(data),
-        });
-        if (!res.ok) throw new Error('Formspree ' + res.status);
+      if (sheetLive) {
+        // stock relu juste avant le paiement : un autre client a peut-être pris les dernières
+        const voulu = amounts(data.pays, data.livraison).qty;
+        const frais = await fetch(GOOGLE_SCRIPT_URL).then((r) => r.json()).catch(() => null);
+        if (frais && typeof frais.stock === 'number') {
+          showStock(frais.stock, frais.total);
+          if (frais.stock < voulu) {
+            err.textContent = frais.stock ? 'Il ne reste que ' + frais.stock + ' casquette' + (frais.stock > 1 ? 's' : '') + ' en stock : la quantité a été ajustée, vérifie et valide à nouveau.' : 'Désolé, la casquette vient d’être épuisée.';
+            summarize();
+            return;
+          }
+        }
       }
-      // confirmation + paiement PayPal (carte bancaire ou PayPal) avec montant et adresse
+      // paiement PayPal (carte bancaire ou PayPal) avec montant et adresse
+      $('order-done-title').textContent = 'Dernière étape : le paiement';
       $('order-done-text').textContent = 'Merci ' + data.nom.split(' ')[0] + ' ! Total à payer : ' + euroFmt(amounts(data.pays, data.livraison).total) +
         ' (livraison comprise). Dernière étape : choisis ton moyen de paiement ci-dessous : carte bancaire (Visa, Mastercard, CB, sans compte PayPal) ou PayPal.';
       form.hidden = true; done.hidden = false;
@@ -2454,7 +2505,7 @@ const DEMO_REVIEWS = [
       form.reset();
       applyMode();
     } catch (ex) {
-      err.textContent = 'L’envoi a échoué. Vérifie ta connexion et réessaie.';
+      err.textContent = 'Une erreur est survenue. Vérifie ta connexion et réessaie.';
     } finally {
       btn.disabled = false; btn.textContent = 'Valider ma commande';
     }
@@ -2491,7 +2542,8 @@ const DEMO_REVIEWS = [
     }
     const a = amounts(c.pays, c.livraison), eur = (n) => ({ currency_code: 'EUR', value: n.toFixed(2) });
     if ((parseInt($('stock').dataset.left, 10) || 0) < a.qty) { note.textContent = 'Désolé, il n’en reste plus assez en stock.'; return; }
-    const domicile = c.livraison === 'domicile';
+    // adresse transmise à PayPal seulement pour un pays de la liste (code pays connu)
+    const domicile = c.livraison === 'domicile' && !!COUNTRIES[c.pays];
     const unit = {
       // le mode de livraison (et le point relais) figure dans la description, visible dans l'e-mail PayPal
       description: (a.qty + ' × Casquette RR.FACTORY · ' + c.livraison_detail).slice(0, 127),
@@ -2516,15 +2568,21 @@ const DEMO_REVIEWS = [
           application_context: { shipping_preference: domicile ? 'SET_PROVIDED_ADDRESS' : 'NO_SHIPPING', brand_name: 'RR.FACTORY' },
         }),
         onApprove: (d, actions) => actions.order.capture().then((paid) => {
-          box.innerHTML = '';
+          // carte refusée par la banque : le client peut en essayer une autre
+          const refus = paid && Array.isArray(paid.details) && paid.details[0] && paid.details[0].issue === 'INSTRUMENT_DECLINED';
+          if (refus) return actions.restart();
+          if (!paid || paid.status !== 'COMPLETED') { note.textContent = 'Le paiement n’a pas abouti. Réessaie ou choisis un autre moyen.'; return; }
+          box.innerHTML = ''; note.textContent = '';
           // stock : on retire les casquettes vendues dans le Google Sheet, et tout de suite à l'écran
           const left = parseInt($('stock').dataset.left, 10) || 0;
           showStock(left - a.qty);
           if (sheetLive) {
-            sheetSend({ type: 'vente', commande: (paid && paid.id) || d.orderID, qty: a.qty, total: euroFmt(a.total), nom: c.nom, pays: c.pays, email: c.email, telephone: c.telephone, livraison: c.livraison_detail }).catch(() => {});
+            envoyerVentes({ type: 'vente', commande: paid.id || d.orderID, qty: a.qty, total: euroFmt(a.total), nom: c.nom, pays: c.pays, email: c.email, telephone: c.telephone, livraison: c.livraison_detail });
           }
-          $('order-done-text').textContent = 'Paiement reçu, merci ' + c.nom.split(' ')[0] + ' ! Ta casquette part bientôt. Un reçu PayPal t’a été envoyé à ' + c.email + '.';
-          try { localStorage.removeItem('rrf-cart'); } catch (e) { /* ignoré */ }
+          $('order-done-title').textContent = 'Paiement reçu !';
+          $('order-done-text').textContent = 'Merci ' + c.nom.split(' ')[0] + ', ta commande est confirmée. Un reçu t’a été envoyé à ' + c.email +
+            ', et tu recevras le suivi du colis par e-mail dès son départ de Marseille.';
+          document.dispatchEvent(new Event('rrf:paid'));
         }),
         onError: () => { note.textContent = 'Le paiement n’a pas abouti. Réessaie ou choisis un autre moyen.'; },
       };
@@ -2539,6 +2597,87 @@ const DEMO_REVIEWS = [
       if (!carte) { $('pp-card').previousElementSibling.remove(); $('pp-card').nextElementSibling.remove(); }
     }).catch(() => { note.textContent = 'Impossible de charger PayPal. Vérifie ta connexion.'; });
   }
+})();
+
+// --- Infos légales (À COMPLÉTER avec les infos du vendeur) : Mentions légales, CGV, Confidentialité, Contact ---
+// Une info laissée vide n'est simplement pas affichée.
+const VENDEUR = {
+  nom: '',        // nom et prénom du responsable (ou nom de la société)
+  statut: '',     // ex. « Entrepreneur individuel (micro-entreprise) »
+  siret: '',
+  adresse: 'Marseille, France',
+  email: '',      // e-mail de contact : questions, retours, données personnelles
+  telephone: '',
+  tva: '',        // ex. « TVA non applicable, art. 293 B du CGI » (micro-entreprise)
+  mediateur: '',  // médiateur de la consommation : nom et site internet
+  hebergeur: 'GitHub Inc., 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, États-Unis (GitHub Pages)',
+};
+(function () {
+  const modal = document.getElementById('legal'), body = document.getElementById('legal-body');
+  const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  const V = VENDEUR, si = (v, html) => (v ? html : '');
+  const snap = '<a href="https://www.snapchat.com/@rr.factory" target="_blank" rel="noopener">Snapchat @rr.factory</a>';
+  const contact = V.email ? '<a href="mailto:' + esc(V.email) + '">' + esc(V.email) + '</a>' : 'message privé sur ' + snap;
+  const vendeur = 'RR.FACTORY' + (V.nom ? ' (' + esc(V.nom) + ')' : '') + ', ' + esc(V.adresse);
+  const modes = Object.values(MODES_LIVRAISON).map((m) => '<li>' + esc(m.nom) + ' : ' + (m.prix ? euroFmt(m.prix) : 'gratuit') + (m.franceSeulement ? ' (France)' : '') + '</li>').join('');
+  const etranger = Object.entries(LIVRAISON_ETRANGER).map(([p, prix]) => (p === 'Autre' ? 'autres pays' : esc(p)) + ' ' + euroFmt(prix)).join(', ');
+
+  const PAGES = {
+    cgv: '<h2>Conditions générales de vente</h2>' +
+      '<p>Les présentes conditions s’appliquent à toute commande passée sur ce site auprès de ' + vendeur + '.</p>' +
+      '<h3>Produit et prix</h3><p>Casquette noire RR.FACTORY brodée, taille unique réglable. Les prix sont indiqués en euros, toutes taxes comprises' +
+      (V.tva ? ' (' + esc(V.tva) + ')' : '') + '. Les frais de livraison sont affichés avant le paiement. Commande possible dans la limite du stock affiché.</p>' +
+      '<h3>Commande et paiement</h3><p>Tu choisis la quantité et le mode de livraison, tu remplis tes coordonnées, puis tu paies en ligne par carte bancaire (CB, Visa, Mastercard, sans compte PayPal) ou avec ton compte PayPal. ' +
+      'Le paiement est traité par PayPal : RR.FACTORY ne voit jamais les numéros de carte. La commande est ferme dès la confirmation du paiement.</p>' +
+      '<h3>Livraison</h3><p>Expédition depuis Marseille après réception du paiement, au plus tard sous 30 jours. Un e-mail avec le numéro de suivi est envoyé au départ du colis.</p><ul>' + modes + '</ul>' +
+      '<p>Hors de France : ' + etranger + '. Remise en main propre : rendez-vous fixé par téléphone à Marseille.</p>' +
+      '<h3>Droit de rétractation</h3><p>Tu disposes de 14 jours à compter de la réception pour changer d’avis, sans avoir à te justifier. Préviens-nous par ' + contact +
+      ', puis renvoie la casquette dans les 14 jours suivants, dans son état d’origine. Les frais de retour sont à ta charge. ' +
+      'Le remboursement (frais de livraison initiaux compris, hors surcoût d’une livraison plus chère que la moins chère proposée) est fait sous 14 jours, par le même moyen de paiement, après réception du retour.</p>' +
+      '<h3>Garanties</h3><p>La casquette bénéficie de la garantie légale de conformité (articles L217-3 et suivants du Code de la consommation, 2 ans à compter de la livraison) et de la garantie des vices cachés (articles 1641 et suivants du Code civil). En cas de défaut, contacte-nous : réparation, échange ou remboursement.</p>' +
+      '<h3>Litiges</h3><p>Contacte-nous d’abord par ' + contact + ' : on trouve une solution ensemble.' +
+      (V.mediateur ? ' À défaut, tu peux recourir gratuitement au médiateur de la consommation : ' + esc(V.mediateur) + '.' : '') + ' Droit applicable : droit français.</p>',
+    mentions: '<h2>Mentions légales</h2>' +
+      '<h3>Éditeur du site</h3><p>RR.FACTORY' + si(V.nom, '<br>' + esc(V.nom)) + si(V.statut, '<br>' + esc(V.statut)) + si(V.siret, '<br>SIRET : ' + esc(V.siret)) +
+      '<br>' + esc(V.adresse) + '<br>Contact : ' + contact + si(V.telephone, '<br>Téléphone : ' + esc(V.telephone)) + '</p>' +
+      '<h3>Hébergement</h3><p>' + esc(V.hebergeur) + '</p>' +
+      '<h3>Marques</h3><p>RR.FACTORY est une marque indépendante. Ce site n’est pas un site officiel et n’a aucun lien avec BMW AG.</p>',
+    confidentialite: '<h2>Confidentialité</h2>' +
+      '<h3>Données collectées</h3><p>Pour une commande : nom, e-mail, téléphone, pays et adresse de livraison ou point relais. Pour un avis : prénom, ville (facultative), note et texte, publiés sur le site.</p>' +
+      '<h3>Utilisation</h3><p>Ces données servent uniquement à traiter ta commande, la livrer, t’envoyer le suivi du colis et répondre à tes demandes. Elles ne sont ni vendues ni utilisées pour de la publicité.</p>' +
+      '<h3>Qui y a accès</h3><p>RR.FACTORY, et les services qui permettent la vente : PayPal (paiement), Google (enregistrement des commandes et envoi des e-mails), le transporteur choisi (Mondial Relay ou Chronopost).</p>' +
+      '<h3>Durée de conservation</h3><p>Les données de commande sont conservées le temps nécessaire à la vente et à ses garanties, puis le temps imposé par les obligations comptables (10 ans pour les pièces comptables).</p>' +
+      '<h3>Cookies</h3><p>Ce site n’utilise aucun cookie publicitaire ni outil de mesure d’audience. Ton panier est simplement gardé dans ton navigateur.</p>' +
+      '<h3>Tes droits</h3><p>Tu peux demander à consulter, corriger ou supprimer tes données par ' + contact + '. Tu peux aussi déposer une réclamation auprès de la CNIL (cnil.fr).</p>',
+    contact: '<h2>Contact</h2><p>Une question sur une commande, un retour ou une collab ?</p><ul>' +
+      si(V.email, '<li>E-mail : <a href="mailto:' + esc(V.email) + '">' + esc(V.email) + '</a></li>') + si(V.telephone, '<li>Téléphone : ' + esc(V.telephone) + '</li>') +
+      '<li>' + snap + ' (le seul compte officiel)</li><li><a href="https://www.tiktok.com/@rr.factory" target="_blank" rel="noopener">TikTok @rr.factory</a></li></ul>' +
+      '<p>Pense à donner ton numéro de commande PayPal si ta question concerne une commande.</p>',
+  };
+
+  function open(page) {
+    if (!PAGES[page]) return;
+    body.innerHTML = PAGES[page];
+    document.querySelectorAll('#legal-tabs button').forEach((b) => b.classList.toggle('on', b.dataset.legal === page));
+    if (modal.hidden) { modal.hidden = false; document.body.style.overflow = 'hidden'; }
+    modal.querySelector('.order-box').scrollTop = 0;
+  }
+  function close() {
+    modal.hidden = true; document.body.style.overflow = '';
+    if (/^#(cgv|mentions|confidentialite|contact)$/.test(location.hash)) { try { history.replaceState(null, '', location.pathname + location.search); } catch (e) { /* ignoré */ } }
+  }
+  // capture : passe avant le défilement des liens internes (#…)
+  document.addEventListener('click', (e) => {
+    const a = e.target.closest('[data-legal]');
+    if (!a) return;
+    e.preventDefault(); e.stopPropagation();
+    open(a.dataset.legal);
+  }, true);
+  document.getElementById('legal-close').addEventListener('click', close);
+  modal.addEventListener('click', (e) => { if (e.target === modal) close(); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !modal.hidden) close(); });
+  // lien direct (ex. …/#cgv)
+  if (location.hash) open(location.hash.slice(1));
 })();
 </script>
 </body>

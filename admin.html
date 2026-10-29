@@ -25,7 +25,7 @@
   .btn-primary { background: var(--blue); border-color: var(--blue); color: #fff; }
   .btn-primary:hover { background: #2a78e4; }
   .btn:disabled { opacity: .5; cursor: default; }
-  input[type=text], input[type=password], input[type=search] { height: 42px; padding: 0 14px; border-radius: 12px; border: 1px solid var(--line); background: var(--field); color: var(--text); outline: none; min-width: 0; }
+  input[type=text], input[type=password], input[type=search], input[type=email] { height: 42px; padding: 0 14px; border-radius: 12px; border: 1px solid var(--line); background: var(--field); color: var(--text); outline: none; min-width: 0; }
   input:focus { border-color: var(--blue); }
 
   /* Connexion */
@@ -80,11 +80,33 @@
   .demo-bar { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; padding: 10px 14px; margin-bottom: 16px; border-radius: 12px; border: 1px solid rgba(255,184,107,.4); background: rgba(255,184,107,.08); color: var(--orange); font-size: 14px; }
   .demo-bar span { flex: 1; }
   .empty .btn { margin-top: 14px; }
+  .views { display: inline-flex; margin-bottom: 16px; }
+  .views button { height: 40px; padding: 0 18px; font-size: 15px; }
+  .order.cancel { border-left: 3px solid var(--red); opacity: .75; }
+  .badge.cancel { color: #ff6b62; background: rgba(225,37,27,.12); }
+  .badge.warn { color: var(--orange); background: rgba(255,184,107,.1); }
+  .btn-danger { color: #ff6b62; }
+  .btn-danger:hover { border-color: rgba(225,37,27,.6); }
+  .o-ship { display: flex; gap: 10px; align-items: center; }
+  .o-ship .txt { flex: 1; }
+  .rv { padding: 16px 18px; border-radius: 16px; background: var(--card); border: 1px solid var(--line); display: flex; gap: 14px; align-items: flex-start; }
+  .rv .txt { flex: 1; }
+  .rv .stars { color: #ffd166; letter-spacing: 2px; }
+  .rv p { margin: 6px 0 0; }
+  .rv small { color: var(--muted); }
+  .note-box { padding: 12px 14px; border-radius: 12px; background: var(--field); color: var(--muted); font-size: 13px; margin-bottom: 12px; }
+  .set { padding: 18px; border-radius: 16px; background: var(--card); border: 1px solid var(--line); display: grid; gap: 10px; margin-bottom: 12px; }
+  .set h2 { margin: 0; font-size: 16px; }
+  .set p { margin: 0; color: var(--muted); font-size: 13px; }
+  .set .row { display: flex; gap: 8px; flex-wrap: wrap; }
+  .set input { flex: 1; min-width: 220px; }
+  .ok-txt { color: var(--green); font-weight: 600; }
+  .warn-txt { color: var(--orange); font-weight: 600; }
   .empty { text-align: center; color: var(--muted); padding: 48px 16px; border: 1px dashed var(--line); border-radius: 16px; }
   .toast { position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%) translateY(20px); opacity: 0; transition: .25s; background: #1d1d1d; border: 1px solid var(--line); padding: 10px 18px; border-radius: 999px; font-size: 14px; pointer-events: none; z-index: 10; }
   .toast.show { opacity: 1; transform: translateX(-50%); }
   @media (max-width: 860px) { .kpis { grid-template-columns: repeat(2, 1fr); } .kpi:last-child { grid-column: 1 / -1; } }
-  @media (max-width: 520px) { header .tag, #refresh-label { display: none; } .o-head .total { margin-left: 0; } }
+  @media (max-width: 520px) { header .tag, #refresh-label { display: none; } .o-head .total { margin-left: 0; } .views { display: flex; } .views button { flex: 1; padding: 0 8px; } .rv { flex-direction: column; } }
 </style>
 </head>
 <body>
@@ -126,19 +148,52 @@
         <button class="btn" data-mode="stock">Mettre ce chiffre</button>
       </div>
     </form>
-    <div class="tools">
-      <div class="tabs" role="tablist">
-        <button class="on" data-tab="todo">À traiter</button>
-        <button data-tab="done">Traitées</button>
-        <button data-tab="all">Toutes</button>
+    <div class="tabs views" id="views">
+      <button class="on" data-view="commandes">Commandes</button>
+      <button data-view="avis">Avis <span id="n-avis"></span></button>
+      <button data-view="reglages">Réglages</button>
+    </div>
+
+    <section id="v-commandes">
+      <div class="tools">
+        <div class="tabs" role="tablist" id="tabs">
+          <button class="on" data-tab="todo">À traiter</button>
+          <button data-tab="done">Traitées</button>
+          <button data-tab="all">Toutes</button>
+        </div>
+        <input type="search" id="search" placeholder="Rechercher un nom, un e-mail, une ville…">
+        <button class="btn" id="export" title="Toutes les commandes, à ouvrir avec Excel">⬇ Export Excel</button>
       </div>
-      <input type="search" id="search" placeholder="Rechercher un nom, un e-mail, une ville…">
-    </div>
-    <div class="demo-bar" id="demo-bar" hidden>
-      <span>Mode exemple : ces commandes sont fausses, rien n'est envoyé ni enregistré. Essaie les boutons !</span>
-      <button class="btn btn-small" id="demo-exit">Quitter l'exemple</button>
-    </div>
-    <div class="list" id="list"></div>
+      <div class="demo-bar" id="demo-bar" hidden>
+        <span>Mode exemple : ces commandes sont fausses, rien n'est envoyé ni enregistré. Essaie les boutons !</span>
+        <button class="btn btn-small" id="demo-exit">Quitter l'exemple</button>
+      </div>
+      <div class="list" id="list"></div>
+    </section>
+
+    <section id="v-avis" hidden>
+      <p class="note-box">Les avis sont publiés directement sur le site. Supprime seulement un avis injurieux, faux ou sans rapport avec la casquette : un avis négatif honnête doit rester en ligne (c'est la loi).</p>
+      <div class="list" id="avis-list"></div>
+    </section>
+
+    <section id="v-reglages" hidden>
+      <form class="set" id="email-form">
+        <h2>E-mail des commandes</h2>
+        <p>Reçoit un e-mail à chaque nouvelle commande et à chaque avis. Les clients qui répondent aux e-mails de confirmation et de suivi écrivent aussi à cette adresse.</p>
+        <div class="row">
+          <input type="email" id="email-in" placeholder="adresse@gmail.com" required aria-label="E-mail des commandes">
+          <button class="btn btn-primary">Enregistrer</button>
+        </div>
+      </form>
+      <div class="set">
+        <h2>Vérification des paiements</h2>
+        <p id="pp-state">–</p>
+      </div>
+      <div class="set">
+        <h2>Remboursement d'une commande</h2>
+        <p>1. Rembourse le client dans PayPal : Activité → clique sur la transaction → Rembourser. 2. Ici, sur la commande, clique sur « Annuler / rembourser » : elle passe en « Annulée » et les casquettes reviennent dans le stock.</p>
+      </div>
+    </section>
   </main>
 </div>
 <div class="toast" id="toast" role="status"></div>
@@ -157,7 +212,9 @@ const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwaDpoD_gAakK
     get() { try { return sessionStorage.getItem(KEY) || ''; } catch (e) { return ''; } },
     set(v) { try { v ? sessionStorage.setItem(KEY, v) : sessionStorage.removeItem(KEY); } catch (e) { /* ignoré */ } },
   };
-  let password = store.get(), orders = [], tab = 'todo', demo = null;
+  let password = store.get(), orders = [], avis = [], reglages = {}, tab = 'todo', demo = null, connues = null;
+  const ANNULEE = /^Annulée/;
+  const etat = (o) => (ANNULEE.test(o.statut) ? 'cancel' : o.statut.trim() ? 'done' : 'todo');
 
   // Mode exemple : fausses commandes gardées dans la page, pour essayer les boutons sans toucher au Google Sheet
   const ilYa = (min) => new Date(Date.now() - min * 60000).toISOString();
@@ -170,18 +227,27 @@ const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwaDpoD_gAakK
         { date: ilYa(180), commande: 'EXEMPLE-2', qty: 2, total: '100', nom: 'Sarah L.', pays: 'France', email: 'sarah@exemple.fr', suivi: '', statut: '', telephone: '07 98 76 54 32', livraison: 'Remise en main propre à Marseille' },
         { date: ilYa(1500), commande: 'EXEMPLE-3', qty: 1, total: '58', nom: 'Karim D.', pays: 'France', email: 'karim@exemple.fr', suivi: '6A12345678901', statut: 'E-mail de suivi envoyé' + quand(), telephone: '06 00 11 22 33', livraison: 'À domicile (Chronopost) : 8 rue de la Paix, 69002 Lyon' },
       ],
+      avis: [
+        { ligne: 3, date: ilYa(90), prenom: 'Inès', ville: 'Marseille', note: 5, texte: 'Exemple : broderie très propre, je recommande.' },
+        { ligne: 2, date: ilYa(3000), prenom: 'Tom', ville: '', note: 3, texte: 'Exemple : jolie mais la livraison a pris du temps.' },
+      ],
+      reglages: Object.assign({}, reglages),
     };
+    demo.ventes.forEach((o) => { o.paiement = 'Vérifié PayPal ✓'; });
     $('demo-bar').hidden = false;
     apply(demo);
   }
   function demoCall(d) {
     const o = demo.ventes.find((x) => x.commande === d.commande);
     if (d.type === 'suivi' && o) {
-      if (d.suivi) { o.suivi = d.suivi; o.statut = 'E-mail de suivi envoyé' + quand(); }
+      if (d.rembourser) { o.statut = 'Annulée / remboursée' + quand(); demo.stock += o.qty; }
+      else if (d.suivi) { o.suivi = d.suivi; o.statut = 'E-mail de suivi envoyé' + quand(); }
       else if (d.statut) o.statut = d.statut + quand();
-      else if (d.annuler) { o.suivi = ''; o.statut = ''; }
+      else if (d.annuler) { if (ANNULEE.test(o.statut)) demo.stock = Math.max(0, demo.stock - o.qty); o.suivi = ''; o.statut = ''; }
     }
     if (d.type === 'stock') demo.stock = Math.max(0, d.ajout != null ? demo.stock + d.ajout : d.stock);
+    if (d.type === 'avis') demo.avis = demo.avis.filter((a) => a.ligne !== d.supprimer);
+    if (d.type === 'reglages') demo.reglages.email = d.email;
     return Object.assign({ ok: true }, JSON.parse(JSON.stringify(demo)));
   }
   $('demo-exit').addEventListener('click', () => { demo = null; $('demo-bar').hidden = true; load(true); });
@@ -198,19 +264,47 @@ const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwaDpoD_gAakK
 
   function apply(json) {
     orders = json.ventes || [];
-    const todo = orders.filter((o) => !o.statut.trim());
-    $('k-orders').textContent = orders.length;
-    $('k-caps').textContent = orders.reduce((s, o) => s + (o.qty || 1), 0);
-    $('k-ca').textContent = euro(orders.reduce((s, o) => s + num(o.total), 0));
+    avis = json.avis || [];
+    reglages = json.reglages || reglages;
+    // les commandes annulées / remboursées ne comptent ni dans les ventes ni dans le chiffre d'affaires
+    const valides = orders.filter((o) => etat(o) !== 'cancel'), todo = orders.filter((o) => etat(o) === 'todo');
+    $('k-orders').textContent = valides.length;
+    $('k-caps').textContent = valides.reduce((s, o) => s + (o.qty || 1), 0);
+    $('k-ca').textContent = euro(valides.reduce((s, o) => s + num(o.total), 0));
     $('k-stock').textContent = json.stock;
     $('k-todo').textContent = todo.length;
     $('k-todo-box').classList.toggle('alert', todo.length > 0);
-    render();
+    document.title = (todo.length ? '(' + todo.length + ') ' : '') + 'RR.FACTORY · Admin';
+    // nouvelle commande arrivée depuis le dernier chargement
+    const ids = orders.map((o) => o.commande);
+    if (connues && !demo) {
+      const nouvelles = ids.filter((id) => connues.indexOf(id) < 0).length;
+      if (nouvelles) toast('🧢 ' + (nouvelles > 1 ? nouvelles + ' nouvelles commandes !' : 'Nouvelle commande !'));
+    }
+    if (!demo) connues = ids;
+    $('n-avis').textContent = avis.length ? '(' + avis.length + ')' : '';
+    render(); renderAvis(); renderReglages();
+  }
+
+  function renderAvis() {
+    $('avis-list').innerHTML = avis.length ? avis.map((a) => {
+      const d = new Date(a.date), note = Math.max(1, Math.min(5, a.note || 5));
+      return '<div class="rv"><div class="txt"><span class="stars">' + '★'.repeat(note) + '☆'.repeat(5 - note) + '</span> <b>' + esc(a.prenom) + '</b>' +
+        (a.ville ? ' <small>· ' + esc(a.ville) + '</small>' : '') + (isNaN(d) ? '' : ' <small>· ' + d.toLocaleDateString('fr-FR') + '</small>') +
+        '<p>' + esc(a.texte) + '</p></div><button class="btn btn-small btn-danger" data-suppr="' + a.ligne + '">Supprimer</button></div>';
+    }).join('') : '<div class="empty">Pas encore d\'avis.</div>';
+  }
+
+  function renderReglages() {
+    if (document.activeElement !== $('email-in')) $('email-in').value = reglages.email || '';
+    $('pp-state').innerHTML = reglages.paypalVerifie
+      ? '<span class="ok-txt">✓ Activée :</span> chaque paiement est contrôlé auprès de PayPal avant d\'être enregistré, et le client reçoit un e-mail de confirmation.'
+      : '<span class="warn-txt">Pas encore activée :</span> elle sera branchée en même temps que PayPal. En attendant, vérifie que chaque commande apparaît bien dans ton compte PayPal avant d\'expédier.';
   }
 
   function render() {
     const q = $('search').value.trim().toLowerCase();
-    const list = orders.filter((o) => (tab === 'all' || (tab === 'todo' ? !o.statut.trim() : !!o.statut.trim())) &&
+    const list = orders.filter((o) => (tab === 'all' || (tab === 'todo' ? etat(o) === 'todo' : etat(o) !== 'todo')) &&
       (!q || [o.nom, o.email, o.telephone, o.livraison, o.pays, o.commande].join(' ').toLowerCase().includes(q)));
     if (!list.length) {
       $('list').innerHTML = '<div class="empty">' + (orders.length ? 'Aucune commande ici.' : 'Pas encore de commande. Elles apparaîtront ici dès le premier paiement PayPal.' +
@@ -218,22 +312,28 @@ const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwaDpoD_gAakK
       return;
     }
     $('list').innerHTML = list.map((o) => {
-      const done = !!o.statut.trim(), d = new Date(o.date);
+      const e = etat(o), d = new Date(o.date);
       const date = isNaN(d) ? o.date : d.toLocaleDateString('fr-FR', { day: '2-digit', month: 'short', year: 'numeric' }) + ' à ' + d.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
       const mainPropre = /main propre/i.test(o.livraison);
       const id = esc(o.commande);
-      const action = done
+      const rembourser = '<button class="btn btn-small btn-danger" data-act="rembourser" data-id="' + id + '">Annuler / rembourser</button>';
+      const action = e === 'cancel'
         ? '<div class="o-act"><button class="btn btn-small" data-act="annuler" data-id="' + id + '">↩ Remettre à traiter</button></div>'
+        : e === 'done'
+        ? '<div class="o-act"><button class="btn btn-small" data-act="annuler" data-id="' + id + '">↩ Remettre à traiter</button>' + rembourser + '</div>'
         : mainPropre
-        ? '<div class="o-act"><button class="btn btn-primary" data-act="remis" data-id="' + id + '">✓ Marquer comme remise en main propre</button></div>'
+        ? '<div class="o-act"><button class="btn btn-primary" data-act="remis" data-id="' + id + '">✓ Marquer comme remise en main propre</button>' + rembourser + '</div>'
         : '<div class="o-act"><input type="text" placeholder="N° de suivi (ou lien de suivi Mondial Relay)" data-suivi="' + id + '">' +
           '<button class="btn btn-primary" data-act="suivi" data-id="' + id + '">Expédier et prévenir le client</button>' +
-          '<button class="btn" data-act="traitee" data-id="' + id + '" title="Sans numéro de suivi : le client n\'est pas prévenu">✓ Traitée sans suivi</button></div>';
-      return '<article class="order ' + (done ? 'done' : 'todo') + '">' +
+          '<button class="btn" data-act="traitee" data-id="' + id + '" title="Sans numéro de suivi : le client n\'est pas prévenu">✓ Traitée sans suivi</button>' + rembourser + '</div>';
+      const aVerifier = o.paiement && !/^Vérifié/.test(o.paiement) && e === 'todo';
+      return '<article class="order ' + e + '">' +
         '<div class="o-head"><h2>' + esc(o.nom || 'Client') + '</h2><span class="date">' + esc(date) + '</span>' +
-        '<span class="badge ' + (done ? 'done' : 'todo') + '">' + (done ? esc(o.statut) : 'À expédier') + '</span>' +
+        '<span class="badge ' + e + '">' + (e === 'todo' ? 'À expédier' : esc(o.statut)) + '</span>' +
+        (aVerifier ? '<span class="badge warn" title="Vérifie que ce paiement apparaît dans ton compte PayPal avant d\'expédier">⚠ Paiement à vérifier dans PayPal</span>' : '') +
         '<span class="total">' + euro(num(o.total)) + '</span></div>' +
-        '<div class="o-ship"><b>' + esc(o.qty) + ' × casquette</b> · ' + esc(o.livraison || ('Pays : ' + o.pays)) + '</div>' +
+        '<div class="o-ship"><span class="txt"><b>' + esc(o.qty) + ' × casquette</b> · ' + esc(o.livraison || ('Pays : ' + o.pays)) + '</span>' +
+          '<button class="btn btn-small" data-act="copier" data-id="' + id + '" title="Copier nom, téléphone et livraison">Copier</button></div>' +
         '<div class="o-grid">' +
           '<div><span>E-mail</span>' + (o.email ? '<a href="mailto:' + esc(o.email) + '">' + esc(o.email) + '</a>' : '–') + '</div>' +
           '<div><span>Téléphone</span>' + (o.telephone ? '<a href="tel:' + esc(o.telephone.replace(/[^\d+]/g, '')) + '">' + esc(o.telephone) + '</a>' : '–') + '</div>' +
@@ -251,7 +351,8 @@ const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwaDpoD_gAakK
   }
 
   function logout(msg) {
-    password = ''; store.set(''); orders = []; demo = null; $('demo-bar').hidden = true;
+    password = ''; store.set(''); orders = []; avis = []; connues = null; demo = null; $('demo-bar').hidden = true;
+    document.title = 'RR.FACTORY · Admin';
     $('app').hidden = true; $('login').hidden = false;
     $('login-msg').textContent = msg || ''; $('pw').value = ''; $('pw').focus();
   }
@@ -276,15 +377,27 @@ const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwaDpoD_gAakK
     const act = b.dataset.act;
     if (act === 'demo') { demoStart(); return; }
     const id = b.dataset.id, data = { type: 'suivi', commande: id };
+    const o = orders.find((x) => x.commande === id);
+    if (act === 'copier') {
+      const txt = [o.nom, o.telephone, o.livraison].filter(Boolean).join('\n');
+      try { await navigator.clipboard.writeText(txt); toast('Copié'); } catch (ex) { prompt('Copie ce texte :', txt.replace(/\n/g, ' · ')); }
+      return;
+    }
     let ok;
-    if (act === 'suivi') {
+    if (act === 'rembourser') {
+      if (!confirm('Annuler la commande de ' + (o ? o.nom : '') + ' ?\n\nPense à rembourser le client dans PayPal (Activité → la transaction → Rembourser).\n' +
+        'Ici, la commande passe en « Annulée » et ' + (o ? o.qty : 1) + ' casquette(s) reviennent dans le stock.')) return;
+      data.rembourser = true; ok = 'Commande annulée, stock remis à jour';
+    } else if (act === 'suivi') {
       const input = $('list').querySelector('[data-suivi="' + CSS.escape(id) + '"]');
       if (!input.value.trim()) { input.focus(); toast('Colle d’abord le numéro de suivi'); return; }
       data.suivi = input.value.trim(); ok = 'Expédiée : le client a reçu son e-mail de suivi';
     } else if (act === 'remis') { data.statut = 'Remise en main propre'; ok = 'Commande marquée comme remise'; }
     else if (act === 'traitee') { data.statut = 'Traitée'; ok = 'Commande passée dans « Traitées »'; }
     else {
-      if (!confirm('Remettre cette commande dans « À traiter » ? Le n° de suivi sera effacé.')) return;
+      const annulee = o && etat(o) === 'cancel';
+      if (!confirm(annulee ? 'Remettre cette commande annulée dans « À traiter » ? Les casquettes sont reprises dans le stock.'
+        : 'Remettre cette commande dans « À traiter » ? Le n° de suivi sera effacé.')) return;
       data.annuler = true; ok = 'Commande remise dans « À traiter »';
     }
     b.disabled = true; b.textContent = 'Envoi…';
@@ -308,16 +421,71 @@ const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwaDpoD_gAakK
     finally { $('stock-form').querySelectorAll('button').forEach((x) => (x.disabled = false)); b.textContent = label; }
   });
 
-  document.querySelector('.tabs').addEventListener('click', (e) => {
+  $('tabs').addEventListener('click', (e) => {
     const b = e.target.closest('[data-tab]');
     if (!b) return;
     tab = b.dataset.tab;
-    document.querySelectorAll('.tabs button').forEach((x) => x.classList.toggle('on', x === b));
+    $('tabs').querySelectorAll('button').forEach((x) => x.classList.toggle('on', x === b));
     render();
   });
+  // Commandes / Avis / Réglages
+  $('views').addEventListener('click', (e) => {
+    const b = e.target.closest('[data-view]');
+    if (!b) return;
+    $('views').querySelectorAll('button').forEach((x) => x.classList.toggle('on', x === b));
+    ['commandes', 'avis', 'reglages'].forEach((v) => { $('v-' + v).hidden = v !== b.dataset.view; });
+  });
+
+  // Avis : suppression (avis injurieux ou hors sujet seulement)
+  $('avis-list').addEventListener('click', async (e) => {
+    const b = e.target.closest('[data-suppr]');
+    if (!b) return;
+    const a = avis.find((x) => String(x.ligne) === b.dataset.suppr);
+    if (!a || !confirm('Supprimer définitivement l\'avis de ' + a.prenom + ' ?\n\n« ' + a.texte + ' »')) return;
+    b.disabled = true; b.textContent = 'Suppression…';
+    try { apply(await call({ type: 'avis', supprimer: a.ligne, texte: a.texte })); toast('Avis supprimé du site'); }
+    catch (ex) { toast('Erreur : ' + ex.message); b.disabled = false; b.textContent = 'Supprimer'; }
+  });
+
+  // Réglages : e-mail qui reçoit les commandes
+  $('email-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const b = $('email-form').querySelector('button');
+    b.disabled = true;
+    try { apply(await call({ type: 'reglages', email: $('email-in').value.trim() })); toast('E-mail enregistré : ' + reglages.email); }
+    catch (ex) { toast('Erreur : ' + ex.message); }
+    finally { b.disabled = false; }
+  });
+
+  // Export de toutes les commandes (fichier CSV qui s'ouvre avec Excel)
+  $('export').addEventListener('click', () => {
+    if (!orders.length) { toast('Aucune commande à exporter'); return; }
+    const cols = [['date', 'Date'], ['commande', 'N° commande PayPal'], ['qty', 'Quantité'], ['total', 'Total'], ['nom', 'Nom'], ['email', 'E-mail'],
+      ['telephone', 'Téléphone'], ['pays', 'Pays'], ['livraison', 'Livraison'], ['suivi', 'N° de suivi'], ['statut', 'Statut'], ['paiement', 'Paiement']];
+    const cell = (v) => '"' + String(v == null ? '' : v).replace(/"/g, '""') + '"';
+    const lignes = orders.map((o) => cols.map(([k]) => {
+      if (k === 'date') { const d = new Date(o.date); return cell(isNaN(d) ? o.date : d.toLocaleString('fr-FR')); }
+      return cell(o[k]);
+    }).join(';'));
+    const csv = '﻿' + [cols.map((c) => cell(c[1])).join(';')].concat(lignes).join('\r\n');
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8' }));
+    a.download = 'commandes-rr-factory-' + new Date().toISOString().slice(0, 10) + '.csv';
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+  });
+
   $('search').addEventListener('input', render);
   $('refresh').addEventListener('click', () => load());
   $('logout').addEventListener('click', () => logout());
+
+  // nouvelles commandes : actualisation toute seule chaque minute quand la page est ouverte
+  // (pas pendant une saisie, pour ne pas effacer un n° de suivi en cours)
+  setInterval(() => {
+    const saisie = document.activeElement && /^(INPUT|TEXTAREA)$/.test(document.activeElement.tagName) && document.activeElement.value;
+    if (password && !demo && !$('app').hidden && !document.hidden && !saisie) load(true);
+  }, 60000);
+  document.addEventListener('visibilitychange', () => { if (!document.hidden && password && !demo && !$('app').hidden) load(true); });
 
   // déjà connecté dans cet onglet : on recharge directement
   if (password) { $('login').hidden = true; $('app').hidden = false; load(true); }
