@@ -549,7 +549,7 @@
   .has-promo .promo-line, .pay-card.has-promo .promo-line { display: flex; }
 
   /* Avis en éventail */
-  .fan { position: relative; height: 300px; max-width: 760px; margin: 0 auto; cursor: pointer; outline: none; }
+  .fan { position: relative; isolation: isolate; height: 300px; max-width: 760px; margin: 0 auto; cursor: pointer; outline: none; }
   .review-card {
     --w: 230px; --h: 158px;
     position: absolute; left: calc(50% - var(--w) / 2); top: 70px; width: var(--w); height: var(--h);
@@ -568,8 +568,8 @@
   .review-who b { color: var(--text); font-weight: 600; }
   .review-tag { position: absolute; top: 10px; right: 10px; font-size: 10px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: #ffb86b; border: 1px solid rgba(255,184,107,.4); border-radius: 999px; padding: 2px 7px; }
   /* carte de couverture, au-dessus de la pile */
-  .review-cover { align-items: center; justify-content: center; text-align: center; background: linear-gradient(160deg, #1b1b1b, #121212); border-color: #333; z-index: 30; transition: transform .5s, opacity .4s; }
-  .review-cover::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 3px; border-radius: 16px 16px 0 0; background: var(--stripe); }
+  .review-cover { align-items: center; justify-content: center; text-align: center; background: linear-gradient(160deg, #1b1b1b, #121212); border-color: #333; z-index: 30; overflow: hidden; transition: transform .5s, opacity .4s; }
+  .review-cover::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 3px; background: var(--stripe); }
   .review-cover strong { font-family: Archivo, sans-serif; font-size: 30px; font-weight: 800; line-height: 1; }
   .fan.open .review-cover { opacity: 0; transform: translateY(40px) scale(.9); pointer-events: none; }
   .fan:not(.open):hover .review-cover { transform: translateY(-6px); }
