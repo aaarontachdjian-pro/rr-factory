@@ -622,6 +622,12 @@
   .order-done p { color: var(--muted); }
   .paypal-box { margin-top: 18px; padding: 16px; border-radius: 16px; background: #fff; min-height: 60px; }
   .paypal-box:empty { display: none; }
+  .pay-label { margin: 0 0 8px; color: #111; font-size: 14px; font-weight: 700; text-align: left; }
+  .pay-label small { display: block; color: #555; font-size: 12px; font-weight: 500; }
+  .pay-or { display: flex; align-items: center; gap: 10px; margin: 14px 0 10px; color: #777; font-size: 12px; }
+  .pay-or::before, .pay-or::after { content: ""; flex: 1; height: 1px; background: #ddd; }
+  .pay-fake { display: flex; align-items: center; justify-content: center; gap: 8px; height: 45px; border-radius: 999px; font-weight: 700; font-size: 15px; opacity: .55; cursor: not-allowed; }
+  .pay-fake + .pay-fake { margin-top: 10px; }
   .order-check { width: 64px; height: 64px; margin: 0 auto 16px; border-radius: 50%; display: grid; place-items: center; font-size: 30px; color: #fff; background: linear-gradient(135deg, var(--blue), var(--red)); }
   /* mode de livraison */
   .ship-modes { border: 0; margin: 4px 0 0; padding: 0; display: grid; gap: 8px; }
@@ -1053,7 +1059,7 @@
       </div>
       <ol class="steps">
         <li class="reveal"><h3>Clique sur Payer</h3><p>En bas de la page, en un clic.</p></li>
-        <li class="reveal"><h3>Paie par carte ou PayPal</h3><p>Carte bancaire sans compte PayPal (CB, Visa, Mastercard), compte PayPal ou paiement en 4X. Paiement sécurisé.</p></li>
+        <li class="reveal"><h3>Paie par carte ou PayPal</h3><p>Carte bancaire sans compte PayPal (CB, Visa, Mastercard), ou compte PayPal. Paiement sécurisé.</p></li>
         <li class="reveal"><h3>Tu reçois ta casquette</h3><p>Confirmation par e-mail, puis livraison chez toi.</p></li>
       </ol>
     </div>
@@ -1100,7 +1106,7 @@
         <div class="intro">
           <div class="eyebrow">Commander</div>
           <h2>Paie par carte ou PayPal.</h2>
-          <p>Tout se passe ici, sur le site. Tu choisis la quantité et ta livraison, tu paies comme tu veux (carte bancaire sans compte PayPal, PayPal, 4X…), c’est envoyé.</p>
+          <p>Tout se passe ici, sur le site. Tu choisis la quantité et ta livraison, tu paies comme tu veux (carte bancaire sans compte PayPal, ou PayPal), c’est envoyé.</p>
           <ul class="reassure">
             <li><svg viewBox="0 0 24 24"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>Paiement 100 % sécurisé</li>
             <li><svg viewBox="0 0 24 24"><path d="M3 7h11v9H3zM14 10h4l3 3v3h-7"/><circle cx="7" cy="18" r="1.6"/><circle cx="17" cy="18" r="1.6"/></svg>Livraison offerte en point relais · expédiée depuis Marseille</li>
@@ -1124,7 +1130,7 @@
             Payer par carte ou PayPal · 50 €
           </a>
           <div class="cards" aria-label="Moyens de paiement acceptés">
-            <span>PAYPAL</span><span>CB</span><span>VISA</span><span>MASTERCARD</span><span>AMEX</span><span>4X PAYPAL</span><span>SEPA</span><span>BANCONTACT</span><span>IDEAL</span>
+            <span>CB</span><span>VISA</span><span>MASTERCARD</span><span>PAYPAL</span>
           </div>
           <div class="secure"><svg viewBox="0 0 24 24"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>Carte bancaire (CB, Visa, Mastercard) ou PayPal · paiement sécurisé</div>
         </div>
@@ -2440,9 +2446,9 @@ const DEMO_REVIEWS = [
         });
         if (!res.ok) throw new Error('Formspree ' + res.status);
       }
-      // confirmation + paiement PayPal (PayPal, carte, Apple/Google Pay, 4X) avec montant et adresse
+      // confirmation + paiement PayPal (carte bancaire ou PayPal) avec montant et adresse
       $('order-done-text').textContent = 'Merci ' + data.nom.split(' ')[0] + ' ! Total à payer : ' + euroFmt(amounts(data.pays, data.livraison).total) +
-        ' (livraison comprise). Dernière étape : choisis ton moyen de paiement ci-dessous (PayPal, carte bancaire, 4X…).';
+        ' (livraison comprise). Dernière étape : choisis ton moyen de paiement ci-dessous : carte bancaire (Visa, Mastercard, CB, sans compte PayPal) ou PayPal.';
       form.hidden = true; done.hidden = false;
       renderPayPal(data);
       form.reset();
@@ -2458,16 +2464,14 @@ const DEMO_REVIEWS = [
   // À CONFIGURER : identifiant client PayPal (developer.paypal.com > Apps & Credentials > Live > Client ID)
   const PAYPAL_CLIENT_ID = 'TON_CLIENT_ID_PAYPAL';
   const COUNTRIES = { France: 'FR', Belgique: 'BE', Suisse: 'CH', Luxembourg: 'LU', Monaco: 'MC' };
-  // Tous les moyens de paiement en ligne proposés par PayPal : compte PayPal, 4X, carte bancaire
-  // (CB, Visa, Mastercard, Amex) et paiements locaux européens. PayPal n'affiche à chaque client
-  // que ceux disponibles dans son pays (ex. Bancontact en Belgique, iDEAL aux Pays-Bas).
-  const MOYENS_PAIEMENT = ['card', 'paylater', 'sepa', 'bancontact', 'ideal', 'eps', 'mybank', 'p24', 'blik', 'trustly', 'multibanco', 'satispay'];
+  // Carte bancaire sans compte PayPal (CB, Visa, Mastercard) + compte PayPal ; le reste est désactivé
+  const MOYENS_PAIEMENT = ['card'];
   let sdk = null;
   function loadSdk() {
     if (sdk) return sdk;
     sdk = new Promise((ok, ko) => {
       const s = document.createElement('script');
-      s.src = 'https://www.paypal.com/sdk/js?client-id=' + encodeURIComponent(PAYPAL_CLIENT_ID) + '&currency=EUR&locale=fr_FR&enable-funding=' + MOYENS_PAIEMENT.join(',');
+      s.src = 'https://www.paypal.com/sdk/js?client-id=' + encodeURIComponent(PAYPAL_CLIENT_ID) + '&currency=EUR&locale=fr_FR&enable-funding=' + MOYENS_PAIEMENT.join(',') + '&disable-funding=paylater,sepa,bancontact,ideal,eps,mybank,p24,blik,trustly,multibanco,satispay';
       s.onload = ok; s.onerror = ko; document.head.appendChild(s);
     });
     return sdk;
@@ -2475,7 +2479,16 @@ const DEMO_REVIEWS = [
   function renderPayPal(c) {
     const box = $('paypal-buttons'), note = $('order-demo');
     box.innerHTML = ''; note.textContent = '';
-    if (/^TON_/.test(PAYPAL_CLIENT_ID)) { note.textContent = 'Mode démo : PayPal n’est pas encore configuré (identifiant client à ajouter).'; return; }
+    // carte bancaire en premier et bien visible : la plupart des clients n'ont pas de compte PayPal
+    const CARTE = '<p class="pay-label">💳 Carte bancaire<small>Visa, Mastercard, CB : toutes les banques, sans compte PayPal</small></p>';
+    const AUTRES = '<p class="pay-or">ou</p>';
+    if (/^TON_/.test(PAYPAL_CLIENT_ID)) {
+      // aperçu non cliquable de ce que verra le client une fois PayPal branché
+      box.innerHTML = CARTE + '<div class="pay-fake" style="background:#2c2e2f;color:#fff">💳 Carte de débit ou de crédit</div>' + AUTRES +
+        '<div class="pay-fake" style="background:#ffc439;color:#003087">PayPal</div>';
+      note.textContent = 'Aperçu : le paiement s’activera dès que l’identifiant PayPal sera ajouté.';
+      return;
+    }
     const a = amounts(c.pays, c.livraison), eur = (n) => ({ currency_code: 'EUR', value: n.toFixed(2) });
     if ((parseInt($('stock').dataset.left, 10) || 0) < a.qty) { note.textContent = 'Désolé, il n’en reste plus assez en stock.'; return; }
     const domicile = c.livraison === 'domicile';
@@ -2494,8 +2507,9 @@ const DEMO_REVIEWS = [
       };
     }
     loadSdk().then(() => {
-      window.paypal.Buttons({
-        style: { layout: 'vertical', shape: 'pill', label: 'pay' },
+      const F = window.paypal.FUNDING;
+      box.innerHTML = CARTE + '<div id="pp-card"></div>' + AUTRES + '<div id="pp-other"></div>';
+      const config = {
         createOrder: (d, actions) => actions.order.create({
           purchase_units: [unit],
           payer: { email_address: c.email },
@@ -2513,7 +2527,16 @@ const DEMO_REVIEWS = [
           try { localStorage.removeItem('rrf-cart'); } catch (e) { /* ignoré */ }
         }),
         onError: () => { note.textContent = 'Le paiement n’a pas abouti. Réessaie ou choisis un autre moyen.'; },
-      }).render('#paypal-buttons');
+      };
+      // deux boutons seulement (choix du patron) : carte bancaire en haut, PayPal en dessous
+      const bouton = (source, el, style) => {
+        const b = window.paypal.Buttons(Object.assign({ fundingSource: source, style: Object.assign({ shape: 'pill', height: 45 }, style) }, config));
+        if (b.isEligible()) { const d = document.createElement('div'); d.style.marginBottom = '10px'; el.appendChild(d); b.render(d); return true; }
+        return false;
+      };
+      const carte = bouton(F.CARD, $('pp-card'), { color: 'black' });
+      bouton(F.PAYPAL, $('pp-other'), { color: 'gold', label: 'pay' });
+      if (!carte) { $('pp-card').previousElementSibling.remove(); $('pp-card').nextElementSibling.remove(); }
     }).catch(() => { note.textContent = 'Impossible de charger PayPal. Vérifie ta connexion.'; });
   }
 })();
