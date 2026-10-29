@@ -1053,7 +1053,7 @@
       </div>
       <ol class="steps">
         <li class="reveal"><h3>Clique sur Payer</h3><p>En bas de la page, en un clic.</p></li>
-        <li class="reveal"><h3>Paie avec PayPal</h3><p>Paiement sécurisé par PayPal : compte PayPal, carte bancaire sans compte, 4X ou virement.</p></li>
+        <li class="reveal"><h3>Paie par carte ou PayPal</h3><p>Carte bancaire sans compte PayPal (CB, Visa, Mastercard), compte PayPal ou paiement en 4X. Paiement sécurisé.</p></li>
         <li class="reveal"><h3>Tu reçois ta casquette</h3><p>Confirmation par e-mail, puis livraison chez toi.</p></li>
       </ol>
     </div>
@@ -1099,8 +1099,8 @@
       <div class="checkout reveal">
         <div class="intro">
           <div class="eyebrow">Commander</div>
-          <h2>Paie avec PayPal.</h2>
-          <p>Tout se passe ici, sur le site. Tu choisis la quantité et ta livraison, tu paies comme tu veux (PayPal, carte bancaire, 4X, virement…), c’est envoyé.</p>
+          <h2>Paie par carte ou PayPal.</h2>
+          <p>Tout se passe ici, sur le site. Tu choisis la quantité et ta livraison, tu paies comme tu veux (carte bancaire sans compte PayPal, PayPal, 4X…), c’est envoyé.</p>
           <ul class="reassure">
             <li><svg viewBox="0 0 24 24"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>Paiement 100 % sécurisé</li>
             <li><svg viewBox="0 0 24 24"><path d="M3 7h11v9H3zM14 10h4l3 3v3h-7"/><circle cx="7" cy="18" r="1.6"/><circle cx="17" cy="18" r="1.6"/></svg>Livraison offerte en point relais · expédiée depuis Marseille</li>
@@ -1121,12 +1121,12 @@
           <!-- ouvre le formulaire de commande, puis le paiement PayPal -->
           <a href="#" class="btn btn-pay" id="pay-btn" role="button">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="5" width="19" height="14" rx="2.5"/><path d="M2.5 10h19M6.5 15h4"/></svg>
-            Payer avec PayPal · 50 €
+            Payer par carte ou PayPal · 50 €
           </a>
           <div class="cards" aria-label="Moyens de paiement acceptés">
             <span>PAYPAL</span><span>CB</span><span>VISA</span><span>MASTERCARD</span><span>AMEX</span><span>4X PAYPAL</span><span>SEPA</span><span>BANCONTACT</span><span>IDEAL</span>
           </div>
-          <div class="secure"><svg viewBox="0 0 24 24"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>Paiement sécurisé par PayPal</div>
+          <div class="secure"><svg viewBox="0 0 24 24"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>Carte bancaire (CB, Visa, Mastercard) ou PayPal · paiement sécurisé</div>
         </div>
       </div>
     </div>
@@ -1187,7 +1187,7 @@
       <h3>Aide</h3>
       <ul>
         <li><a href="#etapes">Comment commander</a></li>
-        <li><a href="#commander">Paiement PayPal</a></li>
+        <li><a href="#commander">Paiement carte / PayPal</a></li>
       </ul>
     </nav>
     <nav class="hwf-col" aria-label="Basé à">
@@ -1259,9 +1259,9 @@
     <div class="pay-total"><span>Total</span><b id="cart-total">0 €</b></div>
     <a href="#" class="btn btn-pay" id="cart-pay" role="button">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="5" width="19" height="14" rx="2.5"/><path d="M2.5 10h19M6.5 15h4"/></svg>
-      Payer avec PayPal
+      Payer par carte ou PayPal
     </a>
-    <div class="secure"><svg viewBox="0 0 24 24"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>Paiement sécurisé par PayPal</div>
+    <div class="secure"><svg viewBox="0 0 24 24"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>Carte bancaire (CB, Visa, Mastercard) ou PayPal · paiement sécurisé</div>
   </div>
 </aside>
 <!-- Formulaire de commande : coordonnées + livraison, puis paiement PayPal -->
@@ -1449,7 +1449,7 @@ const euroFmt = (n) => { n = Math.round(n * 100) / 100; return n.toLocaleString(
     $('cart-ship').textContent = qty ? shipText(ship) : '—';
     $('cart-total').textContent = euro(total);
     $('cart-note').textContent = MAX && qty >= MAX ? 'Tu as pris tout le stock disponible (' + MAX + ').' : '';
-    $('cart-pay').lastChild.textContent = ' Payer avec PayPal · ' + euro(total);
+    $('cart-pay').lastChild.textContent = ' Payer par carte ou PayPal · ' + euro(total);
     // bloc paiement : au moins 1 affiché pour que le total ait un sens
     const shown = Math.max(qty, Math.min(1, MAX));
     const shownSub = shown * PRICE, shownDisc = discountOf(shownSub), shownShip = shippingFor('France', shownSub - shownDisc);
@@ -1461,7 +1461,7 @@ const euroFmt = (n) => { n = Math.round(n * 100) / 100; return n.toLocaleString(
     $('pay-total').textContent = euro(shownTotal);
     // détail lu par le formulaire de commande et PayPal (la livraison y est recalculée selon le pays)
     Object.assign($('pay-total').dataset, { qty: shown, sub: shownSub, disc: shownDisc });
-    if (MAX > 0) $('pay-btn').lastChild.textContent = ' Payer avec PayPal · ' + euro(shownTotal);
+    if (MAX > 0) $('pay-btn').lastChild.textContent = ' Payer par carte ou PayPal · ' + euro(shownTotal);
     setStepper($('product-qty'), pick, Math.min(1, MAX), Math.max(1, MAX - qty));
   }
 
@@ -2406,7 +2406,7 @@ const DEMO_REVIEWS = [
   }
   function close() { modal.hidden = true; document.body.style.overflow = ''; }
 
-  // les boutons "Payer avec PayPal" ouvrent d'abord le formulaire de commande
+  // les boutons "Payer par carte ou PayPal" ouvrent d'abord le formulaire de commande
   document.addEventListener('click', (e) => {
     const a = e.target.closest('#cart-pay, #pay-btn');
     if (!a || a.classList.contains('is-disabled')) return;
