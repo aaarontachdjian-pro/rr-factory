@@ -641,6 +641,14 @@
   .ship-extra { display: grid; gap: 8px; }
   .relais-find { justify-self: start; font-size: 13px; font-weight: 600; color: #7fb0ff; text-decoration: none; }
   .relais-find:hover { text-decoration: underline; }
+  .relais-tools { display: flex; align-items: center; gap: 8px 14px; flex-wrap: wrap; }
+  .relais-geo { height: 36px; padding: 0 14px; border-radius: 999px; border: 1px solid var(--line); background: #171717; color: var(--text); font: 600 13px Inter, sans-serif; cursor: pointer; }
+  .relais-geo:hover { border-color: var(--blue); }
+  .relais-geo:disabled { opacity: .6; cursor: default; }
+  .relais-find.near { padding: 9px 14px; border-radius: 999px; background: var(--blue); color: #fff; }
+  .relais-find.near:hover { text-decoration: none; background: #2a78e4; }
+  .relais-geo-msg { margin: 0; font-size: 12px; color: var(--muted); }
+  .relais-geo-msg:empty { display: none; }
   .ship-note { margin: 0; padding: 12px 14px; border-radius: 12px; background: #171717; color: var(--muted); font-size: 13px; }
   .order [data-for][hidden], .order [data-pays][hidden] { display: none; }
   @media (max-width: 520px) { .order-grid { grid-template-columns: 1fr; } }
@@ -1315,7 +1323,11 @@
         </fieldset>
         <div class="f-full ship-extra" data-for="relais">
           <label>Point relais choisi *<input name="relais" required maxlength="160" placeholder="Nom, adresse ou n° du point relais"></label>
-          <a class="relais-find" id="relais-find" href="#" target="_blank" rel="noopener">Trouver mon point relais ↗</a>
+          <div class="relais-tools">
+            <button type="button" class="relais-geo" id="relais-geo">📍 Points relais près de moi</button>
+            <a class="relais-find" id="relais-find" href="#" target="_blank" rel="noopener">Trouver mon point relais ↗</a>
+          </div>
+          <p class="relais-geo-msg" id="relais-geo-msg" role="status"></p>
         </div>
         <label class="f-full" data-for="domicile">Rue *<input name="rue" required autocomplete="address-line1"></label>
         <label class="f-full" data-for="domicile">Complément d'adresse<input name="complement" autocomplete="address-line2" placeholder="Bâtiment, étage… (facultatif)"></label>
@@ -2423,10 +2435,7 @@ const DEMO_REVIEWS = [
       el.hidden = !on;
       el.querySelectorAll('input').forEach((i) => { i.disabled = !on; if (!on) i.classList.remove('bad'); });
     });
-    if (MODES_LIVRAISON[mode].recherche) {
-      $('relais-find').href = MODES_LIVRAISON[mode].recherche;
-      $('relais-find').textContent = 'Trouver mon point relais ' + MODES_LIVRAISON[mode].nom.replace('Point relais ', '') + ' ↗';
-    }
+    majLienRelais(mode);
     const t = $('pay-total').dataset, goods = (+t.sub || 50) - (+t.disc || 0);
     form.querySelectorAll('[data-price]').forEach((em) => {
       const p = shippingFor(pays, goods, em.dataset.price);
@@ -2445,6 +2454,45 @@ const DEMO_REVIEWS = [
     form.elements._subject.value = 'Nouvelle commande RR.FACTORY · ' + summary;
   }
   form.addEventListener('change', (e) => { if (e.target.name === 'pays' || e.target.name === 'livraison') applyMode(); });
+
+  // « Points relais près de moi » : la position du client (s'il accepte) sert seulement à ouvrir la carte
+  // des points relais autour de lui ; elle n'est ni enregistrée ni envoyée avec la commande
+  let position = null; // { lat, lon, lieu: '13002 Marseille' }
+  const RELAIS_CARTE = { 'relais-mr': 'Point Relais Mondial Relay', 'relais-chrono': 'Chronopost Pickup point relais' };
+  function majLienRelais(mode) {
+    const m = MODES_LIVRAISON[mode], a = $('relais-find');
+    if (!m || !m.recherche) return;
+    const marque = m.nom.replace('Point relais ', '');
+    a.classList.toggle('near', !!position);
+    if (!position) { a.href = m.recherche; a.textContent = 'Trouver mon point relais ' + marque + ' ↗'; return; }
+    // recherche Google Maps centrée sur la position (le code postal garde la recherche au bon endroit)
+    a.href = 'https://www.google.com/maps/search/' + encodeURIComponent((RELAIS_CARTE[mode] + ' ' + position.lieu).trim()) + '/@' + position.lat + ',' + position.lon + ',15z';
+    a.textContent = 'Voir les points relais ' + marque + ' près de ' + (position.lieu || 'moi') + ' ↗';
+  }
+  $('relais-geo').addEventListener('click', () => {
+    const btn = $('relais-geo'), msg = $('relais-geo-msg');
+    if (!navigator.geolocation) { msg.textContent = 'Ton navigateur ne permet pas la localisation : utilise le lien à côté.'; return; }
+    btn.disabled = true; btn.textContent = '📍 Localisation…'; msg.textContent = '';
+    navigator.geolocation.getCurrentPosition(async (p) => {
+      const lat = p.coords.latitude.toFixed(5), lon = p.coords.longitude.toFixed(5);
+      let lieu = '';
+      try {
+        // ville et code postal (service public de géocodage, France uniquement)
+        const r = await fetch('https://data.geopf.fr/geocodage/reverse?lon=' + lon + '&lat=' + lat + '&limit=1').then((x) => x.json());
+        const pr = r.features && r.features[0] && r.features[0].properties;
+        if (pr && pr.postcode) lieu = pr.postcode + ' ' + pr.city;
+      } catch (e) { /* hors de France ou service indisponible : la carte se centre quand même sur la position */ }
+      position = { lat, lon, lieu };
+      majLienRelais(form.elements.livraison.value);
+      btn.disabled = false; btn.textContent = '📍 Position trouvée ✓';
+      msg.textContent = 'Ouvre la carte, choisis un point relais, puis écris son nom et son adresse dans la case au-dessus.';
+    }, (e) => {
+      btn.disabled = false; btn.textContent = '📍 Points relais près de moi';
+      msg.textContent = e.code === 1
+        ? 'Localisation refusée : autorise la position dans ton navigateur, ou utilise le lien à côté.'
+        : 'Position introuvable pour le moment : utilise le lien à côté.';
+    }, { enableHighAccuracy: true, timeout: 15000, maximumAge: 300000 });
+  });
 
   function open() {
     applyMode();
@@ -2647,6 +2695,7 @@ const VENDEUR = {
       '<h3>Utilisation</h3><p>Ces données servent uniquement à traiter ta commande, la livrer, t’envoyer le suivi du colis et répondre à tes demandes. Elles ne sont ni vendues ni utilisées pour de la publicité.</p>' +
       '<h3>Qui y a accès</h3><p>RR.FACTORY, et les services qui permettent la vente : PayPal (paiement), Google (enregistrement des commandes et envoi des e-mails), le transporteur choisi (Mondial Relay ou Chronopost).</p>' +
       '<h3>Durée de conservation</h3><p>Les données de commande sont conservées le temps nécessaire à la vente et à ses garanties, puis le temps imposé par les obligations comptables (10 ans pour les pièces comptables).</p>' +
+      '<h3>Position</h3><p>Le bouton « Points relais près de moi » utilise ta position seulement si tu l’acceptes : elle sert à trouver ta ville (service public de géocodage de l’IGN) et à ouvrir la carte des points relais (Google Maps). Elle n’est pas enregistrée par RR.FACTORY.</p>' +
       '<h3>Cookies</h3><p>Ce site n’utilise aucun cookie publicitaire ni outil de mesure d’audience. Ton panier est simplement gardé dans ton navigateur.</p>' +
       '<h3>Tes droits</h3><p>Tu peux demander à consulter, corriger ou supprimer tes données par ' + contact + '. Tu peux aussi déposer une réclamation auprès de la CNIL (cnil.fr).</p>',
     contact: '<h2>Contact</h2><p>Une question sur une commande, un retour ou une collab ?</p><ul>' +
