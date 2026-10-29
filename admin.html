@@ -48,6 +48,11 @@
   .kpi span { display: block; color: var(--muted); font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; }
   .kpi b { display: block; font-size: 28px; margin-top: 4px; }
   .kpi.alert b { color: var(--orange); }
+  .stock-box { display: flex; align-items: center; gap: 10px 16px; flex-wrap: wrap; padding: 16px 18px; margin: -8px 0 24px; border-radius: 16px; background: var(--card); border: 1px solid var(--line); }
+  .stock-box h2 { margin: 0; font-size: 16px; }
+  .stock-box p { margin: 0; color: var(--muted); font-size: 13px; flex: 1 1 220px; }
+  .stock-box .row { display: flex; gap: 8px; flex-wrap: wrap; }
+  .stock-box input { width: 110px; height: 42px; padding: 0 14px; border-radius: 12px; border: 1px solid var(--line); background: var(--field); color: var(--text); outline: none; }
   .tools { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-bottom: 16px; }
   .tabs { display: flex; gap: 6px; padding: 4px; border-radius: 999px; background: var(--card); border: 1px solid var(--line); }
   .tabs button { height: 34px; padding: 0 14px; border-radius: 999px; border: 0; background: none; color: var(--muted); font-weight: 600; cursor: pointer; }
@@ -108,6 +113,15 @@
       <div class="kpi"><span>Stock restant</span><b id="k-stock">–</b></div>
       <div class="kpi" id="k-todo-box"><span>À expédier</span><b id="k-todo">0</b></div>
     </section>
+    <form class="stock-box" id="stock-form">
+      <h2>Stock</h2>
+      <p>Change le nombre de casquettes : le site est mis à jour tout de suite.</p>
+      <div class="row">
+        <input type="number" id="stock-n" min="0" max="100000" step="1" inputmode="numeric" placeholder="Nombre" required aria-label="Nombre de casquettes">
+        <button class="btn btn-primary" data-mode="ajout">+ Ajouter (réassort)</button>
+        <button class="btn" data-mode="stock">Mettre ce chiffre</button>
+      </div>
+    </form>
     <div class="tools">
       <div class="tabs" role="tablist">
         <button class="on" data-tab="todo">À traiter</button>
@@ -227,6 +241,22 @@ const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwaDpoD_gAakK
     b.disabled = true; b.textContent = 'Envoi…';
     try { apply(await call(data)); toast(data.suivi ? 'Expédiée : le client a reçu son e-mail de suivi' : 'Commande marquée comme remise'); }
     catch (ex) { toast('Erreur : ' + ex.message); b.disabled = false; b.textContent = 'Réessayer'; }
+  });
+
+  // Stock : « Ajouter » pour un réassort (+N), « Mettre ce chiffre » pour corriger le total exact
+  $('stock-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const b = e.submitter || $('stock-form').querySelector('[data-mode="ajout"]'), n = Math.floor(Number($('stock-n').value));
+    if (!(n >= 0) || (b.dataset.mode === 'ajout' && !n)) { $('stock-n').focus(); toast('Entre un nombre'); return; }
+    const label = b.textContent;
+    $('stock-form').querySelectorAll('button').forEach((x) => (x.disabled = true));
+    b.textContent = 'Envoi…';
+    try {
+      apply(await call({ type: 'stock', [b.dataset.mode]: n }));
+      $('stock-n').value = '';
+      toast('Stock mis à jour : ' + $('k-stock').textContent + ' casquettes');
+    } catch (ex) { toast('Erreur : ' + ex.message); }
+    finally { $('stock-form').querySelectorAll('button').forEach((x) => (x.disabled = false)); b.textContent = label; }
   });
 
   document.querySelector('.tabs').addEventListener('click', (e) => {
