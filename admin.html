@@ -76,6 +76,10 @@
   .badge.done { color: var(--green); background: rgba(110,231,154,.1); }
   .o-act { display: flex; gap: 8px; flex-wrap: wrap; }
   .o-act input { flex: 1; min-width: 200px; }
+  .btn-small { height: 34px; padding: 0 14px; font-size: 13px; }
+  .demo-bar { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; padding: 10px 14px; margin-bottom: 16px; border-radius: 12px; border: 1px solid rgba(255,184,107,.4); background: rgba(255,184,107,.08); color: var(--orange); font-size: 14px; }
+  .demo-bar span { flex: 1; }
+  .empty .btn { margin-top: 14px; }
   .empty { text-align: center; color: var(--muted); padding: 48px 16px; border: 1px dashed var(--line); border-radius: 16px; }
   .toast { position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%) translateY(20px); opacity: 0; transition: .25s; background: #1d1d1d; border: 1px solid var(--line); padding: 10px 18px; border-radius: 999px; font-size: 14px; pointer-events: none; z-index: 10; }
   .toast.show { opacity: 1; transform: translateX(-50%); }
@@ -130,6 +134,10 @@
       </div>
       <input type="search" id="search" placeholder="Rechercher un nom, un e-mail, une ville…">
     </div>
+    <div class="demo-bar" id="demo-bar" hidden>
+      <span>Mode exemple : ces commandes sont fausses, rien n'est envoyé ni enregistré. Essaie les boutons !</span>
+      <button class="btn btn-small" id="demo-exit">Quitter l'exemple</button>
+    </div>
     <div class="list" id="list"></div>
   </main>
 </div>
@@ -149,10 +157,38 @@ const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwaDpoD_gAakK
     get() { try { return sessionStorage.getItem(KEY) || ''; } catch (e) { return ''; } },
     set(v) { try { v ? sessionStorage.setItem(KEY, v) : sessionStorage.removeItem(KEY); } catch (e) { /* ignoré */ } },
   };
-  let password = store.get(), orders = [], tab = 'todo';
+  let password = store.get(), orders = [], tab = 'todo', demo = null;
+
+  // Mode exemple : fausses commandes gardées dans la page, pour essayer les boutons sans toucher au Google Sheet
+  const ilYa = (min) => new Date(Date.now() - min * 60000).toISOString();
+  const quand = () => ' le ' + new Date().toLocaleDateString('fr-FR') + ' ' + new Date().toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
+  function demoStart() {
+    demo = {
+      stock: 9,
+      ventes: [
+        { date: ilYa(25), commande: 'EXEMPLE-1', qty: 1, total: '50', nom: 'Yanis B.', pays: 'France', email: 'yanis@exemple.fr', suivi: '', statut: '', telephone: '06 12 34 56 78', livraison: 'Point relais Mondial Relay : Tabac du Port, 12 quai du Port, 13002 Marseille' },
+        { date: ilYa(180), commande: 'EXEMPLE-2', qty: 2, total: '100', nom: 'Sarah L.', pays: 'France', email: 'sarah@exemple.fr', suivi: '', statut: '', telephone: '07 98 76 54 32', livraison: 'Remise en main propre à Marseille' },
+        { date: ilYa(1500), commande: 'EXEMPLE-3', qty: 1, total: '58', nom: 'Karim D.', pays: 'France', email: 'karim@exemple.fr', suivi: '6A12345678901', statut: 'E-mail de suivi envoyé' + quand(), telephone: '06 00 11 22 33', livraison: 'À domicile (Chronopost) : 8 rue de la Paix, 69002 Lyon' },
+      ],
+    };
+    $('demo-bar').hidden = false;
+    apply(demo);
+  }
+  function demoCall(d) {
+    const o = demo.ventes.find((x) => x.commande === d.commande);
+    if (d.type === 'suivi' && o) {
+      if (d.suivi) { o.suivi = d.suivi; o.statut = 'E-mail de suivi envoyé' + quand(); }
+      else if (d.statut) o.statut = d.statut + quand();
+      else if (d.annuler) { o.suivi = ''; o.statut = ''; }
+    }
+    if (d.type === 'stock') demo.stock = Math.max(0, d.ajout != null ? demo.stock + d.ajout : d.stock);
+    return Object.assign({ ok: true }, JSON.parse(JSON.stringify(demo)));
+  }
+  $('demo-exit').addEventListener('click', () => { demo = null; $('demo-bar').hidden = true; load(true); });
 
   // Appel au script Google (POST text/plain : seul format accepté depuis un autre site)
   async function call(data) {
+    if (demo) return demoCall(data);
     const res = await fetch(GOOGLE_SCRIPT_URL, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(Object.assign({ motdepasse: password }, data)) });
     const json = await res.json();
     if (!json.ok) throw new Error(json.erreur || 'Erreur');
@@ -177,17 +213,22 @@ const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwaDpoD_gAakK
     const list = orders.filter((o) => (tab === 'all' || (tab === 'todo' ? !o.statut.trim() : !!o.statut.trim())) &&
       (!q || [o.nom, o.email, o.telephone, o.livraison, o.pays, o.commande].join(' ').toLowerCase().includes(q)));
     if (!list.length) {
-      $('list').innerHTML = '<div class="empty">' + (orders.length ? 'Aucune commande ici.' : 'Pas encore de commande. Elles apparaîtront ici dès le premier paiement PayPal.') + '</div>';
+      $('list').innerHTML = '<div class="empty">' + (orders.length ? 'Aucune commande ici.' : 'Pas encore de commande. Elles apparaîtront ici dès le premier paiement PayPal.' +
+        '<br><button class="btn" data-act="demo">Voir un exemple</button>') + '</div>';
       return;
     }
     $('list').innerHTML = list.map((o) => {
       const done = !!o.statut.trim(), d = new Date(o.date);
       const date = isNaN(d) ? o.date : d.toLocaleDateString('fr-FR', { day: '2-digit', month: 'short', year: 'numeric' }) + ' à ' + d.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
       const mainPropre = /main propre/i.test(o.livraison);
-      const action = done ? '' : mainPropre
-        ? '<div class="o-act"><button class="btn btn-primary" data-act="remis" data-id="' + esc(o.commande) + '">✓ Marquer comme remise en main propre</button></div>'
-        : '<div class="o-act"><input type="text" placeholder="N° de suivi (ou lien de suivi Mondial Relay)" data-suivi="' + esc(o.commande) + '">' +
-          '<button class="btn btn-primary" data-act="suivi" data-id="' + esc(o.commande) + '">Expédier et prévenir le client</button></div>';
+      const id = esc(o.commande);
+      const action = done
+        ? '<div class="o-act"><button class="btn btn-small" data-act="annuler" data-id="' + id + '">↩ Remettre à traiter</button></div>'
+        : mainPropre
+        ? '<div class="o-act"><button class="btn btn-primary" data-act="remis" data-id="' + id + '">✓ Marquer comme remise en main propre</button></div>'
+        : '<div class="o-act"><input type="text" placeholder="N° de suivi (ou lien de suivi Mondial Relay)" data-suivi="' + id + '">' +
+          '<button class="btn btn-primary" data-act="suivi" data-id="' + id + '">Expédier et prévenir le client</button>' +
+          '<button class="btn" data-act="traitee" data-id="' + id + '" title="Sans numéro de suivi : le client n\'est pas prévenu">✓ Traitée sans suivi</button></div>';
       return '<article class="order ' + (done ? 'done' : 'todo') + '">' +
         '<div class="o-head"><h2>' + esc(o.nom || 'Client') + '</h2><span class="date">' + esc(date) + '</span>' +
         '<span class="badge ' + (done ? 'done' : 'todo') + '">' + (done ? esc(o.statut) : 'À expédier') + '</span>' +
@@ -210,7 +251,7 @@ const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwaDpoD_gAakK
   }
 
   function logout(msg) {
-    password = ''; store.set(''); orders = [];
+    password = ''; store.set(''); orders = []; demo = null; $('demo-bar').hidden = true;
     $('app').hidden = true; $('login').hidden = false;
     $('login-msg').textContent = msg || ''; $('pw').value = ''; $('pw').focus();
   }
@@ -232,14 +273,22 @@ const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwaDpoD_gAakK
   $('list').addEventListener('click', async (e) => {
     const b = e.target.closest('[data-act]');
     if (!b) return;
+    const act = b.dataset.act;
+    if (act === 'demo') { demoStart(); return; }
     const id = b.dataset.id, data = { type: 'suivi', commande: id };
-    if (b.dataset.act === 'suivi') {
+    let ok;
+    if (act === 'suivi') {
       const input = $('list').querySelector('[data-suivi="' + CSS.escape(id) + '"]');
       if (!input.value.trim()) { input.focus(); toast('Colle d’abord le numéro de suivi'); return; }
-      data.suivi = input.value.trim();
-    } else data.statut = 'Remise en main propre';
+      data.suivi = input.value.trim(); ok = 'Expédiée : le client a reçu son e-mail de suivi';
+    } else if (act === 'remis') { data.statut = 'Remise en main propre'; ok = 'Commande marquée comme remise'; }
+    else if (act === 'traitee') { data.statut = 'Traitée'; ok = 'Commande passée dans « Traitées »'; }
+    else {
+      if (!confirm('Remettre cette commande dans « À traiter » ? Le n° de suivi sera effacé.')) return;
+      data.annuler = true; ok = 'Commande remise dans « À traiter »';
+    }
     b.disabled = true; b.textContent = 'Envoi…';
-    try { apply(await call(data)); toast(data.suivi ? 'Expédiée : le client a reçu son e-mail de suivi' : 'Commande marquée comme remise'); }
+    try { apply(await call(data)); toast(ok); }
     catch (ex) { toast('Erreur : ' + ex.message); b.disabled = false; b.textContent = 'Réessayer'; }
   });
 
