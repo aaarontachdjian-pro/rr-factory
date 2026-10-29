@@ -1,0 +1,2522 @@
+<!doctype html>
+<html lang="fr" class="intro-open">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RR.FACTORY · Casquette</title>
+<meta name="description" content="Casquette RR.FACTORY brodée, taille unique, fermeture snap. 50 €. Paiement sécurisé PayPal, livraison depuis Marseille.">
+<meta name="theme-color" content="#0b0b0b">
+<!-- aperçu quand le lien est partagé (WhatsApp, Snap, Messenger…) -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="RR.FACTORY · Casquette noire brodée">
+<meta property="og:description" content="Casquette noire brodée en relief, taille unique, 50 €. Paiement PayPal, expédiée depuis Marseille.">
+<meta name="twitter:card" content="summary">
+<!-- icône d'onglet : RR + point rouge -->
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230b0b0b'/%3E%3Ctext x='8' y='43' font-family='Arial Black,Arial' font-weight='900' font-size='28' fill='%23f2f2f0' font-style='italic'%3ERR%3C/text%3E%3Crect x='50' y='36' width='7' height='7' fill='%23e1251b'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0b0b0b;
+    --bg-2: #121212;
+    --card: #151515;
+    --line: #262626;
+    --text: #f2f2f0;
+    --muted: #9a9a96;
+    --red: #e1251b;
+    --blue: #1c69d4;
+    --blue-dark: #0b2f6b;
+    --stripe: linear-gradient(90deg, var(--blue) 0 50%, var(--red) 50% 100%);
+    --radius: 18px;
+    --max: 1120px;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0; background: var(--bg); color: var(--text);
+    font: 400 16px/1.6 Inter, system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: inherit; }
+  [id] { scroll-margin-top: 72px; } /* les sections ne passent pas sous l'en-tête fixe */
+  h1, h2, h3 { font-family: Archivo, Inter, sans-serif; line-height: 1.1; margin: 0; letter-spacing: -0.02em; text-wrap: balance; }
+
+  /* Finitions : sélection, barre de défilement, focus clavier, grain argentique */
+  ::selection { background: var(--red); color: #fff; }
+  html { scrollbar-color: #2a2a2a var(--bg); }
+  ::-webkit-scrollbar { width: 10px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: #262626; border-radius: 10px; border: 2px solid var(--bg); }
+  ::-webkit-scrollbar-thumb:hover { background: linear-gradient(var(--blue), var(--red)); }
+  :focus-visible { outline: 2px solid var(--blue); outline-offset: 3px; border-radius: 6px; }
+  body::after {
+    content: ""; position: fixed; inset: 0; z-index: 60; pointer-events: none; opacity: .045; mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  /* Écran d'entrée : le clic sur "Entrer" autorise le son (les navigateurs bloquent le son sans clic) */
+  .gate {
+    position: fixed; inset: 0; z-index: 80; display: grid; place-items: center; text-align: center; padding: 24px;
+    background:
+      radial-gradient(40% 50% at 30% 60%, rgba(225,37,27,.16), transparent 70%),
+      radial-gradient(40% 50% at 70% 40%, rgba(28,105,212,.18), transparent 70%),
+      #070707;
+    transition: opacity .7s ease, transform .9s cubic-bezier(.7,0,.2,1), visibility 0s linear .9s;
+  }
+  .gate.leave { opacity: 0; transform: translateY(-100%); visibility: hidden; }
+  .intro-logo { font-family: Archivo, sans-serif; font-weight: 800; font-size: clamp(44px, 10vw, 112px); letter-spacing: .04em; line-height: 1; animation: rise 1s cubic-bezier(.2,.8,.2,1) both; }
+  .intro-logo .dot { color: var(--red); }
+  .gate .stripe { margin: 22px auto 34px; width: 120px; transform-origin: center; animation: grow .9s cubic-bezier(.2,.8,.2,1) .25s both; }
+  .intro-enter {
+    display: inline-flex; align-items: center; gap: 12px; height: 56px; padding: 0 34px; border-radius: 999px; cursor: pointer;
+    font: 700 14px Inter, sans-serif; letter-spacing: .22em; text-transform: uppercase; color: #fff; border: 1px solid rgba(255,255,255,.18);
+    background: linear-gradient(90deg, rgba(28,105,212,.25), rgba(225,37,27,.25));
+    box-shadow: 0 0 0 1px rgba(255,255,255,.04), 0 0 40px -6px rgba(28,105,212,.55), 0 0 60px -10px rgba(225,37,27,.45);
+    animation: rise 1s cubic-bezier(.2,.8,.2,1) .4s both, glow 2.4s ease-in-out 1.4s infinite;
+    transition: transform .25s cubic-bezier(.2,.8,.2,1);
+  }
+  .intro-enter:hover { transform: scale(1.04); }
+  .intro-enter svg { width: 18px; height: 18px; }
+  @keyframes glow { 50% { box-shadow: 0 0 0 1px rgba(255,255,255,.08), 0 0 60px -4px rgba(28,105,212,.75), 0 0 80px -8px rgba(225,37,27,.65); } }
+  .intro-mute { display: block; margin: 18px auto 0; background: none; border: 0; color: var(--muted); font: 500 13px Inter, sans-serif; cursor: pointer; text-decoration: underline; text-underline-offset: 4px; animation: rise 1s cubic-bezier(.2,.8,.2,1) .55s both; }
+  .intro-mute:hover { color: var(--text); }
+  /* tant que l'écran d'entrée est là, le haut de page attend pour s'animer */
+  .intro-open body { overflow: hidden; }
+  .intro-open .hero-text > *, .intro-open .hero h1 span, .intro-open .viewer { animation-play-state: paused; }
+  .skip { position: absolute; left: 12px; top: -60px; z-index: 70; background: var(--text); color: #0b0b0b; padding: 10px 16px; border-radius: 10px; font-weight: 600; text-decoration: none; transition: top .2s; }
+  .skip:focus { top: 12px; }
+  .wrap { max-width: var(--max); margin: 0 auto; padding: 0 20px; }
+  .eyebrow { font-size: 12px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); }
+
+  /* Header */
+  header {
+    position: sticky; top: 0; z-index: 20;
+    background: rgba(11, 11, 11, 0.75); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+    border-bottom: 1px solid transparent; transition: border-color .3s;
+  }
+  header.scrolled { border-color: var(--line); }
+  .nav { display: flex; align-items: center; justify-content: space-between; height: 64px; }
+  .logo { font-family: Archivo, sans-serif; font-weight: 800; font-size: 18px; letter-spacing: 0.06em; text-transform: uppercase; text-decoration: none; }
+  .logo .dot { color: var(--red); }
+  .stripe { display: block; width: 72px; height: 4px; border-radius: 2px; background: var(--stripe); }
+  /* barre de progression de lecture (bleu → rouge) */
+  header::after {
+    content: ""; position: absolute; left: 0; right: 0; bottom: -1px; height: 2px;
+    background: linear-gradient(90deg, var(--blue), var(--red));
+    transform-origin: left; transform: scaleX(var(--progress, 0)); opacity: 0; transition: opacity .3s;
+  }
+  header.scrolled::after { opacity: 1; }
+  .nav ul { display: flex; gap: 28px; list-style: none; margin: 0; padding: 0; }
+  .nav ul a { position: relative; text-decoration: none; color: var(--muted); font-size: 14px; font-weight: 500; transition: color .2s; }
+  .nav ul a::after {
+    content: ""; position: absolute; left: 0; right: 0; bottom: -6px; height: 2px; border-radius: 2px;
+    background: linear-gradient(90deg, var(--blue), var(--red)); transform: scaleX(0); transition: transform .35s cubic-bezier(.2,.8,.2,1);
+  }
+  .nav ul a:hover, .nav ul a.active { color: var(--text); }
+  .nav ul a:hover::after, .nav ul a.active::after { transform: scaleX(1); }
+  .nav .cta-small { color: var(--text); }
+
+  /* Buttons */
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+    height: 52px; padding: 0 26px; border-radius: 999px;
+    font: 600 15px Inter, sans-serif; text-decoration: none; cursor: pointer;
+    position: relative; overflow: hidden; isolation: isolate;
+    transition: transform .25s cubic-bezier(.2,.8,.2,1), background .2s, border-color .2s, box-shadow .3s;
+  }
+  .btn:hover { transform: translateY(-2px); }
+  .btn:active { transform: translateY(0) scale(0.97); }
+  /* reflet qui balaie le bouton au survol */
+  .btn-primary::after, .btn-pay::after {
+    content: ""; position: absolute; inset: 0; z-index: -1;
+    background: linear-gradient(110deg, transparent 30%, rgba(255,255,255,.28) 50%, transparent 70%);
+    transform: translateX(-120%); transition: transform .7s cubic-bezier(.2,.8,.2,1);
+  }
+  .btn-primary:hover::after, .btn-pay:hover::after { transform: translateX(120%); }
+  .btn-primary { background: var(--red); color: #fff; box-shadow: 0 8px 24px -10px rgba(225,37,27,.6); }
+  .btn-primary:hover { background: #f0362c; box-shadow: 0 14px 34px -10px rgba(225,37,27,.75); }
+  .btn-ghost { border: 1px solid var(--line); color: var(--text); background: rgba(255,255,255,.02); }
+  .btn-ghost:hover { border-color: var(--blue); box-shadow: 0 10px 30px -14px rgba(28,105,212,.7); }
+  .btn-pay { background: var(--blue); color: #fff; width: 100%; height: 58px; font-size: 16px; box-shadow: 0 10px 28px -10px rgba(28,105,212,.65); }
+  .btn-pay:hover { background: #2a78e4; box-shadow: 0 16px 38px -10px rgba(28,105,212,.8); }
+  .btn svg { width: 20px; height: 20px; }
+
+  /* Hero */
+  .hero { position: relative; padding: 48px 0 24px; overflow: hidden; }
+  .hero::before {
+    content: ""; position: absolute; inset: -20% -10% auto; height: 120%;
+    background:
+      radial-gradient(35% 40% at 78% 40%, rgba(28,105,212,.18) 0%, transparent 70%),
+      radial-gradient(30% 35% at 55% 70%, rgba(225,37,27,.14) 0%, transparent 70%),
+      radial-gradient(50% 45% at 65% 45%, #1e1e1e 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-bike {
+    position: absolute; right: -10%; bottom: 2%; width: min(1180px, 84vw); height: auto;
+    overflow: visible; pointer-events: none;
+    filter: drop-shadow(0 0 18px rgba(28,105,212,.35)) drop-shadow(0 0 30px rgba(225,37,27,.18));
+    animation: bike-ride 10.2s linear infinite;
+  }
+  /* La moto traverse le haut de page de droite à gauche, en boucle continue :
+     elle entre hors écran à droite et ressort à gauche AVEC ses néons (qui dépassent de 62 % derrière),
+     pour que la boucle reprenne sans rien qui disparaisse d'un coup. Même vitesse qu'avant (300 % en 10,2 s). */
+  @keyframes bike-ride { from { transform: translateX(100%); } to { transform: translateX(-200%); } }
+  /* Roues : un tour toutes les 2,1 s = vitesse de déplacement (2 820 unités / 8 s ÷ périmètre 741) */
+  .hero-bike .wheel { animation: wheel-spin 2.1s linear infinite; }
+  .hero-bike .wheel-f { transform-origin: 300px 440px; }
+  .hero-bike .wheel-r { transform-origin: 930px 440px; }
+  @keyframes wheel-spin { to { transform: rotate(-360deg); } }
+  /* Suspension qui travaille et traînée qui vibre */
+  .hero-bike .bike-body { animation: bike-bob .45s ease-in-out infinite alternate; }
+  @keyframes bike-bob { to { transform: translateY(3px); } }
+  /* Le dessin reste discret ; seuls les néons brillent */
+  .hero-bike .wheel, .hero-bike .bike-body, .hero-bike .bike-ground { opacity: .2; }
+  /* Traînées néon : les tirets filent vers l'arrière, la lueur palpite */
+  .hero-bike .neon-core { stroke-dasharray: 170 50; animation: neon-flow .45s linear infinite; }
+  @keyframes neon-flow { to { stroke-dashoffset: -220; } }
+  .hero-bike .neon { animation: neon-pulse .18s ease-in-out infinite alternate; }
+  @keyframes neon-pulse { from { opacity: .45; } to { opacity: .75; } } /* lumineux sans gêner le texte */
+  .hero-grid { position: relative; display: grid; grid-template-columns: 1fr 1.15fr; align-items: center; gap: 24px; min-height: calc(100vh - 140px); }
+  .hero h1 { font-size: clamp(44px, 7vw, 88px); font-weight: 800; margin: 14px 0 18px; }
+  .hero h1 span { background: linear-gradient(90deg, var(--blue), var(--red)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .hero .stripe { margin-bottom: 18px; }
+  .hero p.lead { color: var(--muted); font-size: 18px; max-width: 420px; margin: 0 0 30px; }
+  .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 30px; padding: 0; list-style: none; }
+  .chips li { font-size: 13px; color: var(--muted); border: 1px solid var(--line); border-radius: 999px; padding: 6px 14px; transition: border-color .25s, color .25s; }
+  .chips li:hover { border-color: #3a3a3a; color: var(--text); }
+
+  /* Entrée du haut de page : chaque élément monte à son tour */
+  @keyframes rise { from { opacity: 0; transform: translateY(26px); filter: blur(6px); } to { opacity: 1; transform: none; filter: none; } }
+  @keyframes grow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+  .hero-text > * { animation: rise .9s cubic-bezier(.2,.8,.2,1) both; }
+  .hero-text > .stripe { transform-origin: left; animation: grow .8s cubic-bezier(.2,.8,.2,1) both; }
+  .hero-text > .eyebrow { animation-delay: .08s; }
+  .hero-text > h1 { animation-delay: .16s; }
+  .hero h1 span { display: inline-block; animation: rise 1s cubic-bezier(.2,.8,.2,1) .34s both; }
+  .hero-text > .lead { animation-delay: .3s; }
+  .hero-text > .hero-actions { animation-delay: .42s; }
+  .hero-text > .chips { animation-delay: .54s; }
+  .viewer { animation: rise 1.2s cubic-bezier(.2,.8,.2,1) .2s both; }
+
+  /* Bandeau défilant */
+  .marquee {
+    position: relative; overflow: hidden; border-block: 1px solid var(--line); background: #0d0d0d;
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+            mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  }
+  .marquee-track { display: flex; width: max-content; animation: marquee 32s linear infinite; }
+  .marquee:hover .marquee-track { animation-play-state: paused; }
+  .marquee span {
+    display: inline-flex; align-items: center; gap: 28px; padding: 18px 14px 18px 0; white-space: nowrap;
+    font-family: Archivo, sans-serif; font-weight: 800; font-size: 15px; letter-spacing: .16em; text-transform: uppercase; color: #cfcfcb;
+  }
+  .marquee span::after { content: ""; width: 7px; height: 7px; border-radius: 2px; background: var(--red); transform: rotate(45deg); }
+  .marquee span:nth-child(even)::after { background: var(--blue); }
+  @keyframes marquee { to { transform: translateX(-50%); } }
+
+  .viewer { position: relative; aspect-ratio: 1 / 1; width: 100%; cursor: grab; touch-action: pan-y; user-select: none; }
+  .viewer:active { cursor: grabbing; }
+  .viewer canvas { display: block; width: 100% !important; height: 100% !important; }
+  .viewer .hint {
+    position: absolute; left: 50%; bottom: 6%; transform: translateX(-50%);
+    display: flex; align-items: center; gap: 8px; white-space: nowrap;
+    font-size: 13px; color: var(--muted); background: rgba(20,20,20,.7); border: 1px solid var(--line);
+    padding: 8px 14px; border-radius: 999px; transition: opacity .5s; pointer-events: none;
+  }
+  .viewer.touched .hint { opacity: 0; }
+
+  /* Badge de stock au-dessus de la casquette */
+  .stock {
+    position: absolute; left: 50%; top: 5%; transform: translateX(-50%); z-index: 2;
+    display: flex; align-items: center; gap: 10px; white-space: nowrap;
+    padding: 9px 16px 9px 14px; border-radius: 999px; font-size: 13px; font-weight: 600;
+    background: rgba(18,18,18,.78); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+    border: 1px solid #2a2a2a; box-shadow: 0 12px 30px -16px rgba(0,0,0,.9);
+    pointer-events: none;
+  }
+  .stock-dot { width: 8px; height: 8px; border-radius: 50%; background: #22c55e; box-shadow: 0 0 0 0 rgba(34,197,94,.6); animation: stock-ping 1.8s ease-out infinite; }
+  @keyframes stock-ping { 70% { box-shadow: 0 0 0 7px rgba(34,197,94,0); } 100% { box-shadow: 0 0 0 0 rgba(34,197,94,0); } }
+  .stock-text b { font-family: Archivo, sans-serif; font-weight: 800; font-size: 15px; }
+  .stock-bar { width: 64px; height: 5px; border-radius: 3px; background: #2a2a2a; overflow: hidden; }
+  .stock-bar i { display: block; height: 100%; width: var(--stock, 100%); border-radius: 3px; background: linear-gradient(90deg, var(--blue), var(--red)); transition: width .6s; }
+  /* stock faible */
+  .stock.low { border-color: rgba(225,37,27,.55); }
+  .stock.low .stock-dot { background: var(--red); animation-name: stock-ping-red; }
+  @keyframes stock-ping-red { 70% { box-shadow: 0 0 0 7px rgba(225,37,27,0); } 100% { box-shadow: 0 0 0 0 rgba(225,37,27,0); } }
+  .stock.low .stock-text { color: #ff6b62; }
+  /* rupture */
+  .stock.out .stock-dot { background: #666; animation: none; }
+  .stock.out .stock-text { color: var(--muted); }
+  .btn.is-disabled { opacity: .45; pointer-events: none; filter: grayscale(1); box-shadow: none; }
+  .viewer .fallback { position: absolute; inset: 0; display: none; place-items: center; color: var(--muted); text-align: center; padding: 20px; }
+  .viewer.no-webgl .fallback { display: grid; }
+  .viewer.no-webgl .hint { display: none; }
+
+  /* Sections */
+  section { padding: 96px 0; }
+  .section-head { display: flex; justify-content: space-between; align-items: end; gap: 20px; margin-bottom: 44px; flex-wrap: wrap; }
+  .section-head h2 { font-size: clamp(32px, 4.5vw, 52px); font-weight: 800; margin-top: 10px; }
+
+  /* Product */
+  .product {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 0; background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden;
+    transition: border-color .4s, box-shadow .4s;
+  }
+  .product:hover { border-color: #333; box-shadow: 0 30px 80px -40px rgba(28,105,212,.35), 0 30px 80px -50px rgba(225,37,27,.35); }
+  .product-visual {
+    position: relative; min-height: 360px; display: grid; place-items: center;
+    /* fond studio : gris sombre au centre, noir sur les bords */
+    background: radial-gradient(70% 65% at 50% 45%, #2b2b2b 0%, #181818 55%, #0e0e0e 100%);
+    overflow: hidden;
+  }
+  .product-visual svg { width: 72%; max-width: 380px; filter: drop-shadow(0 30px 30px rgba(0,0,0,.6)); }
+  .product-visual img {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    object-fit: contain; object-position: center;
+    transition: transform .6s ease;
+  }
+  .product:hover .product-visual img { transform: scale(1.04); }
+  .product-visual::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 4px; background: var(--stripe); }
+  .product-info { padding: 44px; display: flex; flex-direction: column; justify-content: center; }
+  .product-info h3 { font-size: 30px; font-weight: 800; }
+  .price { font-family: Archivo, sans-serif; font-size: 40px; font-weight: 800; margin: 10px 0 18px; }
+  .product-info p { color: var(--muted); margin: 0 0 24px; }
+  .specs { list-style: none; padding: 0; margin: 0 0 30px; border-top: 1px solid var(--line); }
+  .specs li { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--line); font-size: 14px; transition: padding .25s; }
+  .specs li:hover { padding-inline: 6px; }
+  .specs li span:first-child { color: var(--muted); }
+
+  /* Features */
+  .features { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+  .feature {
+    position: relative; overflow: hidden; background: linear-gradient(180deg, #171717, var(--card));
+    border: 1px solid var(--line); border-radius: var(--radius); padding: 28px 24px;
+    transition: border-color .3s, transform .35s cubic-bezier(.2,.8,.2,1), box-shadow .35s;
+  }
+  /* liseré bleu → rouge qui se trace en haut de la carte au survol */
+  .feature::before {
+    content: ""; position: absolute; left: 0; right: 0; top: 0; height: 2px;
+    background: linear-gradient(90deg, var(--blue), var(--red)); transform: scaleX(0); transform-origin: left;
+    transition: transform .5s cubic-bezier(.2,.8,.2,1);
+  }
+  .feature:hover::before { transform: scaleX(1); }
+  .feature:hover { border-color: #333; transform: translateY(-5px); box-shadow: 0 24px 50px -30px rgba(0,0,0,.9); }
+  .feature .icon {
+    width: 44px; height: 44px; border-radius: 12px; background: #202020; display: grid; place-items: center; margin-bottom: 22px;
+    box-shadow: inset 0 0 0 1px #2a2a2a; transition: background .35s, box-shadow .35s;
+  }
+  .feature:hover .icon { background: linear-gradient(135deg, rgba(28,105,212,.35), rgba(225,37,27,.35)); box-shadow: inset 0 0 0 1px rgba(255,255,255,.12); }
+  .feature .icon svg { width: 22px; height: 22px; stroke: var(--text); fill: none; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+  .feature h3 { font-size: 18px; font-weight: 700; margin-bottom: 8px; }
+  .feature p { color: var(--muted); margin: 0; font-size: 15px; }
+
+  /* Steps */
+  .steps { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; counter-reset: step; }
+  .steps li { position: relative; padding: 30px 24px; border-top: 2px solid var(--line); counter-increment: step; }
+  .steps li::before {
+    content: "0" counter(step); display: block; font-family: Archivo, sans-serif; font-weight: 800; font-size: 46px; line-height: 1;
+    margin-bottom: 16px; letter-spacing: -0.03em;
+    background: linear-gradient(180deg, #5a5a58, #1a1a1a); -webkit-background-clip: text; background-clip: text; color: transparent;
+    transition: background .4s;
+  }
+  .steps li:hover::before { background: linear-gradient(90deg, var(--blue), var(--red)); -webkit-background-clip: text; background-clip: text; }
+  .steps li:nth-child(2):hover::before { background: linear-gradient(90deg, #ff4a3d, var(--red)); -webkit-background-clip: text; background-clip: text; }
+  .steps li:nth-child(3):hover::before { background: linear-gradient(90deg, #3d8bff, var(--blue)); -webkit-background-clip: text; background-clip: text; }
+  .steps li:nth-child(1) { border-color: var(--blue); }
+  .steps li:nth-child(2) { border-color: var(--red); }
+  .steps li:nth-child(3) { border-color: var(--blue); }
+  .steps h3 { font-size: 22px; font-weight: 700; margin-bottom: 8px; }
+  .steps p { color: var(--muted); margin: 0; }
+
+  /* Commande / paiement */
+  .checkout {
+    position: relative; display: grid; grid-template-columns: 1.1fr 1fr; gap: 40px; align-items: center;
+    padding: 56px; border-radius: 28px; overflow: hidden; border: 1px solid var(--line);
+    background:
+      radial-gradient(60% 80% at 0% 0%, rgba(28,105,212,.16) 0%, transparent 60%),
+      radial-gradient(50% 70% at 100% 100%, rgba(225,37,27,.14) 0%, transparent 60%),
+      #121212;
+  }
+  .checkout::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: var(--stripe); }
+  .checkout h2 { font-size: clamp(36px, 5vw, 56px); font-weight: 800; margin: 12px 0 16px; }
+  .checkout .intro p { color: var(--muted); margin: 0 0 24px; font-size: 17px; max-width: 440px; }
+  .reassure { list-style: none; padding: 0; margin: 0; display: grid; gap: 12px; }
+  .reassure li { display: flex; align-items: center; gap: 12px; font-size: 15px; }
+  .reassure svg { width: 20px; height: 20px; flex: none; stroke: var(--blue); fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+  /* bordure en dégradé bleu → rouge */
+  .pay-card {
+    border: 1px solid transparent; border-radius: var(--radius); padding: 28px;
+    background:
+      linear-gradient(#0e0e0e, #0e0e0e) padding-box,
+      linear-gradient(135deg, rgba(28,105,212,.7), rgba(255,255,255,.08) 45%, rgba(225,37,27,.7)) border-box;
+    box-shadow: 0 30px 70px -40px rgba(0,0,0,.9);
+  }
+  .pay-line { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--line); font-size: 15px; }
+  .pay-line span:first-child { color: var(--muted); }
+  .pay-total { display: flex; justify-content: space-between; align-items: baseline; margin: 18px 0 22px; }
+  .pay-total b { font-family: Archivo, sans-serif; font-size: 36px; font-weight: 800; }
+  .cards { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-top: 16px; }
+  .cards span { font: 700 11px Inter, sans-serif; letter-spacing: .04em; padding: 6px 10px; border-radius: 6px; background: #1c1c1c; border: 1px solid var(--line); color: #cfcfcf; }
+  .secure { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 14px; font-size: 12px; color: var(--muted); }
+  .secure svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2; }
+
+  /* Bloc TikTok */
+  .social { padding-top: 0; }
+  .social .wrap { display: grid; gap: 14px; }
+  /* Snapchat : même carte que TikTok, logo jaune Snap */
+  .tiktok-logo.snap-logo { background: #fffc00; border-color: #fffc00; }
+  .snap-logo svg path { fill: #fff; stroke: #000; stroke-width: 1.4; stroke-linejoin: round; }
+  .snap-btn { background: #fffc00; color: #0b0b0b; box-shadow: 0 8px 24px -10px rgba(255,252,0,.45); }
+  .snap-btn:hover { background: #fff95c; box-shadow: 0 14px 34px -10px rgba(255,252,0,.55); }
+  .tiktok-card {
+    position: relative; display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 26px;
+    padding: 30px 34px; border-radius: 24px; text-decoration: none; overflow: hidden;
+    border: 1px solid transparent;
+    background:
+      linear-gradient(#111, #111) padding-box,
+      linear-gradient(120deg, rgba(28,105,212,.65), rgba(255,255,255,.06) 45%, rgba(225,37,27,.65)) border-box;
+    transition: transform .35s cubic-bezier(.2,.8,.2,1), box-shadow .35s;
+  }
+  .tiktok-card::before {
+    content: ""; position: absolute; inset: 0; pointer-events: none;
+    background: radial-gradient(40% 120% at 0% 50%, rgba(28,105,212,.14), transparent 70%), radial-gradient(40% 120% at 100% 50%, rgba(225,37,27,.12), transparent 70%);
+  }
+  .tiktok-card:hover { transform: translateY(-4px); box-shadow: 0 30px 70px -40px rgba(28,105,212,.6), 0 30px 70px -45px rgba(225,37,27,.6); }
+  .tiktok-logo { position: relative; width: 50px; height: 50px; border-radius: 14px; background: #000; display: grid; place-items: center; border: 1px solid #262626; }
+  .tiktok-logo svg { width: 24px; height: 24px; overflow: visible; }
+  /* effet "glitch" du logo TikTok, avec les couleurs du site */
+  .tt-b { fill: var(--blue); transform: translate(-1.2px, -0.9px); }
+  .tt-r { fill: var(--red); transform: translate(1.2px, 0.9px); }
+  .tt-w { fill: #fff; }
+  .tiktok-text { position: relative; display: flex; flex-direction: column; gap: 4px; }
+  .tiktok-text strong { font-family: Archivo, sans-serif; font-size: clamp(24px, 3vw, 32px); font-weight: 800; letter-spacing: -0.02em; }
+  .tiktok-text > span:last-child { color: var(--muted); font-size: 15px; }
+  .tiktok-btn { position: relative; white-space: nowrap; }
+  .tiktok-btn svg { width: 18px; height: 18px; }
+  @media (max-width: 720px) {
+    .tiktok-card { grid-template-columns: auto 1fr; gap: 16px 18px; padding: 22px 20px; }
+    .tiktok-logo { width: 44px; height: 44px; border-radius: 12px; }
+    .tiktok-logo svg { width: 21px; height: 21px; }
+    .tiktok-btn { grid-column: 1 / -1; width: 100%; }
+  }
+
+  /* Pied de page : "rr.factory" géant imprimé en trame de points, coupé par le bas */
+  .hwf-root {
+    position: relative; width: 100%; height: clamp(420px, 56vw, 560px); overflow: hidden; isolation: isolate;
+    background: var(--bg); color: var(--text); border-top: 1px solid var(--line);
+    --hwf-mono: "JetBrains Mono", "SF Mono", ui-monospace, Menlo, Consolas, monospace;
+  }
+  .hwf-root canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+  .hwf-top {
+    position: relative; z-index: 1; display: grid; grid-template-columns: minmax(0, 1.25fr) repeat(4, minmax(0, 1fr));
+    gap: 24px; padding: clamp(22px, 3.4vw, 40px) clamp(20px, 3.4vw, 44px) 0;
+    font-family: var(--hwf-mono); font-size: 10.5px; letter-spacing: .18em; text-transform: uppercase; line-height: 1.75;
+  }
+  .hwf-brand strong { display: block; font-weight: 500; }
+  .hwf-brand strong .dot { color: var(--red); }
+  .hwf-brand span { opacity: .45; }
+  .hwf-col h3 { margin: 0; font: inherit; opacity: .4; font-weight: 500; letter-spacing: inherit; }
+  .hwf-col ul { list-style: none; margin: 0; padding: 0; }
+  .hwf-col a, .hwf-up {
+    color: inherit; text-decoration: none; opacity: .78; background: none; border: 0; padding: 0;
+    font: inherit; letter-spacing: inherit; text-transform: inherit; cursor: pointer;
+    background-image: linear-gradient(currentColor, currentColor); background-size: 0% 1px;
+    background-repeat: no-repeat; background-position: 0 100%; transition: opacity .25s ease, background-size .35s cubic-bezier(.2,.7,.1,1);
+  }
+  .hwf-col a:hover, .hwf-up:hover { opacity: 1; background-size: 100% 1px; }
+  .hwf-col a:focus-visible, .hwf-up:focus-visible { outline: 1px solid currentColor; outline-offset: 3px; opacity: 1; }
+  .hwf-rule {
+    position: relative; z-index: 1; display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap;
+    margin: clamp(18px, 2.6vw, 30px) clamp(20px, 3.4vw, 44px) 0; padding-top: 12px;
+    border-top: 0.5px solid color-mix(in srgb, var(--text) 16%, transparent);
+    font-family: var(--hwf-mono); font-size: 10.5px; letter-spacing: .18em; text-transform: uppercase;
+  }
+  .hwf-rule .hwf-legal { opacity: .4; }
+  .hwf-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  @media (max-width: 720px) {
+    .hwf-top { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); row-gap: 18px; }
+    .hwf-brand { grid-column: 1 / -1; }
+  }
+
+  /* Sticky buy bar */
+  .buybar {
+    position: fixed; left: 50%; bottom: 16px; z-index: 30; transform: translate(-50%, 140%);
+    width: min(520px, calc(100% - 32px));
+    display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    padding: 8px 8px 8px 22px; border-radius: 999px;
+    background: rgba(24,24,24,.88); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+    border: 1px solid var(--line); box-shadow: 0 20px 40px rgba(0,0,0,.5);
+    transition: transform .4s cubic-bezier(.2,.8,.2,1);
+  }
+  .buybar.show { transform: translate(-50%, 0); }
+  .buybar span { font-size: 14px; font-weight: 500; }
+  .buybar span b { font-weight: 700; }
+  .buybar .btn { height: 42px; padding: 0 20px; font-size: 14px; }
+
+  /* Panier : bouton d'en-tête */
+  .nav-right { display: flex; align-items: center; gap: 22px; }
+  .cart-btn {
+    position: relative; display: grid; place-items: center; width: 42px; height: 42px; border-radius: 50%;
+    background: rgba(255,255,255,.04); border: 1px solid var(--line); color: var(--text); cursor: pointer;
+    transition: border-color .25s, background .25s, transform .25s;
+  }
+  .cart-btn:hover { border-color: var(--blue); background: rgba(28,105,212,.12); }
+  .cart-btn svg { width: 20px; height: 20px; }
+  .cart-count {
+    position: absolute; top: -4px; right: -4px; min-width: 19px; height: 19px; padding: 0 5px; border-radius: 999px;
+    display: grid; place-items: center; font: 700 11px Inter, sans-serif; color: #fff; background: var(--red);
+    box-shadow: 0 0 0 2px var(--bg); transform: scale(0); transition: transform .3s cubic-bezier(.3,1.6,.5,1);
+  }
+  .cart-btn.has-items .cart-count { transform: scale(1); }
+  .cart-btn.bump { animation: cart-bump .45s cubic-bezier(.3,1.6,.5,1); }
+  @keyframes cart-bump { 40% { transform: scale(1.18); } }
+
+  /* Sélecteur de quantité */
+  .qty { display: inline-flex; align-items: center; height: 52px; border: 1px solid var(--line); border-radius: 999px; background: rgba(255,255,255,.02); }
+  .qty button { width: 44px; height: 100%; border: 0; background: none; color: var(--text); font: 600 20px Inter, sans-serif; cursor: pointer; border-radius: 999px; transition: background .2s, color .2s; }
+  .qty button:hover:not(:disabled) { background: rgba(255,255,255,.06); }
+  .qty button:disabled { color: #444; cursor: default; }
+  .qty span { min-width: 28px; text-align: center; font: 700 16px Archivo, sans-serif; }
+  .qty-sm { height: 36px; }
+  .qty-sm button { width: 34px; font-size: 17px; }
+  .qty-sm span { min-width: 22px; font-size: 14px; }
+  .add-row { display: flex; gap: 12px; }
+  .add-row .btn { flex: 1; }
+
+  /* Panneau panier */
+  .cart-overlay { position: fixed; inset: 0; z-index: 40; background: rgba(0,0,0,.55); backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px); opacity: 0; pointer-events: none; transition: opacity .35s; }
+  .cart-overlay.open { opacity: 1; pointer-events: auto; }
+  .cart {
+    position: fixed; top: 0; right: 0; bottom: 0; z-index: 45; width: min(420px, 100%);
+    display: flex; flex-direction: column; background: #0f0f0f; border-left: 1px solid var(--line);
+    box-shadow: -30px 0 80px -20px rgba(0,0,0,.8);
+    transform: translateX(105%); visibility: hidden;
+    transition: transform .45s cubic-bezier(.2,.8,.2,1), visibility 0s linear .45s; /* masqué après la sortie */
+  }
+  .cart.open { transform: none; visibility: visible; transition: transform .45s cubic-bezier(.2,.8,.2,1); }
+  .cart::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 3px; background: var(--stripe); }
+  .cart-head { display: flex; align-items: center; justify-content: space-between; padding: 22px 22px 18px; border-bottom: 1px solid var(--line); }
+  .cart-head h2 { font-size: 22px; font-weight: 800; }
+  .cart-head h2 span { color: var(--muted); font-weight: 600; font-size: 16px; }
+  .cart-close { width: 38px; height: 38px; border-radius: 50%; border: 1px solid var(--line); background: none; color: var(--text); cursor: pointer; display: grid; place-items: center; transition: border-color .2s, transform .3s; }
+  .cart-close:hover { border-color: var(--red); transform: rotate(90deg); }
+  .cart-close svg { width: 16px; height: 16px; }
+  .cart-body { flex: 1; overflow-y: auto; padding: 22px; }
+  .cart-empty { display: none; text-align: center; padding: 50px 10px; color: var(--muted); }
+  .cart-empty svg { width: 46px; height: 46px; opacity: .5; margin-bottom: 10px; }
+  .cart-empty p { margin: 0 0 22px; }
+  .cart.is-empty .cart-empty { display: block; }
+  .cart.is-empty .cart-item, .cart.is-empty .cart-foot, .cart.is-empty .cart-note { display: none; }
+  .cart-item { display: grid; grid-template-columns: 84px 1fr auto; gap: 14px; align-items: center; padding: 14px; border: 1px solid var(--line); border-radius: 16px; background: #141414; }
+  .cart-thumb { width: 84px; height: 84px; border-radius: 12px; background: radial-gradient(70% 65% at 50% 45%, #2b2b2b, #111); overflow: hidden; }
+  .cart-thumb img { width: 100%; height: 100%; object-fit: contain; }
+  .cart-item-info { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+  .cart-item-info b { font-size: 14px; }
+  .cart-item-info > span { font-size: 12px; color: var(--muted); margin-bottom: 6px; }
+  .cart-item-side { display: flex; flex-direction: column; align-items: flex-end; gap: 10px; }
+  .cart-item-side b { font-family: Archivo, sans-serif; font-size: 18px; }
+  .cart-remove { background: none; border: 0; padding: 0; color: var(--muted); font: 500 12px Inter, sans-serif; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+  .cart-remove:hover { color: var(--red); }
+  .cart-note { margin: 14px 2px 0; font-size: 13px; color: #ff6b62; min-height: 1em; }
+  .cart-foot { padding: 18px 22px 22px; border-top: 1px solid var(--line); background: #0c0c0c; }
+  .cart-foot .pay-total { margin: 14px 0 16px; }
+  .cart-foot .pay-total b { font-size: 30px; }
+
+  /* Code promo */
+  .promo { display: flex; gap: 8px; margin-bottom: 8px; }
+  .promo input {
+    flex: 1; min-width: 0; height: 44px; padding: 0 16px; border-radius: 12px; border: 1px solid var(--line); background: #151515;
+    color: var(--text); font: 600 14px Inter, sans-serif; letter-spacing: .08em; text-transform: uppercase; outline: none; transition: border-color .2s;
+  }
+  .promo input::placeholder { text-transform: none; letter-spacing: 0; color: #6b6b68; font-weight: 500; }
+  .promo input:focus { border-color: var(--blue); }
+  .promo.error input { border-color: var(--red); animation: promo-shake .35s; }
+  @keyframes promo-shake { 25% { transform: translateX(-4px); } 75% { transform: translateX(4px); } }
+  .promo-apply { height: 44px; padding: 0 16px; border-radius: 12px; border: 1px solid var(--line); background: #1c1c1c; color: var(--text); font: 600 13px Inter, sans-serif; cursor: pointer; transition: border-color .2s, background .2s; }
+  .promo-apply:hover { border-color: var(--blue); background: rgba(28,105,212,.15); }
+  .promo-chip { display: none; align-items: center; gap: 10px; height: 44px; padding: 0 8px 0 14px; margin-bottom: 8px; border-radius: 12px; border: 1px dashed rgba(34,197,94,.55); background: rgba(34,197,94,.08); color: #6ee79a; font: 600 13px Inter, sans-serif; }
+  .promo-chip svg { width: 16px; height: 16px; flex: none; }
+  .promo-chip span { flex: 1; letter-spacing: .04em; }
+  .promo-chip button { width: 28px; height: 28px; border-radius: 8px; border: 0; background: none; color: inherit; font-size: 18px; cursor: pointer; }
+  .promo-chip button:hover { background: rgba(255,255,255,.08); }
+  .has-promo .promo { display: none; }
+  .has-promo .promo-chip { display: flex; }
+  .promo-msg { margin: 0 2px 6px; min-height: 1.2em; font-size: 12px; color: var(--muted); }
+  .promo-msg.bad { color: #ff6b62; }
+  .promo-line { display: none; }
+  .promo-line span:last-child { color: #6ee79a; font-weight: 600; }
+  .has-promo .promo-line, .pay-card.has-promo .promo-line { display: flex; }
+
+  /* Avis en éventail */
+  .fan { position: relative; height: 300px; max-width: 760px; margin: 0 auto; cursor: pointer; outline: none; }
+  .review-card {
+    --w: 230px; --h: 158px;
+    position: absolute; left: calc(50% - var(--w) / 2); top: 70px; width: var(--w); height: var(--h);
+    padding: 14px 16px; border-radius: 16px; background: #151515; border: 1px solid #2a2a2a;
+    box-shadow: 0 18px 40px -20px #000; transform-origin: 50% 260%;
+    transform: rotate(var(--cr)) translateY(var(--cy));
+    transition: transform .6s cubic-bezier(.2,.9,.25,1.15), box-shadow .3s, border-color .3s;
+    transition-delay: var(--d);
+    display: flex; flex-direction: column; gap: 6px; font-size: 13px; line-height: 1.45;
+  }
+  .fan.open .review-card { transform: rotate(var(--a)); }
+  .fan.open .review-card:hover { transform: rotate(var(--a)) translateY(-14px); border-color: #3a3a3a; z-index: 20; }
+  .review-stars { color: #ffc93c; letter-spacing: 2px; font-size: 13px; }
+  .review-text { color: #dcdcd8; flex: 1; overflow: hidden; }
+  .review-who { color: var(--muted); font-size: 12px; display: flex; justify-content: space-between; gap: 8px; }
+  .review-who b { color: var(--text); font-weight: 600; }
+  .review-tag { position: absolute; top: 10px; right: 10px; font-size: 10px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: #ffb86b; border: 1px solid rgba(255,184,107,.4); border-radius: 999px; padding: 2px 7px; }
+  /* carte de couverture, au-dessus de la pile */
+  .review-cover { align-items: center; justify-content: center; text-align: center; background: linear-gradient(160deg, #1b1b1b, #121212); border-color: #333; z-index: 30; transition: transform .5s, opacity .4s; }
+  .review-cover::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 3px; border-radius: 16px 16px 0 0; background: var(--stripe); }
+  .review-cover strong { font-family: Archivo, sans-serif; font-size: 30px; font-weight: 800; line-height: 1; }
+  .fan.open .review-cover { opacity: 0; transform: translateY(40px) scale(.9); pointer-events: none; }
+  .fan:not(.open):hover .review-cover { transform: translateY(-6px); }
+  .fan-hint { text-align: center; color: var(--muted); font-size: 13px; margin: 6px 0 0; }
+  @media (max-width: 600px) {
+    .fan { height: 250px; }
+    .review-card { --w: 168px; --h: 140px; top: 60px; padding: 12px; font-size: 12px; transform-origin: 50% 240%; }
+    .review-cover strong { font-size: 24px; }
+  }
+
+  /* Laisser un avis */
+  .rv-cta { text-align: center; margin-top: 18px; }
+  .rv-form { max-width: 460px; margin: 18px auto 0; padding: 20px; border-radius: 18px; background: #121212; border: 1px solid var(--line); display: grid; gap: 10px; }
+  .rv-form[hidden] { display: none; }
+  .rv-form h3 { font-size: 18px; }
+  .rv-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .rv-form input:not([type=radio]), .rv-form textarea { width: 100%; padding: 12px 14px; border-radius: 12px; border: 1px solid var(--line); background: #171717; color: var(--text); font: 500 14px Inter, sans-serif; outline: none; resize: vertical; }
+  .rv-form input:focus, .rv-form textarea:focus { border-color: var(--blue); }
+  .rv-form .bad { border-color: var(--red) !important; }
+  /* étoiles cliquables (ordre inversé pour colorer jusqu'à l'étoile choisie) */
+  .rv-stars { display: inline-flex; flex-direction: row-reverse; justify-content: flex-end; gap: 2px; }
+  .rv-stars input { position: absolute; opacity: 0; pointer-events: none; }
+  .rv-stars label { font-size: 28px; color: #3a3a3a; cursor: pointer; transition: color .15s, transform .15s; }
+  .rv-stars input:checked ~ label, .rv-stars label:hover, .rv-stars label:hover ~ label { color: #ffc93c; }
+  .rv-stars label:hover { transform: scale(1.15); }
+  .rv-stars input:focus-visible + label { outline: 2px solid var(--blue); border-radius: 4px; }
+  .rv-msg { margin: 0; font-size: 13px; min-height: 1.2em; color: var(--muted); }
+  .rv-msg.bad { color: #ff6b62; }
+  .rv-msg.ok { color: #6ee79a; }
+  .rv-note { margin: 0; font-size: 11.5px; line-height: 1.4; color: var(--muted); }
+  .rv-hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+
+  /* Formulaire de commande */
+  .order { position: fixed; inset: 0; z-index: 55; display: grid; place-items: center; padding: 16px; background: rgba(0,0,0,.7); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); }
+  .order[hidden] { display: none; }
+  .order-box { position: relative; width: min(560px, 100%); max-height: calc(100vh - 32px); overflow-y: auto; padding: 30px 26px 24px; border-radius: 22px; background: #101010; border: 1px solid var(--line); box-shadow: 0 40px 100px -30px #000; }
+  .order-box::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 3px; background: var(--stripe); border-radius: 22px 22px 0 0; }
+  .order-close { position: absolute; top: 16px; right: 16px; }
+  .order h2 { font-size: 26px; font-weight: 800; margin-bottom: 6px; }
+  .order-sum { color: var(--muted); margin: 0 0 18px; font-size: 14px; }
+  .order-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .order label { display: flex; flex-direction: column; gap: 6px; font-size: 13px; font-weight: 600; color: #cfcfcb; }
+  .order .f-full { grid-column: 1 / -1; }
+  .order input, .order select { height: 46px; padding: 0 14px; border-radius: 12px; border: 1px solid var(--line); background: #171717; color: var(--text); font: 500 15px Inter, sans-serif; outline: none; }
+  .order input:focus, .order select:focus { border-color: var(--blue); }
+  .order input.bad, .order select.bad { border-color: var(--red); }
+  .order-err { color: #ff6b62; font-size: 13px; min-height: 1.2em; margin: 12px 0 8px; }
+  .order-note { color: var(--muted); font-size: 12px; text-align: center; margin: 12px 0 0; }
+  .order-done { text-align: center; padding: 10px 0; }
+  .order-done p { color: var(--muted); }
+  .paypal-box { margin-top: 18px; padding: 16px; border-radius: 16px; background: #fff; min-height: 60px; }
+  .paypal-box:empty { display: none; }
+  .order-check { width: 64px; height: 64px; margin: 0 auto 16px; border-radius: 50%; display: grid; place-items: center; font-size: 30px; color: #fff; background: linear-gradient(135deg, var(--blue), var(--red)); }
+  /* mode de livraison */
+  .ship-modes { border: 0; margin: 4px 0 0; padding: 0; display: grid; gap: 8px; }
+  .ship-modes legend { padding: 0; margin-bottom: 8px; font-size: 13px; font-weight: 600; color: #cfcfcb; }
+  .order label.ship-mode { flex-direction: row; align-items: center; gap: 12px; padding: 12px 14px; border-radius: 12px; border: 1px solid var(--line); background: #171717; cursor: pointer; font-size: 14px; color: var(--text); transition: border-color .15s, background .15s; }
+  .order label.ship-mode:has(input:checked) { border-color: var(--blue); background: rgba(28,105,212,.1); }
+  .order .ship-mode input { height: auto; width: 18px; height: 18px; margin: 0; accent-color: var(--blue); }
+  .ship-mode span { flex: 1; }
+  .ship-mode em { font-style: normal; font-weight: 700; color: #6ee79a; white-space: nowrap; }
+  .ship-mode em.paid { color: var(--text); }
+  .ship-extra { display: grid; gap: 8px; }
+  .relais-find { justify-self: start; font-size: 13px; font-weight: 600; color: #7fb0ff; text-decoration: none; }
+  .relais-find:hover { text-decoration: underline; }
+  .ship-note { margin: 0; padding: 12px 14px; border-radius: 12px; background: #171717; color: var(--muted); font-size: 13px; }
+  .order [data-for][hidden] { display: none; }
+  @media (max-width: 520px) { .order-grid { grid-template-columns: 1fr; } }
+
+  /* Notification "ajouté au panier" */
+  .toast {
+    position: fixed; left: 50%; top: 80px; z-index: 50; transform: translate(-50%, -20px); opacity: 0; pointer-events: none;
+    padding: 12px 18px; border-radius: 999px; font-size: 14px; font-weight: 600; white-space: nowrap;
+    background: rgba(20,20,20,.92); border: 1px solid #2f2f2f; box-shadow: 0 16px 40px -14px rgba(0,0,0,.9);
+    transition: opacity .3s, transform .4s cubic-bezier(.2,.8,.2,1);
+  }
+  .toast.show { opacity: 1; transform: translate(-50%, 0); }
+  @media (max-width: 600px) { .nav-right { gap: 14px; } .add-row { flex-wrap: wrap; } .add-row .btn { flex: 1 1 100%; } }
+
+  /* Reveal */
+  .reveal { opacity: 0; transform: translateY(28px); filter: blur(6px); transition: opacity .9s cubic-bezier(.2,.8,.2,1), transform .9s cubic-bezier(.2,.8,.2,1), filter .9s cubic-bezier(.2,.8,.2,1); }
+  .reveal.in { opacity: 1; transform: none; filter: none; }
+
+  @media (max-width: 900px) {
+    /* même ordre et même alignement que sur PC : texte d'abord (à gauche), casquette ensuite */
+    .hero-grid { grid-template-columns: 1fr; min-height: 0; gap: 8px; }
+    .viewer { max-width: 520px; width: 100%; margin: 0 auto; }
+    .hero-bike { width: 150vw; right: -25vw; top: auto; bottom: 4%; opacity: .8; }
+    .product { grid-template-columns: 1fr; }
+    .product-info { padding: 32px 24px; }
+    .features { grid-template-columns: 1fr 1fr; }
+    .steps { grid-template-columns: 1fr; }
+    .checkout { grid-template-columns: 1fr; padding: 40px 24px; gap: 28px; }
+    section { padding: 72px 0; }
+  }
+  @media (max-width: 600px) {
+    .wrap { padding: 0 16px; }
+    /* menu complet comme sur PC, en plus compact */
+    .nav ul { gap: 10px; }
+    .nav ul a { font-size: 12px; }
+    .logo { font-size: 14px; letter-spacing: .02em; }
+    .nav-right { gap: 8px; }
+    .cart-btn { width: 36px; height: 36px; }
+    .cart-btn svg { width: 18px; height: 18px; }
+    .hero { padding-top: 28px; }
+    .hero p.lead { font-size: 16px; }
+    .hero-actions .btn { flex: 1 1 100%; }
+    .chips { margin-top: 22px; }
+    /* cartes en grille 2 colonnes comme sur PC (4 colonnes) */
+    .features { grid-template-columns: 1fr 1fr; gap: 10px; }
+    .feature { padding: 18px 14px; }
+    .feature .icon { width: 38px; height: 38px; margin-bottom: 14px; }
+    .feature h3 { font-size: 15px; }
+    .feature p { font-size: 13px; line-height: 1.5; }
+    /* étapes compactes : numéro à gauche, texte à droite */
+    .steps { gap: 0; }
+    .steps li { display: grid; grid-template-columns: 58px 1fr; column-gap: 10px; padding: 20px 2px; }
+    .steps li::before { grid-row: span 2; font-size: 34px; margin: 2px 0 0; }
+    .steps h3 { font-size: 18px; margin-bottom: 4px; }
+    .steps p { font-size: 14px; }
+    .checkout { padding: 36px 16px; }
+    .pay-card { padding: 22px 18px; }
+    /* barre du bas sur une seule ligne */
+    .buybar { padding: 6px 6px 6px 16px; }
+    .buybar span { font-size: 13px; white-space: nowrap; }
+    .buybar .btn { height: 40px; padding: 0 16px; font-size: 13px; white-space: nowrap; }
+    .buybar .hide-sm { display: none; }
+    section { padding: 60px 0; }
+    .section-head { margin-bottom: 28px; }
+  }
+  @media (max-width: 350px) {
+    .nav ul li:first-child { display: none; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .reveal { opacity: 1; transform: none; filter: none; transition: none; }
+    .hero-bike, .hero-bike *, .hero-text > *, .hero h1 span, .viewer, .marquee-track { animation: none !important; }
+    .btn, .feature { transition: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="gate" id="intro" role="dialog" aria-label="Bienvenue sur RR.FACTORY">
+  <div>
+    <div class="intro-logo">RR<span class="dot">.</span>FACTORY</div>
+    <span class="stripe" aria-hidden="true"></span>
+    <button type="button" class="intro-enter" id="intro-enter">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H2v6h4l5 4V5Z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M19 5a10 10 0 0 1 0 14"/></svg>
+      Entrer
+    </button>
+    <button type="button" class="intro-mute" id="intro-mute">Entrer sans le son</button>
+  </div>
+</div>
+<noscript><style>.gate { display: none; } .intro-open body { overflow: auto; } .intro-open .hero-text > *, .intro-open .hero h1 span, .intro-open .viewer { animation-play-state: running; }</style></noscript>
+<script>
+// --- Écran d'entrée + vrai bruit de moto ---
+// Son principal : enregistrement réel "Motorcycle starts the ride" (Mixkit, licence gratuite
+// effets sonores). Si le fichier ne se charge pas (hors ligne…), un moteur de secours est
+// fabriqué par le navigateur (Web Audio).
+(function () {
+  const intro = document.getElementById('intro');
+  const html = document.documentElement;
+  const engine = new Audio('https://assets.mixkit.co/active_storage/sfx/2731/2731-preview.mp3');
+  engine.preload = 'auto'; engine.volume = 1;
+  let engineFailed = false;
+  engine.addEventListener('error', () => { engineFailed = true; });
+
+  function rev() {
+    const AC = window.AudioContext || window.webkitAudioContext;
+    if (!AC) return;
+    const ac = new AC(), t = ac.currentTime, END = 2.7;
+
+    // régime du moteur (Hz de la note de base) : ralenti → montée → passage → grosse montée → retombée
+    const rpm = (param, k) => {
+      param.setValueAtTime(36 * k, t);
+      param.exponentialRampToValueAtTime(150 * k, t + 0.75);
+      param.exponentialRampToValueAtTime(95 * k, t + 1.1);
+      param.exponentialRampToValueAtTime(215 * k, t + 1.85);
+      param.exponentialRampToValueAtTime(48 * k, t + END);
+    };
+
+    const master = ac.createGain();
+    master.gain.setValueAtTime(0.0001, t);
+    master.gain.exponentialRampToValueAtTime(0.55, t + 0.06);
+    master.gain.setValueAtTime(0.55, t + 1.9);
+    master.gain.exponentialRampToValueAtTime(0.0001, t + END);
+
+    // saturation douce = grain de l'échappement
+    const shaper = ac.createWaveShaper(), curve = new Float32Array(1024), K = 9;
+    for (let i = 0; i < 1024; i++) { const x = i / 512 - 1; curve[i] = ((1 + K) * x) / (1 + K * Math.abs(x)); }
+    shaper.curve = curve;
+
+    const lp = ac.createBiquadFilter();
+    lp.type = 'lowpass'; lp.Q.value = 6;
+    lp.frequency.setValueAtTime(500, t);
+    lp.frequency.exponentialRampToValueAtTime(2200, t + 0.75);
+    lp.frequency.exponentialRampToValueAtTime(1100, t + 1.1);
+    lp.frequency.exponentialRampToValueAtTime(3200, t + 1.85);
+    lp.frequency.exponentialRampToValueAtTime(600, t + END);
+
+    // pulsations d'allumage : modulation d'amplitude à la moitié du régime
+    const am = ac.createGain(); am.gain.value = 0.6;
+    const lfo = ac.createOscillator(); lfo.type = 'square'; rpm(lfo.frequency, 0.5);
+    const lfoDepth = ac.createGain(); lfoDepth.gain.value = 0.45;
+    lfo.connect(lfoDepth).connect(am.gain);
+
+    const oscs = [['sawtooth', 1, 0.5], ['square', 0.5, 0.35], ['sawtooth', 2.01, 0.18]].map(([type, k, vol]) => {
+      const o = ac.createOscillator(), g = ac.createGain();
+      o.type = type; rpm(o.frequency, k); g.gain.value = vol;
+      o.connect(g).connect(am);
+      return o;
+    });
+
+    // souffle d'échappement (bruit filtré)
+    const noise = ac.createBufferSource(), buf = ac.createBuffer(1, ac.sampleRate * END, ac.sampleRate), d = buf.getChannelData(0);
+    for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1;
+    noise.buffer = buf;
+    const bp = ac.createBiquadFilter(); bp.type = 'bandpass'; bp.frequency.value = 900; bp.Q.value = 0.8;
+    const ng = ac.createGain(); ng.gain.value = 0.12;
+    noise.connect(bp).connect(ng).connect(shaper);
+
+    am.connect(shaper).connect(lp).connect(master).connect(ac.destination);
+    [lfo, noise, ...oscs].forEach((n) => { n.start(t); n.stop(t + END); });
+    setTimeout(() => ac.close(), (END + 0.3) * 1000);
+  }
+
+  // La moto démarre et part : on saute le ralenti du début (3 s → fin, ≈ 3 s), pic au départ vers 5 s
+  function blip() {
+    engine.currentTime = 3;
+    engine.volume = 1;
+    return engine.play();
+  }
+
+  function enter(withSound) {
+    if (intro.classList.contains('leave')) return;
+    if (withSound) {
+      const fallback = () => { try { rev(); } catch (e) { /* pas de son possible : on entre quand même */ } };
+      if (engineFailed) fallback();
+      else blip().catch(fallback);
+    }
+    intro.classList.add('leave');
+    html.classList.remove('intro-open');
+    setTimeout(() => intro.remove(), 1000);
+  }
+
+  document.getElementById('intro-enter').addEventListener('click', () => enter(true));
+  document.getElementById('intro-mute').addEventListener('click', () => enter(false));
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') enter(false); });
+  document.getElementById('intro-enter').focus({ preventScroll: true });
+})();
+</script>
+
+<a class="skip" href="#casquette">Aller au contenu</a>
+
+<header id="top">
+  <div class="wrap nav">
+    <a href="#top" class="logo">RR<span class="dot">.</span>FACTORY</a>
+    <div class="nav-right">
+      <nav aria-label="Navigation principale">
+        <ul>
+          <li><a href="#casquette">Casquette</a></li>
+          <li><a href="#details">Détails</a></li>
+          <li><a href="#commander" class="cta-small">Commander</a></li>
+        </ul>
+      </nav>
+      <button type="button" class="cart-btn" id="cart-open" aria-label="Ouvrir le panier">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 8h14l-1.2 11.1a2 2 0 0 1-2 1.9H8.2a2 2 0 0 1-2-1.9L5 8Z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>
+        <span class="cart-count" id="cart-count">0</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <!-- Hero -->
+  <div class="hero">
+    <!-- Superbike générique en dessin au trait, en fond (aucune marque) -->
+    <svg class="hero-bike" viewBox="0 0 1200 600" aria-hidden="true" fill="none" stroke="url(#bikeGrad)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+      <defs>
+        <linearGradient id="bikeGrad" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0" stop-color="#1c69d4"/>
+          <stop offset="0.55" stop-color="#f2f2f0"/>
+          <stop offset="1" stop-color="#e1251b"/>
+        </linearGradient>
+        <!-- dégradés des néons : vifs contre la moto, qui s'éteignent vers l'arrière -->
+        <linearGradient id="neonRed" gradientUnits="userSpaceOnUse" x1="1000" y1="0" x2="1950" y2="0">
+          <stop offset="0" stop-color="#ff3b30"/><stop offset="1" stop-color="#e1251b" stop-opacity="0"/>
+        </linearGradient>
+        <linearGradient id="neonBlue" gradientUnits="userSpaceOnUse" x1="1000" y1="0" x2="1850" y2="0">
+          <stop offset="0" stop-color="#3d8bff"/><stop offset="1" stop-color="#1c69d4" stop-opacity="0"/>
+        </linearGradient>
+        <filter id="neonGlow" x="-10%" y="-200%" width="120%" height="500%">
+          <feGaussianBlur stdDeviation="7" result="b"/>
+          <feMerge><feMergeNode in="b"/><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+      </defs>
+      <!-- traînées néon derrière la moto (elle roule vers la gauche) -->
+      <g class="neon" filter="url(#neonGlow)" stroke-width="3">
+        <path class="neon-core" d="M1018 186 H1950" stroke="url(#neonRed)"/>
+        <path class="neon-core" d="M1008 232 H1780" stroke="url(#neonBlue)"/>
+        <path class="neon-core" d="M1000 300 H1700" stroke="url(#neonBlue)" stroke-width="2"/>
+        <path class="neon-core" d="M1052 440 H1880" stroke="url(#neonRed)" stroke-width="4"/>
+        <path class="neon-core" d="M1040 500 H1620" stroke="url(#neonBlue)" stroke-width="2"/>
+      </g>
+      <!-- sol -->
+      <path class="bike-ground" d="M120 560 H1100" opacity=".35"/>
+      <!-- roue avant : pneu, jante 5 doubles branches, disque -->
+      <g class="wheel wheel-f">
+        <circle cx="300" cy="440" r="118"/><circle cx="300" cy="440" r="100"/>
+        <circle cx="300" cy="440" r="62" stroke-dasharray="6 7"/><circle cx="300" cy="440" r="20"/>
+        <path d="M300 420 L296 340 M300 420 L304 340 M319 434 L394 410 M319 434 L392 418 M312 456 L360 520 M312 456 L354 524 M288 456 L246 524 M288 456 L240 520 M281 434 L208 418 M281 434 L206 410"/>
+      </g>
+      <!-- roue arrière -->
+      <g class="wheel wheel-r">
+        <circle cx="930" cy="440" r="118"/><circle cx="930" cy="440" r="100"/>
+        <circle cx="930" cy="440" r="40"/><circle cx="930" cy="440" r="20"/>
+        <path d="M930 420 L926 340 M930 420 L934 340 M949 434 L1024 410 M949 434 L1022 418 M942 456 L990 520 M942 456 L984 524 M918 456 L876 524 M918 456 L870 520 M911 434 L838 418 M911 434 L836 410"/>
+      </g>
+      <g class="bike-body">
+      <!-- garde-boue avant + fourche -->
+      <path d="M205 392 A128 128 0 0 1 382 346"/>
+      <path d="M300 440 L386 214 M318 446 L403 221"/>
+      <!-- carénage, réservoir, selle, coque arrière -->
+      <path d="M212 262 L262 230 L362 184 L444 150 L474 176 L560 190 C620 168 700 168 762 194 L900 204 L1014 172 L1022 188 L962 236 L862 262 L782 302 L702 362 L520 382 L430 342 L380 304 L292 292 L238 286 Z"/>
+      <!-- bulle, guidon, rétro -->
+      <path d="M362 184 L398 150 L444 150"/><path d="M428 176 L476 166"/><path d="M372 182 L360 166 L382 162"/>
+      <!-- optique effilée (fente) + prise d'air -->
+      <path d="M232 256 L300 230"/><path d="M226 276 L262 272"/>
+      <!-- découpes du flanc de carénage -->
+      <path d="M420 232 L522 252 L562 322"/><path d="M452 270 L540 286"/><path d="M470 304 L548 314 L520 360"/>
+      <!-- bas du réservoir et selle -->
+      <path d="M560 190 L600 250 L760 250"/><path d="M762 194 L782 214 L900 208"/>
+      <!-- bras oscillant, chaîne, amortisseur -->
+      <path d="M700 344 L930 424 L934 452 L700 374 Z"/>
+      <path d="M700 336 L930 400 M706 386 L930 480" opacity=".6"/>
+      <path d="M762 300 L802 378"/>
+      <!-- échappement court -->
+      <path d="M690 386 L822 346 L842 366 L714 406 Z"/><path d="M822 346 L842 366"/>
+      <!-- repose-pied, feu arrière, support de plaque -->
+      <circle cx="722" cy="330" r="6"/><path d="M998 180 L1016 188"/><path d="M962 236 L992 300 L1010 300"/>
+      </g>
+    </svg>
+    <div class="wrap hero-grid">
+      <div class="hero-text">
+        <span class="stripe" aria-hidden="true"></span>
+        <div class="eyebrow">RR.FACTORY · Marseille</div>
+        <h1>La casquette.<br><span>De près.</span></h1>
+        <p class="lead">Noire, brodée, sobre. Glisse sur la casquette pour la faire tourner.</p>
+        <div class="hero-actions">
+          <a href="#commander" class="btn btn-primary" data-add-to-cart>Ajouter au panier · 50 €</a>
+          <a href="#details" class="btn btn-ghost">Voir les détails</a>
+        </div>
+        <ul class="chips">
+          <li>Noire</li>
+          <li>Taille unique</li>
+          <li>Fermeture snap</li>
+        </ul>
+      </div>
+      <div class="viewer" id="viewer" aria-label="Casquette en 3D, glisse pour la faire tourner" role="img">
+        <!-- STOCK : en ligne, vient du Google Sheet et baisse tout seul ; sinon data-left (data-total = stock de départ) -->
+        <div class="stock" id="stock" data-total="13" data-left="13" role="status">
+          <span class="stock-dot" aria-hidden="true"></span>
+          <span class="stock-text">En stock</span>
+          <span class="stock-bar" aria-hidden="true"><i></i></span>
+        </div>
+        <div class="hint">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 12H3m0 0 3-3m-3 3 3 3M16 12h5m0 0-3-3m3 3-3 3"/></svg>
+          Glisse pour tourner
+        </div>
+        <div class="fallback">La vue 3D n’est pas disponible sur cet appareil.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bandeau défilant (contenu doublé pour une boucle sans couture) -->
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee-track">
+      <span>Brodé en relief</span><span>Taille unique</span><span>Fermeture snap</span><span>Livraison offerte en point relais</span><span>Expédiée depuis Marseille</span><span>RR.FACTORY</span>
+      <span>Brodé en relief</span><span>Taille unique</span><span>Fermeture snap</span><span>Livraison offerte en point relais</span><span>Expédiée depuis Marseille</span><span>RR.FACTORY</span>
+    </div>
+  </div>
+
+  <!-- Produit -->
+  <section id="casquette">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div>
+          <div class="eyebrow">Le produit</div>
+          <h2>La casquette</h2>
+        </div>
+      </div>
+      <article class="product reveal">
+        <div class="product-visual">
+          <!-- Visuel 2D rendu depuis le modèle 3D (voir "Visuel 2D" dans le script 3D) ; sans WebGL, le dessin reste -->
+          <img id="product-shot" alt="Casquette noire RR.FACTORY, rendu de face trois quarts" hidden>
+          <svg viewBox="0 0 400 260" aria-hidden="true">
+            <defs>
+              <linearGradient id="crown" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#3a3a3a"/><stop offset="0.55" stop-color="#1a1a1a"/><stop offset="1" stop-color="#0c0c0c"/>
+              </linearGradient>
+              <linearGradient id="brim" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#2a2a2a"/><stop offset="1" stop-color="#0a0a0a"/>
+              </linearGradient>
+            </defs>
+            <path d="M70 170 C70 70 140 30 210 30 C290 30 340 90 340 170 Z" fill="url(#crown)"/>
+            <path d="M205 31 C190 70 186 120 190 170" stroke="#2c2c2c" stroke-width="2" fill="none"/>
+            <path d="M130 50 C110 90 104 130 106 170" stroke="#262626" stroke-width="2" fill="none"/>
+            <path d="M282 52 C300 90 308 130 306 170" stroke="#262626" stroke-width="2" fill="none"/>
+            <circle cx="210" cy="31" r="7" fill="#1e1e1e"/>
+            <text x="200" y="118" text-anchor="middle" font-family="Archivo, sans-serif" font-weight="800" font-size="22" fill="#3a3a3a" letter-spacing="2">RR<tspan fill="#e1251b">.</tspan>FACTORY</text>
+            <rect x="160" y="128" width="40" height="3" fill="#1c69d4"/><rect x="200" y="128" width="40" height="3" fill="#e1251b"/>
+            <path d="M40 176 C80 160 260 158 330 168 C380 176 392 196 360 210 C300 236 120 232 60 206 C30 194 22 184 40 176 Z" fill="url(#brim)"/>
+            <path d="M60 184 C110 172 260 170 330 180" stroke="#2a2a2a" stroke-width="1.5" stroke-dasharray="3 4" fill="none"/>
+          </svg>
+        </div>
+        <div class="product-info">
+          <div class="eyebrow">RR.FACTORY</div>
+          <h3>Casquette noire</h3>
+          <div class="price">50 €</div>
+          <p>Tissu noir mat, logo brodé en relief ton sur ton, étiquette sur le côté et fermeture snap réglable à l’arrière.</p>
+          <ul class="specs">
+            <li><span>Couleur</span><span>Noir mat</span></li>
+            <li><span>Taille</span><span>Unique, réglable</span></li>
+            <li><span>Logo</span><span>Brodé en relief</span></li>
+            <li><span>Fermeture</span><span>Snap à l’arrière</span></li>
+          </ul>
+          <div class="add-row">
+            <div class="qty" id="product-qty" aria-label="Quantité">
+              <button type="button" data-step="-1" aria-label="Moins">−</button><span>1</span><button type="button" data-step="1" aria-label="Plus">+</button>
+            </div>
+            <a href="#commander" class="btn btn-primary" data-add-to-cart data-from="product">Ajouter au panier</a>
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- Détails -->
+  <section id="details" style="background: var(--bg-2);">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div>
+          <div class="eyebrow">Détails</div>
+          <h2>Ce qui fait la différence</h2>
+        </div>
+      </div>
+      <div class="features">
+        <div class="feature reveal">
+          <div class="icon"><svg viewBox="0 0 24 24"><path d="M4 20 20 4M7 20l13-13M4 17 17 4"/></svg></div>
+          <h3>Broderie en relief</h3>
+          <p>Le logo est brodé, pas imprimé. Il reste net, même après des mois.</p>
+        </div>
+        <div class="feature reveal">
+          <div class="icon"><svg viewBox="0 0 24 24"><path d="M3 15c4-5 14-5 18 0"/><path d="M3 15c3 2 15 2 18 0"/></svg></div>
+          <h3>Visière courbée</h3>
+          <p>La courbe est déjà formée. Tu la portes directement.</p>
+        </div>
+        <div class="feature reveal">
+          <div class="icon"><svg viewBox="0 0 24 24"><rect x="3" y="9" width="18" height="6" rx="3"/><circle cx="8" cy="12" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="16" cy="12" r="1"/></svg></div>
+          <h3>Fermeture snap</h3>
+          <p>Une seule taille : le snap à l’arrière s’ajuste à toutes les têtes.</p>
+        </div>
+        <div class="feature reveal">
+          <div class="icon"><svg viewBox="0 0 24 24"><path d="M12 3v18" stroke-dasharray="2 3"/><path d="M8 3v18M16 3v18"/></svg></div>
+          <h3>Coutures renforcées</h3>
+          <p>Panneaux assemblés avec un double point, pour tenir dans le temps.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Étapes -->
+  <section id="etapes">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div>
+          <div class="eyebrow">Simple</div>
+          <h2>Comment commander</h2>
+        </div>
+      </div>
+      <ol class="steps">
+        <li class="reveal"><h3>Clique sur Payer</h3><p>En bas de la page, en un clic.</p></li>
+        <li class="reveal"><h3>Paie avec PayPal</h3><p>Paiement sécurisé par PayPal : compte PayPal, carte bancaire sans compte, 4X ou virement.</p></li>
+        <li class="reveal"><h3>Tu reçois ta casquette</h3><p>Confirmation par e-mail, puis livraison chez toi.</p></li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- Avis clients : publiés directement (Google Sheet), pile de cartes qui s'ouvre en éventail au clic (script "Avis") -->
+  <section id="avis" class="reviews" style="padding-top: 0;">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div>
+          <div class="eyebrow">Avis</div>
+          <h2>Ce qu'ils en disent</h2>
+        </div>
+      </div>
+      <div class="fan" id="fan" role="button" tabindex="0" aria-expanded="false" aria-label="Ouvrir les avis clients"></div>
+      <p class="fan-hint" id="fan-hint">Clique sur les cartes pour les ouvrir</p>
+      <div class="rv-cta"><button type="button" class="btn btn-ghost" id="rv-open">✍️ Laisser un avis</button></div>
+      <form class="rv-form" id="rv-form" hidden novalidate>
+        <h3>Ton avis sur la casquette</h3>
+        <div class="rv-stars" role="radiogroup" aria-label="Note">
+          <input type="radio" name="note" id="rv5" value="5" checked><label for="rv5" title="5">★</label>
+          <input type="radio" name="note" id="rv4" value="4"><label for="rv4" title="4">★</label>
+          <input type="radio" name="note" id="rv3" value="3"><label for="rv3" title="3">★</label>
+          <input type="radio" name="note" id="rv2" value="2"><label for="rv2" title="2">★</label>
+          <input type="radio" name="note" id="rv1" value="1"><label for="rv1" title="1">★</label>
+        </div>
+        <div class="rv-row">
+          <input name="prenom" placeholder="Prénom *" required maxlength="30" aria-label="Prénom">
+          <input name="ville" placeholder="Ville" maxlength="30" aria-label="Ville">
+        </div>
+        <textarea name="avis" placeholder="Ton avis *" required minlength="10" maxlength="300" rows="3" aria-label="Ton avis"></textarea>
+        <input class="rv-hp" name="site" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <p class="rv-msg" id="rv-msg" role="status"></p>
+        <button type="submit" class="btn btn-primary" id="rv-send">Publier mon avis</button>
+        <p class="rv-note">Les avis sont publiés immédiatement, sans contrôle préalable. RR.FACTORY peut retirer un avis injurieux ou sans rapport avec le produit.</p>
+      </form>
+    </div>
+  </section>
+
+  <!-- Commander : paiement PayPal -->
+  <section id="commander" style="padding-top: 0;">
+    <div class="wrap">
+      <div class="checkout reveal">
+        <div class="intro">
+          <div class="eyebrow">Commander</div>
+          <h2>Paie avec PayPal.</h2>
+          <p>Tout se passe ici, sur le site. Tu choisis la quantité et ta livraison, tu paies comme tu veux (PayPal, carte bancaire, 4X, virement…), c’est envoyé.</p>
+          <ul class="reassure">
+            <li><svg viewBox="0 0 24 24"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>Paiement 100 % sécurisé</li>
+            <li><svg viewBox="0 0 24 24"><path d="M3 7h11v9H3zM14 10h4l3 3v3h-7"/><circle cx="7" cy="18" r="1.6"/><circle cx="17" cy="18" r="1.6"/></svg>Livraison offerte en point relais · expédiée depuis Marseille</li>
+            <li><svg viewBox="0 0 24 24"><path d="M4 6h16v12H4z"/><path d="m4 7 8 6 8-6"/></svg>Confirmation par e-mail</li>
+          </ul>
+        </div>
+        <div class="pay-card">
+          <div class="pay-line"><span>Article</span><span>Casquette noire RR.FACTORY</span></div>
+          <div class="pay-line"><span>Taille</span><span>Unique, réglable</span></div>
+          <div class="pay-line"><span>Quantité</span>
+            <div class="qty qty-sm" id="pay-qty" aria-label="Quantité">
+              <button type="button" data-step="-1" aria-label="Moins">−</button><span>1</span><button type="button" data-step="1" aria-label="Plus">+</button>
+            </div>
+          </div>
+          <div class="pay-line"><span>Livraison (point relais)</span><span id="pay-ship">Offerte</span></div>
+          <div class="pay-line promo-line" id="pay-discount-line"><span id="pay-discount-label">Réduction</span><span id="pay-discount">−0 €</span></div>
+          <div class="pay-total"><span>Total</span><b id="pay-total">50 €</b></div>
+          <!-- ouvre le formulaire de commande, puis le paiement PayPal -->
+          <a href="#" class="btn btn-pay" id="pay-btn" role="button">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="5" width="19" height="14" rx="2.5"/><path d="M2.5 10h19M6.5 15h4"/></svg>
+            Payer avec PayPal · 50 €
+          </a>
+          <div class="cards" aria-label="Moyens de paiement acceptés">
+            <span>PAYPAL</span><span>CB</span><span>VISA</span><span>MASTERCARD</span><span>AMEX</span><span>4X PAYPAL</span><span>SEPA</span><span>BANCONTACT</span><span>IDEAL</span>
+          </div>
+          <div class="secure"><svg viewBox="0 0 24 24"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>Paiement sécurisé par PayPal</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TikTok -->
+  <section class="social" id="tiktok" aria-label="TikTok RR.FACTORY">
+    <div class="wrap">
+      <a class="tiktok-card reveal" href="https://www.tiktok.com/@rr.factory" target="_blank" rel="noopener">
+        <span class="tiktok-logo" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><defs><path id="tt-note" d="M12.53.02C13.84 0 15.14.01 16.44 0c.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></defs><use href="#tt-note" class="tt-b"/><use href="#tt-note" class="tt-r"/><use href="#tt-note" class="tt-w"/></svg>
+        </span>
+        <span class="tiktok-text">
+          <span class="eyebrow">TikTok</span>
+          <strong>Suis-nous sur TikTok</strong>
+          <span>@rr.factory · les drops, les coulisses et les livraisons en mains propres sur Marseille.</span>
+        </span>
+        <span class="btn btn-primary tiktok-btn">Voir le TikTok
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>
+        </span>
+      </a>
+
+      <!-- Snapchat, juste sous TikTok -->
+      <a class="tiktok-card snap-card reveal" href="https://www.snapchat.com/@rr.factory" target="_blank" rel="noopener">
+        <span class="tiktok-logo snap-logo" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M12 2.5c2.9 0 5.2 2.2 5.2 5.3v2.3c.4.1.9-.1 1.3-.3.6-.2 1.3.4.9 1-.4.5-1.4.8-2 1 .2 1.6 2 3.4 3.6 3.8.5.1.5.8 0 1-.8.4-1.9.4-2.3.7-.2.3-.1 1-.6 1.1-.7.1-1.6-.3-2.6.1-1.1.4-1.9 1.6-3.5 1.6s-2.4-1.2-3.5-1.6c-1-.4-1.9 0-2.6-.1-.5-.1-.4-.8-.6-1.1-.4-.3-1.5-.3-2.3-.7-.5-.2-.5-.9 0-1 1.6-.4 3.4-2.2 3.6-3.8-.6-.2-1.6-.5-2-1-.4-.6.3-1.2.9-1 .4.2.9.4 1.3.3V7.8c0-3.1 2.3-5.3 5.2-5.3Z"/></svg>
+        </span>
+        <span class="tiktok-text">
+          <span class="eyebrow">Snapchat</span>
+          <strong>Ajoute-nous sur Snap</strong>
+          <span>@rr.factory · le seul et unique compte officiel. Écris-nous en DM pour une question ou une collab.</span>
+        </span>
+        <span class="btn btn-primary tiktok-btn snap-btn">Ajouter sur Snap
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>
+        </span>
+      </a>
+    </div>
+  </section>
+</main>
+
+<footer class="hwf-root" id="hwf">
+  <canvas aria-hidden="true"></canvas>
+  <span class="hwf-sr">rr.factory</span>
+  <div class="hwf-top">
+    <div class="hwf-brand">
+      <strong>RR<span class="dot">.</span>FACTORY</strong>
+      <span>©2026 · Marseille</span>
+    </div>
+    <nav class="hwf-col" aria-label="Boutique">
+      <h3>Boutique</h3>
+      <ul>
+        <li><a href="#casquette">Casquette</a></li>
+        <li><a href="#details">Détails</a></li>
+        <li><a href="#commander">Commander</a></li>
+      </ul>
+    </nav>
+    <nav class="hwf-col" aria-label="Aide">
+      <h3>Aide</h3>
+      <ul>
+        <li><a href="#etapes">Comment commander</a></li>
+        <li><a href="#commander">Paiement PayPal</a></li>
+      </ul>
+    </nav>
+    <nav class="hwf-col" aria-label="Basé à">
+      <h3>Basé à</h3>
+      <ul>
+        <li><a href="#commander">Marseille</a></li>
+      </ul>
+    </nav>
+    <nav class="hwf-col" aria-label="Suivre">
+      <h3>Suivre</h3>
+      <ul>
+        <li><a href="https://www.tiktok.com/@rr.factory" target="_blank" rel="noopener">TikTok ↗</a></li>
+        <li><a href="https://www.snapchat.com/@rr.factory" target="_blank" rel="noopener">Snapchat ↗</a></li>
+      </ul>
+    </nav>
+  </div>
+  <div class="hwf-rule">
+    <span class="hwf-legal">Site non officiel, sans lien avec BMW AG.</span>
+    <button type="button" class="hwf-up" onclick="window.scrollTo({ top: 0, behavior: 'smooth' })">Haut de page ↑</button>
+  </div>
+</footer>
+
+<!-- Panier (panneau qui glisse depuis la droite) -->
+<div class="cart-overlay" id="cart-overlay"></div>
+<aside class="cart" id="cart" role="dialog" aria-modal="true" aria-label="Panier" aria-hidden="true">
+  <div class="cart-head">
+    <h2>Panier <span id="cart-head-count"></span></h2>
+    <button type="button" class="cart-close" id="cart-close" aria-label="Fermer le panier">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+    </button>
+  </div>
+  <div class="cart-body">
+    <div class="cart-empty" id="cart-empty">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 8h14l-1.2 11.1a2 2 0 0 1-2 1.9H8.2a2 2 0 0 1-2-1.9L5 8Z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>
+      <p>Ton panier est vide.</p>
+      <button type="button" class="btn btn-primary" data-add-to-cart>Ajouter la casquette · 50 €</button>
+    </div>
+    <div class="cart-item" id="cart-item">
+      <div class="cart-thumb"><img id="cart-thumb" alt=""></div>
+      <div class="cart-item-info">
+        <b>Casquette noire RR.FACTORY</b>
+        <span>Taille unique · Noir mat</span>
+        <div class="qty qty-sm" id="cart-qty" aria-label="Quantité">
+          <button type="button" data-step="-1" aria-label="Moins">−</button><span>1</span><button type="button" data-step="1" aria-label="Plus">+</button>
+        </div>
+      </div>
+      <div class="cart-item-side">
+        <b id="cart-line">50 €</b>
+        <button type="button" class="cart-remove" id="cart-remove">Retirer</button>
+      </div>
+    </div>
+    <p class="cart-note" id="cart-note"></p>
+  </div>
+  <div class="cart-foot" id="cart-foot">
+    <!-- Code promo : les codes valides sont dans PROMOS (script du panier) ; la réduction est envoyée à PayPal -->
+    <form class="promo" id="promo-form" autocomplete="off">
+      <input type="text" id="promo-input" placeholder="Code promo" aria-label="Code promo" maxlength="30" spellcheck="false">
+      <button type="submit" class="promo-apply">Appliquer</button>
+    </form>
+    <div class="promo-chip" id="promo-chip">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.6 13.4 13.4 20.6a2 2 0 0 1-2.8 0L3 13V3h10l7.6 7.6a2 2 0 0 1 0 2.8Z"/><circle cx="7.5" cy="7.5" r="1.5"/></svg>
+      <span id="promo-chip-text"></span>
+      <button type="button" id="promo-remove" aria-label="Retirer le code promo">×</button>
+    </div>
+    <p class="promo-msg" id="promo-msg" role="status"></p>
+    <div class="pay-line"><span>Sous-total</span><span id="cart-subtotal">0 €</span></div>
+    <div class="pay-line promo-line" id="cart-discount-line"><span id="cart-discount-label">Réduction</span><span id="cart-discount">−0 €</span></div>
+    <div class="pay-line"><span>Livraison (point relais)</span><span id="cart-ship">—</span></div>
+    <div class="pay-total"><span>Total</span><b id="cart-total">0 €</b></div>
+    <a href="#" class="btn btn-pay" id="cart-pay" role="button">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="5" width="19" height="14" rx="2.5"/><path d="M2.5 10h19M6.5 15h4"/></svg>
+      Payer avec PayPal
+    </a>
+    <div class="secure"><svg viewBox="0 0 24 24"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>Paiement sécurisé par PayPal</div>
+  </div>
+</aside>
+<!-- Formulaire de commande : coordonnées + livraison, puis paiement PayPal -->
+<div class="order" id="order" role="dialog" aria-modal="true" aria-labelledby="order-title" hidden>
+  <div class="order-box">
+    <button type="button" class="cart-close order-close" id="order-close" aria-label="Fermer">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+    </button>
+    <form id="order-form" novalidate>
+      <h2 id="order-title">Tes coordonnées</h2>
+      <p class="order-sum" id="order-sum"></p>
+      <div class="order-grid">
+        <label class="f-full">Nom et prénom *<input name="nom" required autocomplete="name"></label>
+        <label>E-mail *<input name="email" type="email" required autocomplete="email"></label>
+        <label>Téléphone *<input name="telephone" type="tel" required autocomplete="tel" pattern="[0-9+ .\(\)\-]{8,20}"></label>
+        <label class="f-full">Pays *
+          <select name="pays" required autocomplete="country-name">
+            <option>France</option><option>Belgique</option><option>Suisse</option><option>Luxembourg</option><option>Monaco</option><option>Autre</option>
+          </select>
+        </label>
+        <!-- modes et prix : MODES_LIVRAISON dans le script ; data-for = bloc affiché selon le mode -->
+        <fieldset class="f-full ship-modes">
+          <legend>Mode de livraison *</legend>
+          <label class="ship-mode"><input type="radio" name="livraison" value="relais-mr" checked><span>Point relais Mondial Relay</span><em data-price="relais-mr"></em></label>
+          <label class="ship-mode"><input type="radio" name="livraison" value="relais-chrono"><span>Point relais Chronopost</span><em data-price="relais-chrono"></em></label>
+          <label class="ship-mode"><input type="radio" name="livraison" value="domicile"><span>À domicile (Chronopost)</span><em data-price="domicile"></em></label>
+          <label class="ship-mode" data-mode="main-propre"><input type="radio" name="livraison" value="main-propre"><span>Remise en main propre à Marseille</span><em data-price="main-propre"></em></label>
+        </fieldset>
+        <div class="f-full ship-extra" data-for="relais">
+          <label>Point relais choisi *<input name="relais" required maxlength="160" placeholder="Nom, adresse ou n° du point relais"></label>
+          <a class="relais-find" id="relais-find" href="#" target="_blank" rel="noopener">Trouver mon point relais ↗</a>
+        </div>
+        <label class="f-full" data-for="domicile">Rue *<input name="rue" required autocomplete="address-line1"></label>
+        <label class="f-full" data-for="domicile">Complément d'adresse<input name="complement" autocomplete="address-line2" placeholder="Bâtiment, étage… (facultatif)"></label>
+        <label data-for="domicile">Code postal *<input name="code_postal" required autocomplete="postal-code" pattern="[0-9A-Za-z \-]{4,10}"></label>
+        <label data-for="domicile">Ville *<input name="ville" required autocomplete="address-level2"></label>
+        <p class="f-full ship-note" data-for="main-propre">On te contacte par téléphone pour fixer le rendez-vous à Marseille.</p>
+      </div>
+      <input type="hidden" name="commande"><input type="hidden" name="_subject">
+      <p class="order-err" id="order-err" role="alert"></p>
+      <button type="submit" class="btn btn-pay" id="order-submit">Valider ma commande</button>
+      <p class="order-note">* champs obligatoires · tes infos servent uniquement à l'envoi de ta casquette.</p>
+    </form>
+    <div class="order-done" id="order-done" hidden>
+      <div class="order-check">✓</div>
+      <h2>Commande enregistrée !</h2>
+      <p id="order-done-text"></p>
+      <div id="paypal-buttons" class="paypal-box"></div>
+      <p class="order-note" id="order-demo"></p>
+    </div>
+  </div>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<div class="buybar" id="buybar">
+  <span>Casquette noire · <b>50 €</b></span>
+  <a href="#commander" class="btn btn-primary" data-add-to-cart><span>Ajouter<span class="hide-sm"> au panier</span></span></a>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+<script>
+// --- Google Sheet : avis clients + stock en direct (voir GOOGLE-SHEETS-AVIS.gs) ---
+// À CONFIGURER : adresse de l'application Web Google Apps Script,
+// ex. https://script.google.com/macros/s/XXXXXXXX/exec
+// Tant que ce n'est pas configuré : mode démo (avis d'exemple, stock = data-left sur #stock).
+const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwaDpoD_gAakKwIxQKRbzBtVvQe1Dmyi73Ism33aLw4zJRMKlI1zjERb8irHOAcOZv0VQ/exec';
+const sheetLive = /^https:\/\/script\.google(usercontent)?\.com\//.test(GOOGLE_SCRIPT_URL);
+// une seule lecture au chargement, partagée par le stock et les avis : { avis: [...], stock, total }
+const sheetData = sheetLive
+  ? fetch(GOOGLE_SCRIPT_URL).then((r) => (r.ok ? r.json() : null)).catch(() => null)
+  : Promise.resolve(null);
+// envoi au Google Sheet (text/plain + no-cors : seul format accepté par Google depuis un autre site)
+const sheetSend = (data) => fetch(GOOGLE_SCRIPT_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(data) });
+
+// --- Stock affiché au-dessus de la casquette ---
+// En ligne : le chiffre vient du Google Sheet (onglet « Stock ») et baisse tout seul à chaque
+// paiement. Sinon : data-left sur #stock. showStock() prévient aussi le panier (événement rrf:stock).
+function showStock(left, total) {
+  const el = document.getElementById('stock');
+  if (!el) return;
+  if (total) el.dataset.total = total;
+  el.dataset.left = left = Math.max(0, Math.floor(left) || 0);
+  total = Math.max(1, parseInt(el.dataset.total, 10) || 1);
+  const text = el.querySelector('.stock-text');
+  el.classList.remove('low', 'out');
+  el.style.setProperty('--stock', Math.min(100, Math.round((left / total) * 100)) + '%');
+  document.dispatchEvent(new CustomEvent('rrf:stock', { detail: left }));
+  if (left === 0) {
+    el.classList.add('out');
+    text.textContent = 'Rupture de stock';
+    // plus de commande possible : boutons grisés et désactivés
+    document.querySelectorAll('.btn-pay, a.btn-primary[href="#commander"]').forEach((b) => {
+      b.classList.add('is-disabled'); b.setAttribute('aria-disabled', 'true'); b.setAttribute('tabindex', '-1');
+      if (b.classList.contains('btn-pay')) b.lastChild.textContent = ' Rupture de stock';
+      else b.textContent = 'Rupture de stock';
+    });
+  } else if (left <= 3) {
+    el.classList.add('low');
+    text.innerHTML = 'Plus que <b>' + left + '</b> en stock !';
+  } else {
+    text.innerHTML = 'En stock · <b>' + left + '</b> restantes';
+  }
+}
+// en ligne, on garde « En stock » le temps de lire le vrai chiffre (pas de faux 13 affiché)
+if (!sheetLive) showStock(parseInt(document.getElementById('stock').dataset.left, 10));
+sheetData.then((d) => { if (d && typeof d.stock === 'number') showStock(d.stock, d.total); });
+
+// --- Livraison (À ADAPTER) : modes proposés au client et prix en France, en euros ---
+// recherche = page officielle pour trouver un point relais ; franceSeulement = pas proposé à l'étranger.
+const MODES_LIVRAISON = {
+  'relais-mr': { nom: 'Point relais Mondial Relay', prix: 0, recherche: 'https://www.mondialrelay.fr/trouver-le-point-relais-le-plus-proche-de-chez-moi/' },
+  'relais-chrono': { nom: 'Point relais Chronopost', prix: 0, recherche: 'https://www.chronopost.fr/expeditionAvanceeSec/ounoustrouver.html' },
+  'domicile': { nom: 'À domicile (Chronopost)', prix: 8 },
+  'main-propre': { nom: 'Remise en main propre à Marseille', prix: 0, franceSeulement: true },
+};
+// hors de France : un prix par pays, quel que soit le mode (provisoire)
+const LIVRAISON_ETRANGER = { Monaco: 4.9, Belgique: 9.9, Luxembourg: 9.9, Suisse: 14.9, Autre: 14.9 };
+const shippingFor = (pays, goods, mode = 'relais-mr') => {
+  if (goods <= 0) return 0;
+  if (pays === 'France' || mode === 'main-propre') return (MODES_LIVRAISON[mode] || MODES_LIVRAISON['relais-mr']).prix;
+  return LIVRAISON_ETRANGER[pays] ?? LIVRAISON_ETRANGER.Autre;
+};
+const euroFmt = (n) => { n = Math.round(n * 100) / 100; return n.toLocaleString('fr-FR', { minimumFractionDigits: n % 1 ? 2 : 0, maximumFractionDigits: 2 }) + ' €'; };
+
+// --- Panier ---
+// Un seul produit : le panier retient une quantité (gardée dans le navigateur), plafonnée au
+// stock. Le panneau, le compteur de l'en-tête et le bloc paiement affichent le même total.
+(function () {
+  const PRICE = 50, KEY = 'rrf-cart', PROMO_KEY = 'rrf-promo';
+  // CODES PROMO : en majuscules. percent = % de remise, ou amount = € de remise par commande.
+  // La réduction est déduite du montant envoyé à PayPal (rien à créer chez PayPal).
+  const PROMOS = {
+    BIENVENUE10: { percent: 10 },
+  };
+  const stockEl = document.getElementById('stock');
+  let MAX = stockEl ? Math.max(0, parseInt(stockEl.dataset.left, 10) || 0) : 99;
+  const $ = (id) => document.getElementById(id);
+  const cart = $('cart'), overlay = $('cart-overlay'), openBtn = $('cart-open'), toast = $('toast');
+  const euro = euroFmt;
+  const shipText = (s) => (s ? euro(s) : 'Offerte');
+
+  let qty = 0;
+  try { qty = Math.min(MAX, Math.max(0, parseInt(localStorage.getItem(KEY), 10) || 0)); } catch (e) { /* navigation privée */ }
+  let pick = Math.min(1, MAX); // quantité choisie sur la fiche produit avant ajout
+
+  // le visuel du panier reprend la photo de la fiche produit
+  const photo = document.querySelector('.product-visual img');
+  if (photo) $('cart-thumb').src = photo.src;
+  let promo = '';
+  try { const p = localStorage.getItem(PROMO_KEY); if (p && PROMOS[p]) promo = p; } catch (e) { /* ignoré */ }
+  const discountOf = (sub) => {
+    const p = PROMOS[promo];
+    if (!p || sub <= 0) return 0;
+    const d = p.percent ? sub * p.percent / 100 : (p.amount || 0);
+    return Math.min(sub, Math.round(d * 100) / 100);
+  };
+  const promoLabel = () => { const p = PROMOS[promo]; return p ? (p.percent ? '−' + p.percent + ' %' : '−' + p.amount + ' €') : ''; };
+
+  function save() { try { localStorage.setItem(KEY, String(qty)); } catch (e) { /* ignoré */ } }
+
+  function setStepper(el, value, min, max) {
+    el.querySelector('span').textContent = value;
+    el.querySelector('[data-step="-1"]').disabled = value <= min;
+    el.querySelector('[data-step="1"]').disabled = value >= max;
+  }
+
+  function render() {
+    // la livraison affichée est celle du point relais en France ; le formulaire recalcule selon le mode et le pays
+    const sub = qty * PRICE, disc = discountOf(sub), ship = shippingFor('France', sub - disc), total = sub - disc + ship;
+    // code promo : champ ou étiquette, ligne de réduction
+    cart.classList.toggle('has-promo', !!promo);
+    document.querySelector('.pay-card').classList.toggle('has-promo', !!promo);
+    $('promo-chip-text').textContent = promo ? promo + ' · ' + promoLabel() : '';
+    $('cart-discount-label').textContent = 'Réduction (' + promo + ')';
+    $('cart-discount').textContent = '−' + euro(disc);
+    $('cart-count').textContent = qty;
+    openBtn.classList.toggle('has-items', qty > 0);
+    openBtn.setAttribute('aria-label', qty ? 'Ouvrir le panier (' + qty + ' article' + (qty > 1 ? 's' : '') + ')' : 'Ouvrir le panier');
+    cart.classList.toggle('is-empty', qty === 0);
+    $('cart-head-count').textContent = qty ? '(' + qty + ')' : '';
+    setStepper($('cart-qty'), qty, 1, MAX);
+    $('cart-line').textContent = euro(sub);
+    $('cart-subtotal').textContent = euro(sub);
+    $('cart-ship').textContent = qty ? shipText(ship) : '—';
+    $('cart-total').textContent = euro(total);
+    $('cart-note').textContent = MAX && qty >= MAX ? 'Tu as pris tout le stock disponible (' + MAX + ').' : '';
+    $('cart-pay').lastChild.textContent = ' Payer avec PayPal · ' + euro(total);
+    // bloc paiement : au moins 1 affiché pour que le total ait un sens
+    const shown = Math.max(qty, Math.min(1, MAX));
+    const shownSub = shown * PRICE, shownDisc = discountOf(shownSub), shownShip = shippingFor('France', shownSub - shownDisc);
+    const shownTotal = shownSub - shownDisc + shownShip;
+    setStepper($('pay-qty'), shown, 1, MAX);
+    $('pay-discount-label').textContent = 'Réduction (' + promo + ')';
+    $('pay-discount').textContent = '−' + euro(shownDisc);
+    $('pay-ship').textContent = shipText(shownShip);
+    $('pay-total').textContent = euro(shownTotal);
+    // détail lu par le formulaire de commande et PayPal (la livraison y est recalculée selon le pays)
+    Object.assign($('pay-total').dataset, { qty: shown, sub: shownSub, disc: shownDisc });
+    if (MAX > 0) $('pay-btn').lastChild.textContent = ' Payer avec PayPal · ' + euro(shownTotal);
+    setStepper($('product-qty'), pick, Math.min(1, MAX), Math.max(1, MAX - qty));
+  }
+
+  function setQty(n) { qty = Math.min(MAX, Math.max(0, n)); save(); render(); }
+
+  let lastFocus = null;
+  function open() {
+    lastFocus = document.activeElement;
+    cart.classList.add('open'); overlay.classList.add('open'); cart.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    setTimeout(() => $('cart-close').focus(), 50);
+  }
+  function close() {
+    cart.classList.remove('open'); overlay.classList.remove('open'); cart.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    if (lastFocus && lastFocus.focus) lastFocus.focus({ preventScroll: true });
+  }
+
+  let toastTimer = 0;
+  function notify(msg) {
+    toast.textContent = msg; toast.classList.add('show');
+    clearTimeout(toastTimer); toastTimer = setTimeout(() => toast.classList.remove('show'), 2200);
+  }
+
+  function add(n) {
+    if (MAX === 0) return;
+    const before = qty;
+    setQty(qty + n);
+    const added = qty - before;
+    openBtn.classList.remove('bump'); void openBtn.offsetWidth; openBtn.classList.add('bump');
+    notify(added > 0 ? '✓ Ajouté au panier' : 'Stock maximum atteint');
+    pick = Math.min(1, Math.max(0, MAX - qty)) || 1;
+    render();
+    open();
+  }
+
+  document.addEventListener('click', (e) => {
+    const addBtn = e.target.closest('[data-add-to-cart]');
+    if (addBtn) {
+      e.preventDefault();
+      if (addBtn.classList.contains('is-disabled')) return;
+      add(addBtn.dataset.from === 'product' ? pick : 1);
+      return;
+    }
+    const step = e.target.closest('.qty [data-step]');
+    if (step) {
+      const d = parseInt(step.dataset.step, 10), box = step.closest('.qty').id;
+      if (box === 'product-qty') { pick = Math.max(1, pick + d); render(); }
+      else if (box === 'pay-qty') setQty(Math.max(1, Math.max(qty, 1) + d));
+      else setQty(qty + d);
+    }
+  });
+  // payer depuis le bloc paiement avec un panier vide : on compte au moins une casquette
+  $('pay-btn').addEventListener('click', () => { if (qty === 0 && MAX > 0) setQty(1); });
+  $('cart-remove').addEventListener('click', () => setQty(0));
+  openBtn.addEventListener('click', open);
+  $('cart-close').addEventListener('click', close);
+  overlay.addEventListener('click', close);
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && cart.classList.contains('open')) close(); });
+
+  // Code promo : appliquer / retirer
+  const promoForm = $('promo-form'), promoInput = $('promo-input'), promoMsg = $('promo-msg');
+  function savePromo() { try { promo ? localStorage.setItem(PROMO_KEY, promo) : localStorage.removeItem(PROMO_KEY); } catch (e) { /* ignoré */ } }
+  promoForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const code = promoInput.value.trim().toUpperCase().replace(/\s+/g, '');
+    promoForm.classList.remove('error');
+    if (!code) { promoMsg.textContent = 'Entre un code promo.'; promoMsg.className = 'promo-msg bad'; return; }
+    if (!PROMOS[code]) {
+      void promoForm.offsetWidth; promoForm.classList.add('error');
+      promoMsg.textContent = 'Ce code n’est pas valide.'; promoMsg.className = 'promo-msg bad';
+      return;
+    }
+    promo = code; savePromo(); promoInput.value = '';
+    promoMsg.textContent = 'Code appliqué : ' + promoLabel() + ' sur ta commande.'; promoMsg.className = 'promo-msg';
+    render();
+  });
+  promoInput.addEventListener('input', () => { promoForm.classList.remove('error'); promoMsg.textContent = ''; });
+  $('promo-remove').addEventListener('click', () => {
+    promo = ''; savePromo(); promoMsg.textContent = 'Code promo retiré.'; promoMsg.className = 'promo-msg'; render();
+  });
+
+  if (MAX === 0) document.querySelectorAll('.qty button').forEach((b) => { b.disabled = true; });
+  render();
+  // stock mis à jour (lu dans le Google Sheet, ou après une vente) : le panier suit
+  document.addEventListener('rrf:stock', (e) => {
+    MAX = e.detail;
+    qty = Math.min(qty, MAX);
+    pick = Math.max(Math.min(1, MAX), Math.min(pick, MAX - qty));
+    save(); render();
+    if (MAX === 0) document.querySelectorAll('.qty button').forEach((b) => { b.disabled = true; });
+  });
+})();
+
+// --- UI : header, barre d'achat, apparitions ---
+(function () {
+  const header = document.querySelector('header');
+  const buybar = document.getElementById('buybar');
+  const hero = document.querySelector('.hero');
+  const contact = document.getElementById('commander');
+  const footer = document.getElementById('hwf');
+  let heroVisible = true, contactVisible = false, footerVisible = false;
+  const updateBar = () => buybar.classList.toggle('show', !heroVisible && !contactVisible && !footerVisible);
+
+  const onScroll = () => {
+    header.classList.toggle('scrolled', window.scrollY > 10);
+    const max = document.documentElement.scrollHeight - window.innerHeight;
+    document.documentElement.style.setProperty('--progress', max > 0 ? (window.scrollY / max).toFixed(4) : 0);
+  };
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  // Lien du menu allumé selon la section à l'écran
+  const navLinks = [...document.querySelectorAll('.nav ul a[href^="#"]')];
+  if ('IntersectionObserver' in window) {
+    const spy = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (!e.isIntersecting) return;
+        navLinks.forEach((a) => a.classList.toggle('active', a.getAttribute('href') === '#' + e.target.id));
+      });
+    }, { rootMargin: '-45% 0px -50% 0px' });
+    ['casquette', 'details', 'commander'].forEach((id) => { const s = document.getElementById(id); if (s) spy.observe(s); });
+  }
+
+  // Liens internes (#casquette, #details…) : défilement géré ici plutôt que par la navigation du navigateur
+  const smooth = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  document.addEventListener('click', (e) => {
+    const a = e.target.closest('a[href^="#"]');
+    if (!a || a.hasAttribute('data-add-to-cart')) return; // les boutons panier sont gérés par le panier
+    const target = document.getElementById(a.getAttribute('href').slice(1));
+    if (!target) return;
+    e.preventDefault();
+    target.scrollIntoView({ behavior: smooth ? 'smooth' : 'auto' });
+    try { history.replaceState(null, '', a.getAttribute('href')); } catch (err) { /* aperçu sans URL modifiable */ }
+  });
+
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(([e]) => { heroVisible = e.isIntersecting; updateBar(); }, { threshold: 0.15 }).observe(hero);
+    new IntersectionObserver(([e]) => { contactVisible = e.isIntersecting; updateBar(); }, { threshold: 0.2 }).observe(contact);
+    new IntersectionObserver(([e]) => { footerVisible = e.isIntersecting; updateBar(); }).observe(footer);
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (!e.isIntersecting) return;
+        const el = e.target;
+        el.classList.add('in'); io.unobserve(el);
+        // une fois apparu, on rend la main aux transitions de survol de l'élément
+        setTimeout(() => { el.classList.remove('reveal', 'in'); el.style.transitionDelay = ''; }, 1400);
+      });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach((el, i) => { el.style.transitionDelay = (i % 4) * 70 + 'ms'; io.observe(el); });
+  } else {
+    document.querySelectorAll('.reveal').forEach((el) => el.classList.add('in'));
+  }
+})();
+
+// --- Pied de page : mot géant en trame de points ---
+// Chaque point est dimensionné selon la part de la lettre qui couvre sa cellule.
+// Le pointeur écarte les points sur des ressorts (ils virent au bleu puis au rouge),
+// un clic envoie une onde. Le point de "rr.factory" est imprimé en rouge.
+(function () {
+  const root = document.getElementById('hwf');
+  const canvas = root && root.querySelector('canvas');
+  const ctx = canvas && canvas.getContext('2d');
+  if (!ctx) return;
+
+  const WORD = 'rr.factory';
+  const FONT = '800 {s}px Archivo, "Arial Black", sans-serif';
+  const BG = '#0b0b0b';
+  const INK = [242, 242, 240], BLUE = [28, 105, 212], RED = [225, 37, 27];
+  const RADIUS = 80, CROP = 0.04, GRAIN = 0.5; // CROP faible : le point rouge reste visible
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // Rayon d'un point pour une couverture 0–1 (fidèle à la surface)
+  const dotRadius = (c, gap) => Math.sqrt(Math.max(0, Math.min(1, c))) * gap * 0.56;
+  const mix = (a, b, t) => 'rgb(' + Math.round(a[0] + (b[0] - a[0]) * t) + ',' + Math.round(a[1] + (b[1] - a[1]) * t) + ',' + Math.round(a[2] + (b[2] - a[2]) * t) + ')';
+
+  let w = 0, h = 0, dpr = 1, px = -1e5, py = -1e5, raf = 0, visible = true, awake = true;
+  let ring = { x: 0, y: 0, t: -1 };
+  let dots = new Float32Array(0), count = 0, grainTile = null;
+  const STRIDE = 8; // x, y, vx, vy, hx, hy, r, rouge(0/1)
+
+  function layout() {
+    const rect = root.getBoundingClientRect();
+    w = Math.max(1, Math.round(rect.width));
+    h = Math.max(1, Math.round(rect.height));
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    canvas.width = Math.round(w * dpr);
+    canvas.height = Math.round(h * dpr);
+
+    // Le mot, à la taille qui remplit la largeur, sur deux masques : le mot entier et le point seul
+    const mk = () => { const c = document.createElement('canvas'); c.width = w; c.height = h; return c.getContext('2d', { willReadFrequently: true }); };
+    const m = mk(), md = mk();
+    m.font = FONT.replace('{s}', 100);
+    const fit = (w * 1.02 / m.measureText(WORD).width) * 100;
+    const font = FONT.replace('{s}', fit);
+    m.font = md.font = font;
+    const box = m.measureText(WORD);
+    const cap = box.actualBoundingBoxAscent || fit * 0.72;
+    const x0 = (w - box.width) / 2, y0 = h + cap * CROP;
+    m.fillText(WORD, x0, y0);
+    // Le point à sa vraie place (approche r/. comprise) : "rr." moins "rr"
+    md.fillText('rr.', x0, y0);
+    md.globalCompositeOperation = 'destination-out';
+    md.fillText('rr', x0, y0);
+    const img = m.getImageData(0, 0, w, h).data, imgDot = md.getImageData(0, 0, w, h).data;
+
+    const gap = w < 600 ? 4 : 6;
+    const cols = Math.ceil(w / gap), rows = Math.ceil(h / gap), tmp = [];
+    for (let gy = 0; gy < rows; gy++) for (let gx = 0; gx < cols; gx++) {
+      // Couverture : moyenne de l'alpha sur 3×3 échantillons de la cellule
+      let sum = 0, sumDot = 0;
+      for (let sy = 0; sy < 3; sy++) for (let sx = 0; sx < 3; sx++) {
+        const x = Math.min(w - 1, Math.floor(gx * gap + ((sx + 0.5) * gap) / 3));
+        const y = Math.min(h - 1, Math.floor(gy * gap + ((sy + 0.5) * gap) / 3));
+        const k = (y * w + x) * 4 + 3;
+        sum += img[k]; sumDot += imgDot[k];
+      }
+      const cov = sum / (9 * 255);
+      if (cov < 0.06) continue;
+      const hx = gx * gap + gap / 2, hy = gy * gap + gap / 2;
+      tmp.push(hx, hy, 0, 0, hx, hy, dotRadius(cov, gap), sumDot > sum * 0.5 ? 1 : 0);
+    }
+    dots = new Float32Array(tmp);
+    count = tmp.length / STRIDE;
+
+    // Grain d'impression, dessiné une fois puis posé sur chaque image
+    grainTile = document.createElement('canvas');
+    grainTile.width = grainTile.height = 256;
+    const g = grainTile.getContext('2d'), id = g.createImageData(256, 256);
+    for (let i = 0; i < id.data.length; i += 4) {
+      const v = Math.random() * 255;
+      id.data[i] = id.data[i + 1] = id.data[i + 2] = v;
+      id.data[i + 3] = Math.random() < 0.5 ? 0 : 255;
+    }
+    g.putImageData(id, 0, 0);
+    awake = true;
+  }
+
+  function draw(now) {
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.fillStyle = BG;
+    ctx.fillRect(0, 0, w, h);
+    const r = reduced ? 0 : RADIUS;
+    const ringAge = ring.t < 0 ? 1e9 : now - ring.t, ringR = ringAge * 0.9;
+    let moving = false;
+
+    for (let i = 0; i < count; i++) {
+      const j = i * STRIDE;
+      let x = dots[j], y = dots[j + 1], vx = dots[j + 2], vy = dots[j + 3];
+      const hx = dots[j + 4], hy = dots[j + 5];
+      if (!reduced) {
+        // Onde de choc après un clic
+        if (ringAge < 900) {
+          const dx = hx - ring.x, dy = hy - ring.y, d = Math.sqrt(dx * dx + dy * dy) + 0.001;
+          const band = 1 - Math.min(1, Math.abs(d - ringR) / 26);
+          if (band > 0) { const f = band * 3.2 * (1 - ringAge / 900); vx += (dx / d) * f; vy += (dy / d) * f; }
+        }
+        // Poussée du pointeur, puis ressort vers la position d'origine
+        const dx = x - px, dy = y - py, d2 = dx * dx + dy * dy;
+        if (r > 0 && d2 < r * r) { const d = Math.sqrt(d2) + 0.001, f = (1 - d / r) * 2.6; vx += (dx / d) * f; vy += (dy / d) * f; }
+        vx = (vx + (hx - x) * 0.05) * 0.84;
+        vy = (vy + (hy - y) * 0.05) * 0.84;
+        x += vx; y += vy;
+        if (Math.abs(vx) + Math.abs(vy) > 0.02 || Math.abs(x - hx) + Math.abs(y - hy) > 0.05) moving = true;
+        else { x = hx; y = hy; vx = 0; vy = 0; }
+        dots[j] = x; dots[j + 1] = y; dots[j + 2] = vx; dots[j + 3] = vy;
+      }
+      // Couleur : blanc cassé → bleu → rouge selon l'écart (le point rouge vire au bleu)
+      const k = Math.min(1, Math.hypot(x - hx, y - hy) / 28);
+      if (dots[j + 7]) ctx.fillStyle = k > 0.02 ? mix(RED, BLUE, k) : 'rgb(225,37,27)';
+      else if (k <= 0.02) ctx.fillStyle = 'rgb(242,242,240)';
+      else ctx.fillStyle = k < 0.5 ? mix(INK, BLUE, k * 2) : mix(BLUE, RED, (k - 0.5) * 2);
+      ctx.beginPath();
+      ctx.arc(x, y, dots[j + 6], 0, 6.2832);
+      ctx.fill();
+    }
+
+    if (grainTile && GRAIN > 0) {
+      ctx.globalAlpha = GRAIN * 0.09;
+      ctx.globalCompositeOperation = 'overlay';
+      const pattern = ctx.createPattern(grainTile, 'repeat');
+      if (pattern) { ctx.fillStyle = pattern; ctx.fillRect(0, 0, w, h); }
+      ctx.globalAlpha = 1;
+      ctx.globalCompositeOperation = 'source-over';
+    }
+    // En veille dès que tout est revenu en place et que rien ne pousse
+    awake = moving || ringAge < 900 || px > -1e4;
+  }
+
+  const loop = (now) => { raf = 0; if (!visible) return; draw(now); if (awake) raf = requestAnimationFrame(loop); };
+  const wake = () => { awake = true; if (!raf && visible) raf = requestAnimationFrame(loop); };
+  const toLocal = (e) => { const b = canvas.getBoundingClientRect(); return [e.clientX - b.left, e.clientY - b.top]; };
+
+  root.addEventListener('pointermove', (e) => { [px, py] = toLocal(e); wake(); });
+  root.addEventListener('pointerleave', () => { px = py = -1e5; wake(); });
+  root.addEventListener('pointerdown', (e) => {
+    if (reduced || e.target.closest('a,button')) return;
+    const p = toLocal(e);
+    ring = { x: p[0], y: p[1], t: performance.now() };
+    wake();
+  });
+
+  layout();
+  draw(performance.now());
+  wake();
+  new ResizeObserver(() => { layout(); wake(); }).observe(root);
+  new IntersectionObserver(([e]) => { visible = e ? e.isIntersecting : true; if (visible) wake(); }).observe(root);
+  // Recompose le mot dans la vraie police une fois Archivo chargée
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { layout(); wake(); });
+})();
+
+// --- Casquette 3D ---
+(function () {
+  const viewer = document.getElementById('viewer');
+  if (!window.THREE) { viewer.classList.add('no-webgl'); return; }
+
+  let renderer;
+  try {
+    renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+  } catch (e) { viewer.classList.add('no-webgl'); return; }
+
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.outputEncoding = THREE.sRGBEncoding;
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure = 1.0;
+  viewer.prepend(renderer.domElement);
+
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(32, 1, 0.1, 50);
+  camera.position.set(0, 1.7, 6.4);
+  camera.lookAt(0, 0.32, 0);
+
+  // Lumières : une principale, deux contre-jours pour détacher le noir du fond
+  scene.add(new THREE.HemisphereLight(0xffffff, 0x222222, 0.55));
+  const key = new THREE.DirectionalLight(0xffffff, 1.6); key.position.set(3, 4, 4); scene.add(key);
+  const rimL = new THREE.DirectionalLight(0xbfd4ff, 1.4); rimL.position.set(-4, 2, -3); scene.add(rimL);
+  const rimR = new THREE.DirectionalLight(0xffffff, 0.9); rimR.position.set(4, 1, -4); scene.add(rimR);
+
+  // Tissu sergé de coton : côtes diagonales irrégulières + fils chinés, en trois cartes
+  // (relief, teinte, brillance) tirées du même motif. Les UV sont en unités de longueur,
+  // donc le grain garde la même taille partout.
+  function fabricMaps() {
+    const N = 512;
+    const hRelief = new Float32Array(N * N), hTone = new Float32Array(N * N);
+    const rnd = (x, y) => { x = ((x % N) + N) % N; y = ((y % N) + N) % N; const s = Math.sin(x * 127.1 + y * 311.7) * 43758.5453; return s - Math.floor(s); };
+    // bruit lissé et raccordable (le motif se répète sans couture), sommé sur plusieurs échelles
+    const smooth = (x, y, cell) => {
+      const gx = Math.floor(x / cell), gy = Math.floor(y / cell), fx = x / cell - gx, fy = y / cell - gy;
+      const ux = fx * fx * (3 - 2 * fx), uy = fy * fy * (3 - 2 * fy), m = N / cell;
+      const v = (i, j) => rnd(((gx + i) % m) * cell, ((gy + j) % m) * cell);
+      return (v(0, 0) * (1 - ux) + v(1, 0) * ux) * (1 - uy) + (v(0, 1) * (1 - ux) + v(1, 1) * ux) * uy;
+    };
+    for (let y = 0; y < N; y++) for (let x = 0; x < N; x++) {
+      // Surface lisse et douce comme le modèle de référence : pas de côtes visibles,
+      // seulement un grain très fin et de légères ondulations du tissu.
+      const fuzz = rnd(x, y);
+      const fine = smooth(x, y, 4) * 0.6 + smooth(x, y, 8) * 0.4;
+      const wave = smooth(x, y, 128) * 0.6 + smooth(x, y, 64) * 0.4;
+      hRelief[y * N + x] = fuzz * 0.35 + fine * 0.4 + wave * 0.25;
+      hTone[y * N + x] = 0.9 + (wave - 0.5) * 0.06 + (fuzz - 0.5) * 0.03;
+    }
+    const toTex = (fn, color) => {
+      const c = document.createElement('canvas'); c.width = c.height = N;
+      const g = c.getContext('2d'), img = g.createImageData(N, N);
+      for (let i = 0; i < N * N; i++) {
+        const v = Math.max(0, Math.min(255, Math.round(fn(i) * 255)));
+        img.data[i * 4] = img.data[i * 4 + 1] = img.data[i * 4 + 2] = v; img.data[i * 4 + 3] = 255;
+      }
+      g.putImageData(img, 0, 0);
+      const t = new THREE.CanvasTexture(c);
+      t.wrapS = t.wrapT = THREE.RepeatWrapping;
+      t.repeat.set(1.2, 1.2); // côtes fines (~100 par unité) : on voit le grain, pas des rayures
+      t.anisotropy = renderer.capabilities.getMaxAnisotropy();
+      if (color) t.encoding = THREE.sRGBEncoding;
+      return t;
+    };
+    return {
+      bump: toTex((i) => hRelief[i]),
+      tone: toTex((i) => hTone[i], true),
+      rough: toTex((i) => 0.62 + hRelief[i] * 0.2), // léger satiné, comme sur la référence
+    };
+  }
+  const cloth = fabricMaps();
+
+  // Couleurs données en sRGB, converties pour le rendu linéaire
+  const srgb = (hex) => new THREE.Color(hex).convertSRGBToLinear();
+  const fabric = new THREE.MeshStandardMaterial({
+    color: srgb(0x151515), map: cloth.tone, roughness: 1, roughnessMap: cloth.rough,
+    bumpMap: cloth.bump, bumpScale: 0.0025, metalness: 0, side: THREE.DoubleSide,
+  });
+  const seamMat = new THREE.MeshStandardMaterial({ color: srgb(0x121212), roughness: 0.9 });
+  const cap = new THREE.Group();
+  scene.add(cap);
+
+  // Calotte 6 panneaux structurée : base elliptique, avant plus haut que l'arrière.
+  // phi tourne autour de la tête (avant = +z), th va du sommet (0) à la base (PI/2).
+  const RX = 1, RZ = 1.1;
+  // Profil copié sur la vue de côté : coupe haute (hauteur ≈ 0,6 × longueur), flancs pleins,
+  // sommet (bouton) légèrement en arrière du centre, avant un peu plus haut que l'arrière.
+  const APEX_BACK = 0.1;
+  const crownPoint = (phi, th, k = 1) => {
+    // chaque panneau est légèrement bombé entre ses deux coutures (creux au niveau des coutures)
+    const local = ((((phi - Math.PI / 2) / (Math.PI / 3)) % 1) + 1) % 1;
+    k *= 1 + 0.022 * Math.pow(Math.sin(local * Math.PI), 0.7) * Math.sin(th);
+    const s = Math.pow(Math.sin(th), 0.75), c = Math.cos(th);
+    const H = 1.22 + 0.07 * Math.sin(phi) * Math.sin(th);
+    return new THREE.Vector3(-Math.cos(phi) * s * RX * k, c * H * k, (Math.sin(phi) * s * RZ - APEX_BACK * c) * k);
+  };
+
+  // Ouverture en arche à l'arrière, au-dessus de la sangle
+  const BACK = -Math.PI / 2, ARCH_W = 0.36, ARCH_H = 0.3;
+  const fromBack = (phi) => Math.atan2(Math.sin(phi - BACK), Math.cos(phi - BACK));
+  const archTh = (a) => Math.PI / 2 - ARCH_H * Math.sqrt(Math.max(0, 1 - (a / ARCH_W) ** 2));
+  const inArch = (phi, th) => { const a = fromBack(phi); return Math.abs(a) < ARCH_W && th > archTh(a); };
+
+  const tube = (pts, r, mat) => {
+    if (pts.length < 2) return;
+    cap.add(new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts), Math.max(8, pts.length * 2), r, 6), mat));
+  };
+  const stitchMat = new THREE.LineDashedMaterial({ color: srgb(0x2c2c2c), dashSize: 0.018, gapSize: 0.012 });
+  const stitch = (pts) => {
+    if (pts.length < 2) return;
+    const line = new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts), stitchMat);
+    line.computeLineDistances(); cap.add(line);
+  };
+  // Bande de tissu qui suit la calotte (sangle, étiquettes)
+  // uvNorm : UV de 0 à 1 (haut de l'image en haut) pour y poser une image, sinon UV en longueur
+  const ribbon = (phi0, phi1, th0, th1, k, mat, uvNorm = false) => {
+    const NA = 32, NB = 8, pos = [], uv = [], idx = [];
+    for (let i = 0; i <= NA; i++) for (let j = 0; j <= NB; j++) {
+      const p = crownPoint(phi0 + (phi1 - phi0) * i / NA, th0 + (th1 - th0) * j / NB, k);
+      pos.push(p.x, p.y, p.z);
+      if (uvNorm) uv.push(i / NA, 1 - j / NB);
+      else uv.push((phi1 - phi0) * (i / NA) * 1.05, (th1 - th0) * (j / NB) * 1.2);
+    }
+    for (let i = 0; i < NA; i++) for (let j = 0; j < NB; j++) {
+      const a = i * (NB + 1) + j, b = a + NB + 1;
+      idx.push(a, a + 1, b, b, a + 1, b + 1);
+    }
+    const g = new THREE.BufferGeometry();
+    g.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
+    g.setAttribute('uv', new THREE.Float32BufferAttribute(uv, 2));
+    g.setIndex(idx); g.computeVertexNormals();
+    cap.add(new THREE.Mesh(g, mat));
+  };
+
+  // Calotte, sans les facettes de l'arche
+  {
+    const NP = 160, NT = 56, pos = [], uv = [], idx = [];
+    for (let i = 0; i <= NP; i++) for (let j = 0; j <= NT; j++) {
+      const p = crownPoint((i / NP) * Math.PI * 2, (j / NT) * Math.PI / 2);
+      pos.push(p.x, p.y, p.z); uv.push((i / NP) * 6.8, (j / NT) * 2.1); // ≈ tour de tête × arc sommet-base
+    }
+    for (let i = 0; i < NP; i++) for (let j = 0; j < NT; j++) {
+      if (inArch(((i + 0.5) / NP) * Math.PI * 2, ((j + 0.5) / NT) * Math.PI / 2)) continue;
+      const a = i * (NT + 1) + j, b = a + NT + 1;
+      idx.push(a, a + 1, b, b, a + 1, b + 1);
+    }
+    const g = new THREE.BufferGeometry();
+    g.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
+    g.setAttribute('uv', new THREE.Float32BufferAttribute(uv, 2));
+    g.setIndex(idx); g.computeVertexNormals();
+    cap.add(new THREE.Mesh(g, fabric));
+  }
+
+  // Coutures comme sur la référence : deux bourrelets parallèles en relief, piqûre de chaque côté
+  for (let s = 0; s < 6; s++) {
+    const phi = Math.PI / 2 + s * Math.PI / 3;
+    const ridgeL = [], ridgeR = [], left = [], right = [];
+    for (let th = 0.05; th <= Math.PI / 2 + 1e-6; th += 0.03) {
+      if (inArch(phi, th)) break;
+      const inv = 1 / Math.max(0.25, Math.sin(th));
+      ridgeL.push(crownPoint(phi - 0.013 * inv, th, 1.003));
+      ridgeR.push(crownPoint(phi + 0.013 * inv, th, 1.003));
+      if (th > 0.14) {
+        left.push(crownPoint(phi - 0.038 * inv, th, 1.004));
+        right.push(crownPoint(phi + 0.038 * inv, th, 1.004));
+      }
+    }
+    tube(ridgeL, 0.0075, fabric); tube(ridgeR, 0.0075, fabric); stitch(left); stitch(right);
+  }
+
+  // Œillets brodés, un par panneau
+  for (let s = 0; s < 6; s++) {
+    const p = crownPoint(Math.PI / 2 + Math.PI / 6 + s * Math.PI / 3, 0.5, 1.003);
+    const eye = new THREE.Mesh(new THREE.TorusGeometry(0.024, 0.009, 8, 20), seamMat);
+    eye.position.copy(p); eye.lookAt(p.clone().multiplyScalar(2));
+    cap.add(eye);
+  }
+
+  // Bouton du dessus
+  const btn = new THREE.Mesh(new THREE.SphereGeometry(0.09, 24, 12), fabric);
+  btn.scale.set(1, 0.6, 1); btn.position.set(0, 1.23, -APEX_BACK);
+  cap.add(btn);
+
+  // Monogramme "RR" brodé en relief sur l'avant, ton sur ton, à cheval sur la couture centrale.
+  // Dessin propre à RR.FACTORY : lettres anguleuses penchées et espacées.
+  {
+    const W = 1.1, HH = 0.4, YC = 0.44;            // zone du logo sur la calotte (unités)
+    const CW = 1400, CH = Math.round(CW * HH / W), PX = CW / W;
+    const G = 0.2 * PX, SKEW = 0.6, XS = 1.95;     // lettre basse (0,2), très étirée et penchée
+    // R anguleux : coin haut-gauche coupé, jambe en pointe
+    const R_OUT = [[0, 0], [0, 0.8], [0.14, 1], [0.7, 1], [0.88, 0.82], [0.88, 0.64], [0.74, 0.52], [1, 0], [0.7, 0], [0.5, 0.42], [0.26, 0.42], [0.26, 0]];
+    const R_IN = [[0.26, 0.62], [0.26, 0.8], [0.6, 0.8], [0.64, 0.76], [0.64, 0.66], [0.6, 0.62]];
+    const GAP_R = 1.22;                            // écart entre les deux R (1 = collés)
+    const mask = document.createElement('canvas'); mask.width = CW; mask.height = CH;
+    const m = mask.getContext('2d', { willReadFrequently: true });
+    const ox = (CW - ((GAP_R + 1) * XS + SKEW) * G) / 2, base = CH / 2 + G / 2;
+    const path = (pts, dx) => pts.forEach(([x, y], i) => {
+      const px = ox + ((x + dx) * XS + SKEW * y) * G, py = base - y * G;
+      i ? m.lineTo(px, py) : m.moveTo(px, py);
+    });
+    m.filter = 'blur(3px)';                         // bord adouci = biseau de la broderie
+    m.fillStyle = '#fff';
+    m.beginPath();
+    [0, GAP_R].forEach((dx) => { path(R_OUT, dx); m.closePath(); path(R_IN, dx); m.closePath(); });
+    m.fill('evenodd');
+    const data = m.getImageData(0, 0, CW, CH).data;
+    const height = (u, v) => {
+      const x = Math.round((u / W + 0.5) * (CW - 1)), y = Math.round((0.5 - v / HH) * (CH - 1));
+      return data[(y * CW + x) * 4] / 255;
+    };
+    // point de la calotte à (u horizontal, v vertical) autour du centre avant
+    const front = (u, v, k) => {
+      const y = YC + v;
+      let th = Math.PI / 4;
+      for (let n = 0; n < 4; n++) th = Math.acos(Math.max(-1, Math.min(1, y / (1.22 + 0.07 * Math.sin(th)))));
+      const s = Math.pow(Math.sin(th), 0.75);
+      return crownPoint(Math.PI / 2 + u / (s * RX), th, k);
+    };
+    // grille dense déformée par la hauteur du masque ; on ne garde que les mailles touchées par le logo
+    const NU = 320, NV = Math.round(NU * HH / W), pos = [], idx = [], hs = [];
+    for (let j = 0; j <= NV; j++) for (let i = 0; i <= NU; i++) {
+      const u = (i / NU - 0.5) * W, v = (0.5 - j / NV) * HH, h = height(u, v);
+      const p = front(u, v, 1.002 + h * 0.03);
+      pos.push(p.x, p.y, p.z); hs.push(h);
+    }
+    for (let j = 0; j < NV; j++) for (let i = 0; i < NU; i++) {
+      const a = j * (NU + 1) + i, b = a + NU + 1;
+      if (Math.max(hs[a], hs[a + 1], hs[b], hs[b + 1]) < 0.03) continue;
+      idx.push(a, b, a + 1, a + 1, b, b + 1);
+    }
+    const g = new THREE.BufferGeometry();
+    g.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
+    g.setIndex(idx); g.computeVertexNormals();
+    // fil de broderie : même noir, un peu plus brillant que le tissu
+    const threadMat = new THREE.MeshStandardMaterial({ color: srgb(0x151515), roughness: 0.42, metalness: 0, side: THREE.DoubleSide });
+    cap.add(new THREE.Mesh(g, threadMat));
+  }
+
+  // Bord de la calotte et de l'arche, avec surpiqûre au-dessus de la base
+  const base = [], baseStitch = [], arch = [];
+  for (let a = ARCH_W; a <= Math.PI * 2 - ARCH_W + 1e-6; a += 0.04) {
+    base.push(crownPoint(BACK + a, Math.PI / 2 - 0.008, 1.004));
+    baseStitch.push(crownPoint(BACK + a, Math.PI / 2 - 0.05, 1.003));
+  }
+  for (let a = -ARCH_W; a <= ARCH_W + 1e-6; a += 0.02) arch.push(crownPoint(BACK + a, archTh(a), 1));
+  tube(base, 0.012, fabric); stitch(baseStitch); tube(arch, 0.014, fabric);
+
+  // Écusson tissé sur chaque côté : RR.FACTORY en blanc, MARSEILLE, barre bleu/rouge
+  function patchCanvas() {
+    const c = document.createElement('canvas'); c.width = 512; c.height = 300;
+    const g = c.getContext('2d');
+    g.fillStyle = '#1d1d1f'; g.fillRect(0, 0, 512, 300);
+    // trame tissée fine
+    g.globalAlpha = 0.07; g.fillStyle = '#fff';
+    for (let y = 0; y < 300; y += 3) g.fillRect(0, y, 512, 1);
+    g.globalAlpha = 1;
+    g.textBaseline = 'alphabetic'; g.textAlign = 'left';
+    // taille du texte ajustée pour que "RR.FACTORY" tienne en entier dans l'écusson (marges de 40 px)
+    let size = 76;
+    g.font = '800 ' + size + 'px Archivo, "Arial Black", sans-serif';
+    const full = g.measureText('RR.FACTORY').width;
+    if (full > 512 - 80) { size = Math.floor(size * (512 - 80) / full); g.font = '800 ' + size + 'px Archivo, "Arial Black", sans-serif'; }
+    const wRR = g.measureText('RR').width, wDot = g.measureText('.').width;
+    const x0 = 40;
+    g.fillStyle = '#eeeeec'; g.fillText('RR', x0, 128);
+    g.fillStyle = '#e1251b'; g.fillText('.', x0 + wRR, 128);
+    g.fillStyle = '#eeeeec'; g.fillText('FACTORY', x0 + wRR + wDot, 128);
+    g.font = '600 30px Inter, Arial, sans-serif';
+    if ('letterSpacing' in g) g.letterSpacing = '10px';
+    g.fillStyle = '#9a9a96'; g.fillText('MARSEILLE', x0 + 2, 184);
+    g.fillStyle = '#1c69d4'; g.fillRect(x0, 222, 150, 16);
+    g.fillStyle = '#e1251b'; g.fillRect(x0 + 150, 222, 150, 16);
+    return c;
+  }
+  const patchTex = new THREE.CanvasTexture(patchCanvas());
+  patchTex.encoding = THREE.sRGBEncoding; patchTex.anisotropy = renderer.capabilities.getMaxAnisotropy();
+  const labelMat = new THREE.MeshStandardMaterial({ map: patchTex, roughness: 0.85, bumpMap: cloth.bump, bumpScale: 0.003, side: THREE.DoubleSide });
+  if (document.fonts) document.fonts.ready.then(() => { patchTex.image = patchCanvas(); patchTex.needsUpdate = true; });
+
+  // centré entre les deux coutures du panneau de côté (coutures à ±PI/6 du flanc)
+  const LW = 0.22, LT0 = Math.PI / 2 - 0.31, LT1 = Math.PI / 2 - 0.07;
+  [0, Math.PI].forEach((c) => {
+    ribbon(c - LW, c + LW, LT0, LT1, 1.008, labelMat, true);
+    // surpiqûre du contour, densifiée pour suivre la courbure
+    const o = [];
+    for (let i = 0; i <= 12; i++) o.push(crownPoint(c - LW + (2 * LW * i) / 12, LT0, 1.012));
+    for (let i = 1; i <= 6; i++) o.push(crownPoint(c + LW, LT0 + ((LT1 - LT0) * i) / 6, 1.012));
+    for (let i = 1; i <= 12; i++) o.push(crownPoint(c + LW - (2 * LW * i) / 12, LT1, 1.012));
+    for (let i = 1; i <= 6; i++) o.push(crownPoint(c - LW, LT1 - ((LT1 - LT0) * i) / 6, 1.012));
+    stitch(o);
+  });
+
+  // Visière : surface paramétrique courbée, deux faces + bord
+  const U = 1.22, NU = 60, NV = 16, T = 0.03;
+  function brimPoint(u, v, dy) {
+    const len = 0.6 * Math.pow(Math.max(Math.cos((u / U) * Math.PI / 2), 0), 0.6) + 0.02;
+    const r0x = Math.sin(u) * RX, r0z = Math.cos(u) * RZ;
+    const x = r0x + Math.sin(u) * len * v * 0.45;
+    const z = r0z + len * v;
+    // visière bien précourbée : les côtés tombent nettement
+    const d = len * v; // distance depuis la calotte
+    const y = -0.01 - d * 0.3 - Math.pow(Math.sin(u), 2) * d * 0.8 + dy; // plonge vers l'avant
+    return new THREE.Vector3(x, y, z);
+  }
+  function brimLayer(dy) {
+    const pos = [], uv = [], idx = [];
+    for (let i = 0; i <= NU; i++) for (let j = 0; j <= NV; j++) {
+      const p = brimPoint(-U + (2 * U * i) / NU, j / NV, dy);
+      pos.push(p.x, p.y, p.z); uv.push((i / NU) * 2.6, (j / NV) * 0.62); // largeur × longueur de la visière
+    }
+    for (let i = 0; i < NU; i++) for (let j = 0; j < NV; j++) {
+      const a = i * (NV + 1) + j, b = a + NV + 1;
+      idx.push(a, b, a + 1, b, b + 1, a + 1);
+    }
+    const g = new THREE.BufferGeometry();
+    g.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
+    g.setAttribute('uv', new THREE.Float32BufferAttribute(uv, 2));
+    g.setIndex(idx); g.computeVertexNormals();
+    return g;
+  }
+  cap.add(new THREE.Mesh(brimLayer(T), fabric));
+  cap.add(new THREE.Mesh(brimLayer(0), fabric));
+  const edge = [];
+  for (let i = 0; i <= NU; i++) edge.push(brimPoint(-U + (2 * U * i) / NU, 1, T / 2));
+  const brimEdge = new THREE.CatmullRomCurve3(edge);
+  cap.add(new THREE.Mesh(new THREE.TubeGeometry(brimEdge, 120, T / 2 + 0.002, 8), fabric));
+
+  // Rangées de surpiqûres sur la visière
+  [0.2, 0.36, 0.52, 0.68, 0.84].forEach((v) => {
+    const pts = [];
+    for (let i = 2; i <= NU - 2; i++) pts.push(brimPoint(-U + (2 * U * i) / NU, v, T + 0.002));
+    stitch(pts);
+  });
+
+  // Sangle réglable sous l'arche, fixée par un rivet de chaque côté
+  const strapMat = new THREE.MeshStandardMaterial({ color: srgb(0x131313), map: cloth.tone, roughness: 0.9, bumpMap: cloth.bump, bumpScale: 0.01, side: THREE.DoubleSide });
+  ribbon(BACK - ARCH_W - 0.09, BACK + ARCH_W + 0.09, Math.PI / 2 - 0.09, Math.PI / 2 - 0.01, 1.03, strapMat);
+  [-1, 1].forEach((side) => {
+    const p = crownPoint(BACK + side * (ARCH_W + 0.045), Math.PI / 2 - 0.05, 1.045);
+    const rivet = new THREE.Mesh(new THREE.CylinderGeometry(0.022, 0.022, 0.018, 16), seamMat);
+    rivet.position.copy(p); rivet.lookAt(p.clone().multiplyScalar(2)); rivet.rotateX(Math.PI / 2);
+    cap.add(rivet);
+  });
+
+  // Ombre au sol
+  const sh = document.createElement('canvas'); sh.width = sh.height = 128;
+  const sg = sh.getContext('2d'), grd = sg.createRadialGradient(64, 64, 0, 64, 64, 64);
+  grd.addColorStop(0, 'rgba(0,0,0,0.75)'); grd.addColorStop(1, 'rgba(0,0,0,0)');
+  sg.fillStyle = grd; sg.fillRect(0, 0, 128, 128);
+  const shadow = new THREE.Mesh(new THREE.PlaneGeometry(3.2, 3.2), new THREE.MeshBasicMaterial({ map: new THREE.CanvasTexture(sh), transparent: true, depthWrite: false }));
+  shadow.rotation.x = -Math.PI / 2; shadow.position.y = -0.55;
+  scene.add(shadow);
+
+  cap.position.y = -0.05;
+  cap.rotation.y = -0.7;
+
+  // Vrai modèle 3D : si casquette.glb est à côté de index.html, il remplace la casquette dessinée
+  if (THREE.GLTFLoader) try {
+    new THREE.GLTFLoader().load('casquette.glb', (gltf) => {
+      const model = gltf.scene;
+      const box = new THREE.Box3().setFromObject(model);
+      const size = box.getSize(new THREE.Vector3()), center = box.getCenter(new THREE.Vector3());
+      const s = 2.3 / Math.max(size.x, size.z);
+      model.scale.setScalar(s);
+      model.position.set(-center.x * s, -center.y * s - 0.4 + (size.y * s) / 2, -center.z * s);
+      cap.children.forEach((c) => { c.visible = false; });
+      cap.add(model);
+    }, undefined, () => { /* pas de fichier : on garde la casquette dessinée */ });
+  } catch (e) { /* ouverture hors serveur : on garde la casquette dessinée */ }
+
+  // Interaction : glisser pour tourner, avec inertie
+  let dragging = false, lastX = 0, lastY = 0, velY = 0, tiltTarget = 0.12, idleT = 0;
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  viewer.addEventListener('pointerdown', (e) => {
+    dragging = true; lastX = e.clientX; lastY = e.clientY; velY = 0;
+    viewer.classList.add('touched'); viewer.setPointerCapture(e.pointerId);
+  });
+  viewer.addEventListener('pointermove', (e) => {
+    if (!dragging) return;
+    const dx = e.clientX - lastX, dy = e.clientY - lastY;
+    lastX = e.clientX; lastY = e.clientY;
+    velY = dx * 0.01; cap.rotation.y += velY;
+    tiltTarget = Math.max(-0.25, Math.min(0.45, tiltTarget + dy * 0.004));
+    idleT = 0;
+  });
+  const end = () => { dragging = false; };
+  viewer.addEventListener('pointerup', end);
+  viewer.addEventListener('pointercancel', end);
+
+  function resize() {
+    const w = viewer.clientWidth, h = viewer.clientHeight;
+    renderer.setSize(w, h, false);
+    camera.aspect = w / h;
+    // sur téléphone, la caméra recule un peu pour que la visière ne touche pas le bord
+    camera.position.set(0, 1.7, w < 520 ? 7.3 : 6.4);
+    camera.lookAt(0, 0.32, 0);
+    camera.updateProjectionMatrix();
+  }
+  new ResizeObserver(resize).observe(viewer);
+  resize();
+
+  // Visuel 2D de la fiche produit (et du panier) : rendu fixe "studio" de cette même casquette,
+  // vue de trois quarts. L'image est fabriquée au chargement, donc elle suit toujours le modèle 3D.
+  const shotCam = new THREE.PerspectiveCamera(28, 1.2, 0.1, 50);
+  shotCam.position.set(0.15, 1.45, 6.4);
+  shotCam.lookAt(0, 0.38, 0);
+  function productShot() {
+    const img = document.getElementById('product-shot');
+    if (!img) return;
+    const saved = { rx: cap.rotation.x, ry: cap.rotation.y, py: cap.position.y };
+    cap.rotation.set(0.1, -0.78, 0);
+    cap.position.y = -0.1;
+    renderer.setSize(960, 800, false);
+    renderer.render(scene, shotCam);
+    const url = renderer.domElement.toDataURL('image/png'); // lu juste après le rendu, dans la même tâche
+    cap.rotation.set(saved.rx, saved.ry, 0);
+    cap.position.y = saved.py;
+    resize();
+    img.src = url;
+    img.hidden = false;
+    const fallback = img.nextElementSibling;
+    if (fallback && fallback.tagName.toLowerCase() === 'svg') fallback.remove();
+    const thumb = document.getElementById('cart-thumb');
+    if (thumb) thumb.src = url;
+  }
+  productShot();
+  // l'écusson est redessiné une fois les polices chargées : on refait l'image avec
+  if (document.fonts) document.fonts.ready.then(() => setTimeout(productShot, 50));
+
+  let visible = true;
+  new IntersectionObserver(([e]) => { visible = e.isIntersecting; }).observe(viewer);
+
+  const clock = new THREE.Clock();
+  (function loop() {
+    requestAnimationFrame(loop);
+    const dt = Math.min(clock.getDelta(), 0.05);
+    if (!visible) return;
+    if (!dragging) {
+      idleT += dt;
+      velY *= Math.pow(0.04, dt);
+      cap.rotation.y += velY;
+      if (!reduced && idleT > 2.5) cap.rotation.y += dt * 0.35 * Math.min(1, (idleT - 2.5) / 1.5);
+    }
+    cap.rotation.x += (tiltTarget - cap.rotation.x) * Math.min(1, dt * 6);
+    cap.position.y = -0.1 + (reduced ? 0 : Math.sin(clock.elapsedTime * 1.2) * 0.02);
+    renderer.render(scene, camera);
+  })();
+})();
+</script>
+<script>
+// À CONFIGURER (un seul endroit) : identifiant du formulaire Formspree, utilisé pour les
+// commandes ET les avis (ex. "xyzabcde" pour https://formspree.io/f/xyzabcde).
+const FORMSPREE_ID = 'TON_ID_FORMSPREE';
+
+// --- Avis : publiés tout seuls, sans validation, enregistrés dans le Google Sheet ---
+// (adresse à configurer en haut des scripts : GOOGLE_SCRIPT_URL)
+// Tant que ce n'est pas configuré : mode démo (exemples + avis gardés dans ce navigateur seulement).
+const DEMO_REVIEWS = [
+  { prenom: 'Prénom', ville: 'Marseille', note: 5, texte: 'Exemple d’avis : la broderie est super propre, la casquette tient bien.', exemple: true },
+  { prenom: 'Prénom', ville: 'Aix', note: 5, texte: 'Exemple d’avis : livraison en mains propres rapide, rien à dire.', exemple: true },
+  { prenom: 'Prénom', ville: 'Toulon', note: 4, texte: 'Exemple d’avis : très belle qualité, le snap s’ajuste facilement.', exemple: true },
+];
+(function () {
+  const fan = document.getElementById('fan'), hint = document.getElementById('fan-hint');
+  const form = document.getElementById('rv-form'), msg = document.getElementById('rv-msg');
+  if (!fan || !form) return;
+  const live = sheetLive;
+  const MAX_CARDS = 8; // cartes dans l'éventail (les plus récentes) ; la moyenne compte tous les avis
+  // Insultes refusées (les avis négatifs restent publiés : les cacher est interdit)
+  const BANNED = /(^|[^a-zà-ÿ])(connard|connasse|conasse|pute|putain|salope|encul\w*|nique|niquer|ntm|fdp|batard|bâtard|merde|abruti|pd)(?![a-zà-ÿ])/i;
+  const LINK = /(https?:\/\/|www\.|\.(com|fr|net|org|io|ru)\b)/i;
+  const LOCAL = 'rrf-avis-demo', LAST = 'rrf-avis-last';
+  const store = { get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }, set(k, v) { try { localStorage.setItem(k, v); } catch (e) {} } };
+  const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+
+  let reviews = [];
+  async function load() {
+    if (live) {
+      const d = await sheetData; // avis du plus récent au plus ancien
+      reviews = (d && Array.isArray(d.avis)) ? d.avis : [];
+    } else {
+      let mine = [];
+      try { mine = JSON.parse(store.get(LOCAL) || '[]'); } catch (e) {}
+      reviews = mine.concat(DEMO_REVIEWS);
+    }
+    render();
+  }
+
+  function render() {
+    const all = reviews, n = all.length, shown = all.slice(0, MAX_CARDS), k = shown.length;
+    const spread = Math.min(64, k * 12); // angle total de l'éventail
+    if (!n) {
+      fan.classList.remove('open');
+      fan.innerHTML = '<div class="review-card review-cover" style="--cr:0deg;--cy:0px;--d:0ms"><div class="review-stars">☆☆☆☆☆</div>' +
+        '<strong style="font-size:20px">Aucun avis</strong><span style="color:var(--muted)">Sois le premier à donner le tien</span></div>';
+      hint.textContent = '';
+      return;
+    }
+    const avg = all.reduce((s, r) => s + Number(r.note), 0) / n;
+    fan.innerHTML = shown.map((r, i) => {
+      const a = k > 1 ? -spread / 2 + (spread * i) / (k - 1) : 0;
+      const cr = ((i % 2 ? 1 : -1) * (1 + i % 3)) + 'deg', note = Math.max(1, Math.min(5, Number(r.note) || 5));
+      return '<article class="review-card" style="--a:' + a + 'deg;--cr:' + cr + ';--cy:' + (-i * 2) + 'px;--d:' + (i * 45) + 'ms">' +
+        (r.exemple ? '<span class="review-tag">Exemple</span>' : '') +
+        '<div class="review-stars" aria-label="' + note + ' sur 5">' + '★'.repeat(note) + '☆'.repeat(5 - note) + '</div>' +
+        '<p class="review-text">' + esc(r.texte) + '</p>' +
+        '<div class="review-who"><b>' + esc(r.prenom) + '</b><span>' + esc(r.ville || '') + '</span></div></article>';
+    }).join('') +
+      '<div class="review-card review-cover" style="--cr:0deg;--cy:0px;--d:0ms"><div class="review-stars">' + '★'.repeat(Math.round(avg)) + '☆'.repeat(5 - Math.round(avg)) + '</div>' +
+      '<strong>' + avg.toFixed(1).replace('.', ',') + '/5</strong><span style="color:var(--muted)">' + n + ' avis · clique pour voir</span></div>';
+    hint.textContent = fan.classList.contains('open') ? 'Clique à nouveau pour refermer' : 'Clique sur les cartes pour les ouvrir';
+  }
+
+  const openForm = () => { form.hidden = false; form.dataset.t = Date.now(); form.elements.prenom.focus(); };
+  const toggle = () => {
+    if (!reviews.length) { openForm(); return; }
+    const open = fan.classList.toggle('open');
+    fan.setAttribute('aria-expanded', open);
+    hint.textContent = open ? 'Clique à nouveau pour refermer' : 'Clique sur les cartes pour les ouvrir';
+  };
+  fan.addEventListener('click', toggle);
+  fan.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); } });
+
+  document.getElementById('rv-open').addEventListener('click', () => { if (form.hidden) openForm(); else form.hidden = true; });
+  form.addEventListener('input', (e) => e.target.classList && e.target.classList.remove('bad'));
+  const say = (cls, text) => { msg.className = 'rv-msg ' + cls; msg.textContent = text; };
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    let bad = null;
+    ['prenom', 'avis'].forEach((n) => { const f = form.elements[n]; const ok = f.value.trim() !== '' && f.checkValidity(); f.classList.toggle('bad', !ok); if (!ok && !bad) bad = f; });
+    if (bad) { say('bad', 'Indique ton prénom et un avis d’au moins 10 caractères.'); bad.focus(); return; }
+    const r = {
+      prenom: form.elements.prenom.value.trim(),
+      ville: form.elements.ville.value.trim(),
+      note: Number(form.querySelector('input[name=note]:checked').value),
+      texte: form.elements.avis.value.trim().replace(/\s+/g, ' '),
+    };
+    const done = () => { say('ok', 'Merci ' + r.prenom + ' ! Ton avis est en ligne.'); form.reset(); };
+    // Robots : champ caché rempli ou formulaire envoyé en moins de 3 s → on fait semblant
+    if (form.elements.site.value || Date.now() - Number(form.dataset.t || 0) < 3000) { done(); return; }
+    if (BANNED.test(r.prenom + ' ' + r.ville + ' ' + r.texte)) { say('bad', 'Ton avis contient des mots interdits, reformule-le.'); return; }
+    if (LINK.test(r.prenom + ' ' + r.ville + ' ' + r.texte)) { say('bad', 'Les liens ne sont pas autorisés dans les avis.'); return; }
+    if (Date.now() - Number(store.get(LAST) || 0) < 24 * 3600e3) { say('bad', 'Tu as déjà laissé un avis aujourd’hui, merci !'); return; }
+
+    const btn = document.getElementById('rv-send');
+    btn.disabled = true; btn.textContent = 'Publication…';
+    try {
+      if (live) {
+        await sheetSend(r);
+      } else {
+        let mine = [];
+        try { mine = JSON.parse(store.get(LOCAL) || '[]'); } catch (e2) {}
+        store.set(LOCAL, JSON.stringify([r].concat(mine).slice(0, 20)));
+      }
+      store.set(LAST, String(Date.now())); // (le script Google t'envoie aussi un e-mail à chaque avis)
+      reviews = [r].concat(reviews);
+      fan.classList.add('open'); fan.setAttribute('aria-expanded', true);
+      render();
+      done();
+      fan.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    } catch (ex) {
+      say('bad', 'La publication a échoué, réessaie dans un instant.');
+    } finally { btn.disabled = false; btn.textContent = 'Publier mon avis'; }
+  });
+
+  load();
+})();
+
+// --- Commande : formulaire → e-mail (Formspree, facultatif) → confirmation → paiement PayPal ---
+// (l'identifiant Formspree est défini plus haut : FORMSPREE_ID)
+(function () {
+  const configured = !/^TON_/.test(FORMSPREE_ID);
+  const $ = (id) => document.getElementById(id);
+  const modal = $('order'), form = $('order-form'), done = $('order-done'), err = $('order-err');
+
+  // montants de la commande ; la livraison dépend du mode et du pays (tarifs dans MODES_LIVRAISON)
+  function amounts(pays, mode) {
+    const t = $('pay-total').dataset, sub = +t.sub || 50, disc = +t.disc || 0, ship = shippingFor(pays, sub - disc, mode);
+    return { qty: +t.qty || 1, sub, disc, ship, total: Math.round((sub - disc + ship) * 100) / 100 };
+  }
+  // texte de livraison gardé avec la commande (tableau, e-mail, PayPal)
+  function livraisonTexte(c) {
+    const m = MODES_LIVRAISON[c.livraison] || MODES_LIVRAISON['relais-mr'];
+    if (c.livraison === 'domicile') return m.nom + ' : ' + [c.rue, c.complement, (c.code_postal || '') + ' ' + (c.ville || ''), c.pays].filter((s) => s && s.trim()).join(', ');
+    if (c.livraison === 'main-propre') return m.nom;
+    return m.nom + ' : ' + (c.relais || '') + ' (' + c.pays + ')';
+  }
+  // affiche le bloc du mode choisi (point relais, adresse ou Marseille) ; les champs cachés
+  // sont désactivés pour ne pas être obligatoires
+  function applyMode() {
+    const pays = form.elements.pays.value, france = pays === 'France';
+    const mp = form.querySelector('[data-mode="main-propre"]');
+    mp.hidden = !france;
+    if (!france && form.elements.livraison.value === 'main-propre') form.elements.livraison.value = 'relais-mr';
+    const mode = form.elements.livraison.value, bloc = mode.startsWith('relais') ? 'relais' : mode;
+    form.querySelectorAll('[data-for]').forEach((el) => {
+      const on = el.dataset.for === bloc;
+      el.hidden = !on;
+      el.querySelectorAll('input').forEach((i) => { i.disabled = !on; if (!on) i.classList.remove('bad'); });
+    });
+    if (MODES_LIVRAISON[mode].recherche) {
+      $('relais-find').href = MODES_LIVRAISON[mode].recherche;
+      $('relais-find').textContent = 'Trouver mon point relais ' + MODES_LIVRAISON[mode].nom.replace('Point relais ', '') + ' ↗';
+    }
+    const t = $('pay-total').dataset, goods = (+t.sub || 50) - (+t.disc || 0);
+    form.querySelectorAll('[data-price]').forEach((em) => {
+      const p = shippingFor(pays, goods, em.dataset.price);
+      em.textContent = p ? euroFmt(p) : 'Gratuit';
+      em.classList.toggle('paid', p > 0);
+    });
+    summarize();
+  }
+  function summarize() {
+    const pays = form.elements.pays.value, mode = form.elements.livraison.value, a = amounts(pays, mode);
+    const promo = ($('promo-chip-text').textContent || '').split(' · ')[0];
+    const summary = a.qty + ' × Casquette noire RR.FACTORY · ' + euroFmt(a.sub - a.disc) + (promo ? ' (code ' + promo + ')' : '') +
+      ' + livraison ' + (a.ship ? euroFmt(a.ship) : 'offerte') + ' (' + MODES_LIVRAISON[mode].nom + ', ' + pays + ') = total ' + euroFmt(a.total);
+    $('order-sum').textContent = summary;
+    form.elements.commande.value = summary;
+    form.elements._subject.value = 'Nouvelle commande RR.FACTORY · ' + summary;
+  }
+  form.addEventListener('change', (e) => { if (e.target.name === 'pays' || e.target.name === 'livraison') applyMode(); });
+
+  function open() {
+    applyMode();
+    form.hidden = false; done.hidden = true; err.textContent = '';
+    modal.hidden = false; document.body.style.overflow = 'hidden';
+    setTimeout(() => form.elements.nom.focus(), 50);
+  }
+  function close() { modal.hidden = true; document.body.style.overflow = ''; }
+
+  // les boutons "Payer avec PayPal" ouvrent d'abord le formulaire de commande
+  document.addEventListener('click', (e) => {
+    const a = e.target.closest('#cart-pay, #pay-btn');
+    if (!a || a.classList.contains('is-disabled')) return;
+    e.preventDefault();
+    setTimeout(open, 0); // après la mise à jour du panier
+  }, true);
+  $('order-close').addEventListener('click', close);
+  modal.addEventListener('click', (e) => { if (e.target === modal) close(); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !modal.hidden) close(); });
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    // champs obligatoires : on signale ceux qui manquent
+    let firstBad = null;
+    [...form.elements].forEach((f) => {
+      if (!f.willValidate) return;
+      const ok = f.checkValidity();
+      f.classList.toggle('bad', !ok);
+      if (!ok && !firstBad) firstBad = f;
+    });
+    if (firstBad) { err.textContent = 'Remplis correctement les champs en rouge.'; firstBad.focus(); return; }
+
+    const btn = $('order-submit');
+    btn.disabled = true; btn.textContent = 'Envoi…'; err.textContent = '';
+    const data = Object.fromEntries(new FormData(form));
+    data.livraison_detail = livraisonTexte(data);
+    try {
+      if (configured) {
+        const res = await fetch('https://formspree.io/f/' + FORMSPREE_ID, {
+          method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' }, body: JSON.stringify(data),
+        });
+        if (!res.ok) throw new Error('Formspree ' + res.status);
+      }
+      // confirmation + paiement PayPal (PayPal, carte, Apple/Google Pay, 4X) avec montant et adresse
+      $('order-done-text').textContent = 'Merci ' + data.nom.split(' ')[0] + ' ! Total à payer : ' + euroFmt(amounts(data.pays, data.livraison).total) +
+        ' (livraison comprise). Dernière étape : choisis ton moyen de paiement ci-dessous (PayPal, carte bancaire, 4X…).';
+      form.hidden = true; done.hidden = false;
+      renderPayPal(data);
+      form.reset();
+      applyMode();
+    } catch (ex) {
+      err.textContent = 'L’envoi a échoué. Vérifie ta connexion et réessaie.';
+    } finally {
+      btn.disabled = false; btn.textContent = 'Valider ma commande';
+    }
+  });
+  form.addEventListener('input', (e) => { if (e.target.classList) e.target.classList.remove('bad'); });
+
+  // À CONFIGURER : identifiant client PayPal (developer.paypal.com > Apps & Credentials > Live > Client ID)
+  const PAYPAL_CLIENT_ID = 'TON_CLIENT_ID_PAYPAL';
+  const COUNTRIES = { France: 'FR', Belgique: 'BE', Suisse: 'CH', Luxembourg: 'LU', Monaco: 'MC' };
+  // Tous les moyens de paiement en ligne proposés par PayPal : compte PayPal, 4X, carte bancaire
+  // (CB, Visa, Mastercard, Amex) et paiements locaux européens. PayPal n'affiche à chaque client
+  // que ceux disponibles dans son pays (ex. Bancontact en Belgique, iDEAL aux Pays-Bas).
+  const MOYENS_PAIEMENT = ['card', 'paylater', 'sepa', 'bancontact', 'ideal', 'eps', 'mybank', 'p24', 'blik', 'trustly', 'multibanco', 'satispay'];
+  let sdk = null;
+  function loadSdk() {
+    if (sdk) return sdk;
+    sdk = new Promise((ok, ko) => {
+      const s = document.createElement('script');
+      s.src = 'https://www.paypal.com/sdk/js?client-id=' + encodeURIComponent(PAYPAL_CLIENT_ID) + '&currency=EUR&locale=fr_FR&enable-funding=' + MOYENS_PAIEMENT.join(',');
+      s.onload = ok; s.onerror = ko; document.head.appendChild(s);
+    });
+    return sdk;
+  }
+  function renderPayPal(c) {
+    const box = $('paypal-buttons'), note = $('order-demo');
+    box.innerHTML = ''; note.textContent = '';
+    if (/^TON_/.test(PAYPAL_CLIENT_ID)) { note.textContent = 'Mode démo : PayPal n’est pas encore configuré (identifiant client à ajouter).'; return; }
+    const a = amounts(c.pays, c.livraison), eur = (n) => ({ currency_code: 'EUR', value: n.toFixed(2) });
+    if ((parseInt($('stock').dataset.left, 10) || 0) < a.qty) { note.textContent = 'Désolé, il n’en reste plus assez en stock.'; return; }
+    const domicile = c.livraison === 'domicile';
+    const unit = {
+      // le mode de livraison (et le point relais) figure dans la description, visible dans l'e-mail PayPal
+      description: (a.qty + ' × Casquette RR.FACTORY · ' + c.livraison_detail).slice(0, 127),
+      // détail visible dans l'e-mail PayPal du vendeur : articles, livraison, réduction
+      amount: Object.assign(eur(a.total), { breakdown: { item_total: eur(a.sub), shipping: eur(a.ship), discount: eur(a.disc) } }),
+      items: [{ name: 'Casquette noire RR.FACTORY', quantity: String(a.qty), unit_amount: eur(a.sub / a.qty), category: 'PHYSICAL_GOODS' }],
+    };
+    // à domicile : l'adresse est transmise à PayPal ; point relais / main propre : pas d'adresse postale
+    if (domicile) {
+      unit.shipping = {
+        name: { full_name: c.nom },
+        address: { address_line_1: c.rue, address_line_2: c.complement || undefined, postal_code: c.code_postal, admin_area_2: c.ville, country_code: COUNTRIES[c.pays] || 'FR' },
+      };
+    }
+    loadSdk().then(() => {
+      window.paypal.Buttons({
+        style: { layout: 'vertical', shape: 'pill', label: 'pay' },
+        createOrder: (d, actions) => actions.order.create({
+          purchase_units: [unit],
+          payer: { email_address: c.email },
+          application_context: { shipping_preference: domicile ? 'SET_PROVIDED_ADDRESS' : 'NO_SHIPPING', brand_name: 'RR.FACTORY' },
+        }),
+        onApprove: (d, actions) => actions.order.capture().then((paid) => {
+          box.innerHTML = '';
+          // stock : on retire les casquettes vendues dans le Google Sheet, et tout de suite à l'écran
+          const left = parseInt($('stock').dataset.left, 10) || 0;
+          showStock(left - a.qty);
+          if (sheetLive) {
+            sheetSend({ type: 'vente', commande: (paid && paid.id) || d.orderID, qty: a.qty, total: euroFmt(a.total), nom: c.nom, pays: c.pays, email: c.email, telephone: c.telephone, livraison: c.livraison_detail }).catch(() => {});
+          }
+          $('order-done-text').textContent = 'Paiement reçu, merci ' + c.nom.split(' ')[0] + ' ! Ta casquette part bientôt. Un reçu PayPal t’a été envoyé à ' + c.email + '.';
+          try { localStorage.removeItem('rrf-cart'); } catch (e) { /* ignoré */ }
+        }),
+        onError: () => { note.textContent = 'Le paiement n’a pas abouti. Réessaie ou choisis un autre moyen.'; },
+      }).render('#paypal-buttons');
+    }).catch(() => { note.textContent = 'Impossible de charger PayPal. Vérifie ta connexion.'; });
+  }
+})();
+</script>
+</body>
+</html>
